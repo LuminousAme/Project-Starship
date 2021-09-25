@@ -5,6 +5,7 @@ public class ReleasePressure : MonoBehaviour
     public bool EnginesWorking = true;
     public bool releasing = false;
     private bool playerClose = false;
+
     private Renderer thisRend; //Renderer of our Cube
     private Material m_Material;
     private Material engineMaterial;
@@ -53,20 +54,24 @@ public class ReleasePressure : MonoBehaviour
             inputDelay = 0.25f;
         }
 
-        //if the player pressed the button and is releasing pressure
-        if (releasing)
+        //code that handles releasing
         {
-            m_Material.color = Color.green;
-
-            pressure = pressure - 5f * Time.deltaTime;
-            if (pressure < 0f)
+            //if the player pressed the button and is releasing pressure
+            if (releasing)
             {
-                pressure = 0f;
+                m_Material.color = Color.green;
+
+                pressure = pressure - 5f * Time.deltaTime;
+                if (pressure < 0f)
+                {
+                    pressure = 0f;
+                }
             }
-        }
-        else if (!releasing)
-        {
-            m_Material.color = Color.red;
+            //changes color back once valve is turned off
+            else if (!releasing)
+            {
+                m_Material.color = Color.red;
+            }
         }
 
         // if the player is releasing and the pressure is at 0 and they walk away with putting the valve back then the engines stop working
@@ -75,6 +80,7 @@ public class ReleasePressure : MonoBehaviour
             EnginesWorking = false;
         }
 
+        //color change for the engines working indiciator
         if (!EnginesWorking)
         {
             engineMaterial.color = Color.black;
@@ -83,8 +89,6 @@ public class ReleasePressure : MonoBehaviour
         {
             engineMaterial.color = Color.white;
         }
-
-        // GameObject.Find("Player").transform.position();
     }
 
     //code to check if object with tag is close to this. from: https://answers.unity.com/questions/795190/checking-if-player-is-near-any-certain-gameobject.html

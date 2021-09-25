@@ -4,21 +4,25 @@ public class PlayerController : MonoBehaviour
 {
     //serialized field so they can be changed
     [SerializeField] private float movementSpeed = 10f;
+
     [SerializeField] private float lookSpeed = 5f;
 
     //enum to control different interaction states
-    enum interactionState
+    private enum interactionState
     {
         WALKING,
         PILOTING
     }
+
     //variable with the current enum for this player
     private interactionState playerState;
 
     //gameobject the player is currently interacting with
     private GameObject interactionObject;
+
     //interaction cooldown
     [SerializeField] private float interactionCooldown = 0.2f;
+
     private float timeSinceInteraction = 0.0f;
 
     //Start runs when the object first enters the scene
@@ -37,9 +41,9 @@ public class PlayerController : MonoBehaviour
         //update the interaction cooldown
         timeSinceInteraction += Time.deltaTime;
 
-        //use a simple state machine to determine what kinda of input the player is allowed to use 
-       switch (playerState) 
-       {
+        //use a simple state machine to determine what kinda of input the player is allowed to use
+        switch (playerState)
+        {
             //if the player is in their regular walk mode, allow them to move normally
             case interactionState.WALKING:
                 RegularMovement();
