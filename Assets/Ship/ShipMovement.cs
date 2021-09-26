@@ -26,18 +26,26 @@ public class ShipMovement : MonoBehaviour
     //the ship's rigidbody
     private Rigidbody rb;
 
-    //the ship's acutal velocity
-    [SerializeField] private Vector3 currentVelo;
+    //the various compounds of the ship's acutal velocity
+    private Vector3 currentVelo; //acutal final velo
+    private Vector3 gravityAcel; //acceleration due to gravity
+    private Vector3 thrustVelo; //velocity of the thruster 
+    private float thrustSpeed;
+
+    private Quaternion targetRotation;
 
     //awake, runs when the object is first initliazed
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        targetRotation = transform.rotation;
         currentVelo = new Vector3(0f, 0f, 0f);
         timeSinceDirChange = 0f;
         lastJoystickState = new Vector2Int(0, 0);
+        thrustSpeed = 0f;
     }
 
+    //update helps handle giving the ship a smoother rotation
     private void Update()
     {
         //check if the rotation has changed
@@ -56,9 +64,20 @@ public class ShipMovement : MonoBehaviour
         timeSinceDirChange += Time.deltaTime;
     }
 
-    //called once per frame in the physics update, used to simulate the solar system gravity effect
+    //called once per frame in the physics update, used to simulate the solar system gravity effect and handle the ship's other momment
     private void FixedUpdate()
     {
+        //handling the rotation
+        float horiRot = dirJoystick.GetJoystickState().x * rotateRate;
+        float vertRot = dirJoystick.GetJoystickState().y * rotateRate;
+
+        transform.Rotate(0f, horiRot, 0f, Space.Self);
+        transform.Rotate(vertRot, 0f, 0f, Space.Self);
+
+        //handling the positional change
+
+        //gravity
+        gravityAcel = Vector3.zero;
         //grab all of the celestial bodies
         CelestialBody[] bodies = ManagerForCelestialBodies.bodies;
         //loop thorugh them and add the approriate force from each
@@ -67,10 +86,13 @@ public class ShipMovement : MonoBehaviour
             //calculate force using newton's gravity formula
             Vector3 direction = body.transform.position - rb.position;
             float distanceSquared = direction.sqrMagnitude;
-            Vector3 force = direction.normalized * CelestialBody.gravitationalConstant * body.GetMass() / distanceSquared;
+            Vector3 force = direction.normalized * CelestialBody.gravitationalConstant * rb.mass * body.GetMass() / distanceSquared;
 
-            //apply that force to the ship's rigidbody
-            rb.AddForce(force, ForceMode.Acceleration);
+            //from the force calculate the accleration from newton's a = F/m formula
+            Vector3 acel = force / rb.mass;
+
+            //and add that to the collective aceleration
+            gravityAcel += acel;
         }
         
         //movement from the player input
@@ -89,19 +111,14 @@ public class ShipMovement : MonoBehaviour
                 break;
         }
 
-        //adding the acceleration
-        currentSpeed = Mathf.Clamp(currentSpeed + deltaSpeed * Time.fixedDeltaTime, 0.0f, maxSpeed);
+        //cacluate the speed of the thrusters
+        thrustSpeed = Mathf.Clamp(thrustSpeed + deltaSpeed * Time.fixedDeltaTime, 0.0f, maxSpeed);
 
-        //handling the rotation
-        float horiRot = dirJoystick.GetJoystickState().x * rotateRate;
-        float vertRot = dirJoystick.GetJoystickState().y * rotateRate;
+        //find the velocity of the thrusters from that
+        thrustVelo = transform.forward.normalized * thrustSpeed;
 
-        transform.Rotate(0f, horiRot, 0f, Space.Self);
-        transform.Rotate(0f, 0f, -vertRot, Space.Self);
-
-        //add to the movement
-        rb.AddForce(currentSpeed * transform.forward, ForceMode.Acceleration);
-
-        //rb.position += currentVelo * Time.fixedDeltaTime;
+        //add the velocities together into the position
+        currentVelo += gravityAcel * Time.fixedDeltaTime;
+        transform.position += (currentVelo + thrustVelo) * Time.fixedDeltaTime;
     }
 }
