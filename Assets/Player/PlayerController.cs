@@ -7,6 +7,18 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float lookSpeed = 5f;
 
+    //the transform of the parent (right now just the ship, may change if we allow the player to leave the ship in the future)
+    //needed to make sure the controls work regardless of the ship's orientation
+    private Transform parentSpace;
+
+    //controls for how much the player has locally rotated
+    private float yaw = 0.0f;
+    private float pitch = 0.0f;
+    [SerializeField] Vector2 pitchLimits;
+
+    //the camera transform, on Y we rotate instead of the player directly so that it handles movement correctly
+    [SerializeField] Transform cam;
+
     //enum to control different interaction states
     private enum interactionState
     {
@@ -33,6 +45,8 @@ public class PlayerController : MonoBehaviour
         //and confine the cursor and make it invisible
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = false;
+
+        parentSpace = transform.parent.transform;
     }
 
     // Update is called once per frame
@@ -41,7 +55,7 @@ public class PlayerController : MonoBehaviour
         //update the interaction cooldown
         timeSinceInteraction += Time.deltaTime;
 
-        //use a simple state machine to determine what kinda of input the player is allowed to use
+        //use a simple state machine to determine what kinda of input the player is allowed to use 
         switch (playerState)
         {
             //if the player is in their regular walk mode, allow them to move normally
@@ -55,35 +69,47 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+
+    }
+
     //function for the player's regular movememnt
     private void RegularMovement()
     {
-        float dirX = Input.GetAxis("Horizontal") * movementSpeed;
-        float dirZ = Input.GetAxis("Vertical") * movementSpeed;
+        //get rotation input
+        yaw += Input.GetAxis("Mouse X") * lookSpeed;
+        pitch -= Input.GetAxis("Mouse Y") * lookSpeed;
 
-        Vector3 moveDir = new Vector3(dirX, 0f, dirZ);
-        // helpful piece of code from: https://answers.unity.com/questions/804400/movement-based-on-camera-direction.html
-        //basically makes it so that 'forward' changes based on your camera is looking
-        moveDir = Camera.main.transform.TransformDirection(moveDir);
-        moveDir.y = 0f;
-        transform.position += moveDir * Time.deltaTime;
+        //limit how far the player can rotate while looking up and down
+        pitch = Mathf.Clamp(pitch, pitchLimits.x, pitchLimits.y);
 
-        //get mouse input
-        float mouseX = Input.GetAxis("Mouse X") * lookSpeed;
-        float mouseY = Input.GetAxis("Mouse Y") * lookSpeed;
+        //allign the up with the ship
+        transform.rotation = Quaternion.FromToRotation(transform.up.normalized, parentSpace.up.normalized) * transform.rotation;
 
         //rotate based on mouse input
-        transform.Rotate(0f, mouseX, 0f, Space.World);
-        transform.Rotate(-mouseY, 0f, 0f, Space.Self);
+        cam.transform.localEulerAngles = new Vector3(pitch, 0f, 0f);
+        transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, 0f, 0f);
+        transform.RotateAround(transform.position, transform.parent.up, yaw);
+       
+        //get input for each direction
+        float dirX = Input.GetAxis("Horizontal");
+        float dirZ = Input.GetAxis("Vertical");
+
+        //use that input to move the player 
+        //note: moving in local space so that the motion appears the same to the player regardless of orientation of the ship
+        transform.Translate(new Vector3(dirX, 0.0f, dirZ) * movementSpeed * Time.deltaTime, Space.Self);
     }
 
     //function for piloting the ship
     private void Pilot()
     {
+        pitch = cam.localEulerAngles.x;
+
         //if the player is piloting, and they hit E, stop piloting
         if (Input.GetKeyDown(KeyCode.E) && timeSinceInteraction >= interactionCooldown)
         {
-            interactionObject.GetComponent<InteractEnter>().SetEntityInteracting(null);
+            interactionObject.GetComponent<InteractEnter>().SetEntityInteracting(null, null);
             playerState = interactionState.WALKING;
             timeSinceInteraction = 0.0f;
             //and hide the cursor
@@ -103,7 +129,7 @@ public class PlayerController : MonoBehaviour
             {
                 //begin piloting
                 interactionObject = other.gameObject;
-                interactionObject.GetComponent<InteractEnter>().SetEntityInteracting(this.transform);
+                interactionObject.GetComponent<InteractEnter>().SetEntityInteracting(this.transform, cam);
                 playerState = interactionState.PILOTING;
                 timeSinceInteraction = 0.0f;
                 //and make the cursor visible

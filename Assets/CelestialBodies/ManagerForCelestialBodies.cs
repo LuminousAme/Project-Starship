@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ManagerForCelestialBodies : MonoBehaviour
 {
-    CelestialBody[] bodies;
+    static public CelestialBody[] bodies;
 
     //awake, runs when the object is first initliazed
     private void Awake()

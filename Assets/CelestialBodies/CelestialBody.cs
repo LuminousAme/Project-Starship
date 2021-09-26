@@ -9,7 +9,7 @@ using UnityEngine;
 public class CelestialBody : MonoBehaviour
 {
     //data for the celesital body such as mass, radius, and inital velocity
-    [SerializeField] static private float gravitationalConstant = 0.2f;
+    static public float gravitationalConstant = 0.2f;
     [SerializeField] private float surfaceGravity = 10f;
     [SerializeField] private Vector3 initialVelocity;
 
@@ -56,5 +56,10 @@ public class CelestialBody : MonoBehaviour
     public void UpdatePosition()
     {
         rb.position += currentVelocity * Time.fixedDeltaTime;
+    }
+
+    public float GetMass()
+    {
+        return mass;
     }
 }
