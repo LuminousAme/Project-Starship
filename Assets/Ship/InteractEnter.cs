@@ -15,7 +15,11 @@ public class InteractEnter : MonoBehaviour
     private float transistionProgress = 0.0f;
     private Vector3 startPos;
     private Quaternion startRot;
-    private bool isBeginningInteraction; 
+    private bool isBeginningInteraction;
+
+    //all of the interactable objects that need to be activated
+    [SerializeField] private Lever[] levers;
+    [SerializeField] private Joystick[] joysticks;
 
     // Update is called once per frame
     void Update()
@@ -34,11 +38,16 @@ public class InteractEnter : MonoBehaviour
             startRot = entity.transform.rotation;
             transistionProgress = 0.0f;
             isBeginningInteraction = true;
+
+            foreach (var joystick in joysticks) joystick.SetInteractable(true);
+            foreach (var lever in levers) lever.SetInteractable(true);
         }
         //otherwise set the player to null
         else
         {
             player = null;
+            foreach (var joystick in joysticks) joystick.SetInteractable(false);
+            foreach (var lever in levers) lever.SetInteractable(false);
         }
     }
 
