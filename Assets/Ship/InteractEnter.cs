@@ -6,15 +6,18 @@ public class InteractEnter : MonoBehaviour
 {
     //gameobject for the player who is going to be interacting
     private Transform player;
+    private Transform playerCamera;
 
     //the transform for where the player should be standing and what way they should be facing to interact
     [SerializeField] private Transform interactTarget;
+    [SerializeField] private Transform cameraInteractTarget;
 
     //variable to control how fast the player moves and rotates after interacting
     [SerializeField] private float transitionLenght = 0.2f;
     private float transistionProgress = 0.0f;
     private Vector3 startPos;
     private Quaternion startRot;
+    private Quaternion camStartRot;
     private bool isBeginningInteraction;
 
     //all of the interactable objects that need to be activated
@@ -28,14 +31,16 @@ public class InteractEnter : MonoBehaviour
     }
 
     //function that allows the player to take the wheel
-    public void SetEntityInteracting(Transform entity)
+    public void SetEntityInteracting(Transform entity, Transform cam)
     {
         //if the entity interacting is the player, save it and start the transition process
         if (entity != null)
         {
             player = entity;
+            playerCamera = cam;
             startPos = entity.transform.position;
             startRot = entity.transform.rotation;
+            camStartRot = cam.transform.rotation;
             transistionProgress = 0.0f;
             isBeginningInteraction = true;
 
@@ -64,6 +69,8 @@ public class InteractEnter : MonoBehaviour
         player.position = Vector3.Lerp(startPos, interactTarget.position, t);
         //rotate the player towards the control panel
         player.rotation = Quaternion.Slerp(startRot, interactTarget.rotation, t);
+        //rotate the camera towards the control panel
+        playerCamera.rotation = Quaternion.Slerp(camStartRot, cameraInteractTarget.rotation, t);
 
         if (transistionProgress >= transitionLenght)
         {
