@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class MaintainCoolant : MonoBehaviour
 {
-    public float heatCountdownTime = 5f; //how much time you have to switch coolants before soemtihng bad happens
-    public float changeTime = 6f; //the time interval it takes for a new cooling method to be needed
+    public float heatCountdownTime = 7f; //how much time you have to switch coolants before soemtihng bad happens
+    public float changeTime = 8f; //the time interval it takes for a new cooling method to be needed
 
     public float heatCountdown; //timer to switch coolants before soemtihng bad happens
     public float changeTimer; //the timer for a new cooling method to be needed
@@ -88,6 +88,8 @@ public class MaintainCoolant : MonoBehaviour
             liquid = false;
             liquidNitrogen = false;
             fanMaterial.color = Color.green;
+            liquidMaterial.color = Color.white;
+            nitrogenMaterial.color = Color.white;
             inputDelay = 0.25f;
         }
 
@@ -97,6 +99,8 @@ public class MaintainCoolant : MonoBehaviour
             liquid = true;
             liquidNitrogen = false;
             liquidMaterial.color = Color.green;
+            fanMaterial.color = Color.white;
+            nitrogenMaterial.color = Color.white;
             inputDelay = 0.25f;
         }
 
@@ -106,6 +110,8 @@ public class MaintainCoolant : MonoBehaviour
             liquid = false;
             liquidNitrogen = true;
             nitrogenMaterial.color = Color.green;
+            liquidMaterial.color = Color.white;
+            fanMaterial.color = Color.white;
             inputDelay = 0.25f;
         }
 
@@ -158,26 +164,32 @@ public class MaintainCoolant : MonoBehaviour
             heatCountdown = heatCountdown - 1f * Time.deltaTime;
             fanMaterial.color = Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)); //Color.red;
 
-            nitrogenMaterial.color = Color.white;
-            liquidMaterial.color = Color.white;
+            if (nitrogenMaterial.color == Color.green) { liquidMaterial.color = Color.white; }
+            else
+                nitrogenMaterial.color = Color.white;
         }
         else if (useLiquid && (!liquid))
         {
             heatCountdown = heatCountdown - 1f * Time.deltaTime;
             liquidMaterial.color = Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)); //Color.red;
 
-            fanMaterial.color = Color.white;
-            nitrogenMaterial.color = Color.white;
-            // liquidMaterial.color = Color.white;
+            if (fanMaterial.color == Color.green)
+            {
+                nitrogenMaterial.color = Color.white;
+            }
+            else
+                fanMaterial.color = Color.white;
         }
         else if (useLiquidNitrogen && (!liquidNitrogen))
         {
             heatCountdown = heatCountdown - 1f * Time.deltaTime;
             nitrogenMaterial.color = Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)); //Color.red;
-
-            fanMaterial.color = Color.white;
-            liquidMaterial.color = Color.white;
-            // fanMaterial.color = Color.white;
+            if (fanMaterial.color == Color.green)
+            {
+                liquidMaterial.color = Color.white;
+            }
+            else
+                fanMaterial.color = Color.white;
         }
         else
         {
