@@ -46,9 +46,9 @@ public class Lever : MonoBehaviour
             //get the difference between the mouse position on selected and now
             float currentMousePos = Input.mousePosition.y / (float)Screen.height;
             float diff = currentMousePos - mousePosYOnSelected;
-            
+
             //if it's gone up enough increase the lever state and reset the mouse pos tracker
-            if(diff > threshold && leverState < 1)
+            if (diff > threshold && leverState < 1)
             {
                 leverState++;
                 mousePosYOnSelected = currentMousePos;
@@ -79,7 +79,7 @@ public class Lever : MonoBehaviour
     }
 
     //when the mouse is overlapping this object
-    private void OnMouseDrag()
+    public void mousedOver()
     {
         //only bother if the lever is currently interactable
         if (isInteractable)

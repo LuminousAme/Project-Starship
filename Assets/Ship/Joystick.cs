@@ -93,7 +93,7 @@ public class Joystick : MonoBehaviour
     }
 
     //when the mouse is overlapping this object
-    private void OnMouseDrag()
+    public void mousedOver()
     {
         //only bother if the lever is currently interactable
         if (isInteractable)
