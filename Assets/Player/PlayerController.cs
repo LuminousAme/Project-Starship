@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour
         //limit how far the player can rotate while looking up and down
         pitch = Mathf.Clamp(pitch, pitchLimits.x, pitchLimits.y);
 
-        //allign the up with the ship
+        //align the up with the ship
         transform.rotation = Quaternion.FromToRotation(transform.up.normalized, parentSpace.up.normalized) * transform.rotation;
 
         //rotate based on mouse input
