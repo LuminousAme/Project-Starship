@@ -48,6 +48,7 @@ public class MaintainCoolant : MonoBehaviour
     {
         //get the materials for the light indicators
         fanMaterial = fanIndicator.GetComponent<Renderer>().material;
+        fanMaterial.color = Color.green;
         liquidMaterial = liquidIndicator.GetComponent<Renderer>().material;
         nitrogenMaterial = nitrogenIndicator.GetComponent<Renderer>().material;
 
@@ -57,11 +58,6 @@ public class MaintainCoolant : MonoBehaviour
         coolingMethods.Add(useFan);
         coolingMethods.Add(useLiquid);
         coolingMethods.Add(useLiquidNitrogen);
-        //Debug.Log("FAN:  " + useFan);
-        //Debug.Log("Liquid:  " + useLiquid);
-        //Debug.Log("FAN:  " + useFan);
-        //Debug.Log("MEthiods :  " + coolingMethods[1]);
-        //Debug.Log("Liquid:  " + useLiquid);
         coolingMethods[0] = true;
         //useFan = coolingMethods[0];
         //useLiquid = coolingMethods[1];
@@ -134,9 +130,7 @@ public class MaintainCoolant : MonoBehaviour
             //if option is the same then it will find another
             do
             {
-                Debug.Log("ERROR METHOD: " + methodTracker + " CHOICE: " + choice);
                 choice = Random.Range(0, coolingMethods.Count);
-                Debug.Log(" CHOICE: " + choice);
             }
 
             while (choice == methodTracker);
@@ -145,17 +139,6 @@ public class MaintainCoolant : MonoBehaviour
             useFan = coolingMethods[0];
             useLiquid = coolingMethods[1];
             useLiquidNitrogen = coolingMethods[2];
-            //while (coolingMethods[choice] == true)
-            //{
-            //    choice = Random.Range(0, coolingMethods.Count);
-            //    Debug.Log(choice);
-            //    break;
-            //}
-
-            //Debug.Log("FAN:  " + useFan );
-            //Debug.Log("Liquid:  " + useLiquid );
-            //Debug.Log("NITROGEN:  " + useLiquidNitrogen );
-            // Debug.Log(coolingMethods[choice]);
             changeTimer = changeTime;
         }
 
