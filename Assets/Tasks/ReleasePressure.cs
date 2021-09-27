@@ -16,6 +16,8 @@ public class ReleasePressure : MonoBehaviour
     public float pressure = 0f;
     private float inputDelay = 0.25f;
 
+    [SerializeField] private Light[] lights;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -24,7 +26,6 @@ public class ReleasePressure : MonoBehaviour
         //Fetch the Material from the Renderer of the GameObject
         m_Material = thisRend.material;
         engineMaterial = engineIndicator.GetComponent<Renderer>().material;
-        print("Materials " + Resources.FindObjectsOfTypeAll(typeof(Material)).Length);
     }
 
     // Update is called once per frame
@@ -43,7 +44,6 @@ public class ReleasePressure : MonoBehaviour
 
         if (playerClose)
         {
-            //   Debug.Log("CLOSE");
         }
 
         //if player is close eneough to act and they press the interact button "E" then they are releasing pressure
