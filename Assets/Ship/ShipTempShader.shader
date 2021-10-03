@@ -9,7 +9,6 @@ Shader "Custom/ShipTempShader"
     }
     SubShader
     {
-		Cull Off
         Tags { "RenderType"="Opaque" }
         LOD 200
 

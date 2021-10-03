@@ -37,8 +37,8 @@ public class ShipMovement : MonoBehaviour
     //awake, runs when the object is first initliazed
     void Awake()
     {
-        rb = GetComponent<Rigidbody>();
-        targetRotation = transform.rotation;
+        rb = this.GetComponent<Rigidbody>();
+        targetRotation = transform.parent.transform.rotation;
         currentVelo = new Vector3(0f, 0f, 0f);
         timeSinceDirChange = 0f;
         lastJoystickState = new Vector2Int(0, 0);
@@ -60,6 +60,8 @@ public class ShipMovement : MonoBehaviour
         float t = Mathf.Clamp(timeSinceDirChange / timeToMaxRotation, 0.0f, 1.0f);
         rotateRate = Mathf.Lerp(minRotateRate, maxRotateRate, t);
 
+        HandleRotation();
+
         //update the time that has passed
         timeSinceDirChange += Time.deltaTime;
     }
@@ -67,15 +69,7 @@ public class ShipMovement : MonoBehaviour
     //called once per frame in the physics update, used to simulate the solar system gravity effect and handle the ship's other momment
     private void FixedUpdate()
     {
-        //handling the rotation
-        float horiRot = dirJoystick.GetJoystickState().x * rotateRate;
-        float vertRot = dirJoystick.GetJoystickState().y * rotateRate;
-
-        transform.Rotate(0f, horiRot, 0f, Space.Self);
-        transform.Rotate(vertRot, 0f, 0f, Space.Self);
-
         //handling the positional change
-
         //gravity
         gravityAcel = Vector3.zero;
         //grab all of the celestial bodies
@@ -119,6 +113,21 @@ public class ShipMovement : MonoBehaviour
 
         //add the velocities together into the position
         currentVelo += gravityAcel * Time.fixedDeltaTime;
-        transform.position += (currentVelo + thrustVelo) * Time.fixedDeltaTime;
+        //rb.MovePosition(rb.position + (currentVelo + thrustVelo) * Time.fixedDeltaTime);
+        rb.velocity = thrustVelo + currentVelo;
+    }
+
+    private void HandleRotation()
+    {
+        //handling the rotation
+        float horiRot = dirJoystick.GetJoystickState().x * rotateRate;
+        float vertRot = dirJoystick.GetJoystickState().y * rotateRate;
+
+        //apply the rotation
+        Quaternion yaw = Quaternion.AngleAxis(horiRot, transform.up);
+        Quaternion pitch = Quaternion.AngleAxis(vertRot, transform.right);
+        targetRotation = yaw * pitch * targetRotation;
+
+        transform.parent.transform.rotation = targetRotation;
     }
 }

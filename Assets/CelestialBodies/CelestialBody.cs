@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Celesital body simulation script, inspired by Sebastian Lague's Solar System simulation 
-
-//Celestial Bodies must have rigidbodies
 [RequireComponent(typeof(Rigidbody))]
 public class CelestialBody : MonoBehaviour
 {
@@ -13,17 +11,19 @@ public class CelestialBody : MonoBehaviour
     [SerializeField] private float surfaceGravity = 10f;
     [SerializeField] private Vector3 initialVelocity;
 
+    //rigidbody
+    Rigidbody rb;
+
     //private data it needs during execute
     private Vector3 currentVelocity;
     private float mass;
-    private Rigidbody rb;
     private float radius;
 
     //awake, runs when the object is first initliazed
     private void Awake()
     {
         //grab the rigidbody component, get the velocity, and calculate the mass and radius
-        rb = GetComponent<Rigidbody>();
+        rb = this.GetComponent<Rigidbody>();
         currentVelocity = initialVelocity;
         radius = 0.5f * transform.localScale.x;
         mass = surfaceGravity * radius * radius / gravitationalConstant;
@@ -55,7 +55,7 @@ public class CelestialBody : MonoBehaviour
     //function to update the body's position, will be called by a seperate manager script
     public void UpdatePosition()
     {
-        rb.position += currentVelocity * Time.fixedDeltaTime;
+        rb.MovePosition(rb.position + currentVelocity * Time.fixedDeltaTime);
     }
 
     public float GetMass()

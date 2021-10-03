@@ -9,12 +9,18 @@ public class PlayerController : MonoBehaviour
 
     //the transform of the parent (right now just the ship, may change if we allow the player to leave the ship in the future)
     //needed to make sure the controls work regardless of the ship's orientation
-    private Transform parentSpace;
+    [SerializeField] private Transform parentSpace;
 
     //controls for how much the player has locally rotated
     private float yaw = 0.0f;
     private float pitch = 0.0f;
     [SerializeField] Vector2 pitchLimits;
+
+    //quaterion to track the current rotation
+    Quaternion targetRotation;
+
+    //the rigidbody of the player
+    //private Rigidbody rb;
 
     //the camera transform, on Y we rotate instead of the player directly so that it handles movement correctly
     [SerializeField] Transform cam;
@@ -46,7 +52,11 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = false;
 
-        parentSpace = transform.parent.transform;
+        //set the rotation at it's starting rotation
+        targetRotation = transform.rotation;
+
+        //grab a reference to the rigidbody
+        //rb = this.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -90,15 +100,22 @@ public class PlayerController : MonoBehaviour
         //rotate based on mouse input
         cam.transform.localEulerAngles = new Vector3(pitch, 0f, 0f);
         transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, 0f, 0f);
-        transform.RotateAround(transform.position, transform.parent.up, yaw);
-       
+        transform.RotateAround(transform.position, parentSpace.up, yaw);
+        //Quaternion newUp = Quaternion.FromToRotation(transform.up.normalized, parentSpace.up.normalized) * targetRotation;
+        //Quaternion newUp = Quaternion.LookRotation(transform.forward, parentSpace.up);
+        Quaternion newYaw = Quaternion.AngleAxis(yaw, transform.up);
+        targetRotation = newYaw * targetRotation;
+        //rb.MoveRotation(targetRotation);
+
         //get input for each direction
         float dirX = Input.GetAxis("Horizontal");
         float dirZ = Input.GetAxis("Vertical");
 
         //use that input to move the player 
         //note: moving in local space so that the motion appears the same to the player regardless of orientation of the ship
+
         transform.Translate(new Vector3(dirX, 0.0f, dirZ) * movementSpeed * Time.deltaTime, Space.Self);
+        //rb.MovePosition(rb.position + new Vector3(dirX, 0.0f, dirZ) * movementSpeed * Time.deltaTime);
     }
 
     //function for piloting the ship
