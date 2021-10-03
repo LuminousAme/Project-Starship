@@ -6,6 +6,7 @@ public class ReleasePressure : MonoBehaviour
     public bool releasing = false;
     private bool playerClose = false;
 
+    public EnergyBar bar;
     private Renderer thisRend; //Renderer of our Cube
     private Material m_Material;
     private Material engineMaterial;
@@ -89,6 +90,9 @@ public class ReleasePressure : MonoBehaviour
         {
             engineMaterial.color = Color.white;
         }
+
+        //set pressure
+        bar.SetPressure(pressure);
     }
 
     //code to check if object with tag is close to this. from: https://answers.unity.com/questions/795190/checking-if-player-is-near-any-certain-gameobject.html
