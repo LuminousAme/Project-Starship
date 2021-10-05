@@ -3,16 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Celesital body simulation script, inspired by Sebastian Lague's Solar System simulation 
-[RequireComponent(typeof(Rigidbody))]
 public class CelestialBody : MonoBehaviour
 {
     //data for the celesital body such as mass, radius, and inital velocity
     static public float gravitationalConstant = 0.2f;
     [SerializeField] private float surfaceGravity = 10f;
     [SerializeField] private Vector3 initialVelocity;
-
-    //rigidbody
-    Rigidbody rb;
 
     //private data it needs during execute
     private Vector3 currentVelocity;
@@ -22,12 +18,10 @@ public class CelestialBody : MonoBehaviour
     //awake, runs when the object is first initliazed
     private void Awake()
     {
-        //grab the rigidbody component, get the velocity, and calculate the mass and radius
-        rb = this.GetComponent<Rigidbody>();
+        //get the velocity, and calculate the mass and radius
         currentVelocity = initialVelocity;
         radius = 0.5f * transform.localScale.x;
         mass = surfaceGravity * radius * radius / gravitationalConstant;
-        rb.mass = mass;
     }
 
     //function to update the body's velocity, will be called by a seperate manager script
@@ -39,7 +33,7 @@ public class CelestialBody : MonoBehaviour
             if (body != this)
             {
                 //calculate force using newton's F = G(m1 * m2 / r^2) formula
-                Vector3 direction = body.rb.position - rb.position;
+                Vector3 direction = body.transform.position - transform.position;
                 float distanceSquared = direction.sqrMagnitude;
                 Vector3 force = direction.normalized * gravitationalConstant * mass * body.mass / distanceSquared;
 
@@ -47,7 +41,7 @@ public class CelestialBody : MonoBehaviour
                 Vector3 acel = force / mass;
 
                 //add that acceleration to the current velocity
-                currentVelocity += acel * Time.fixedDeltaTime;
+                currentVelocity += acel * Time.deltaTime;
             }
         }
     }
@@ -55,7 +49,7 @@ public class CelestialBody : MonoBehaviour
     //function to update the body's position, will be called by a seperate manager script
     public void UpdatePosition()
     {
-        rb.MovePosition(rb.position + currentVelocity * Time.fixedDeltaTime);
+        transform.Translate(currentVelocity * Time.deltaTime);
     }
 
     public float GetMass()

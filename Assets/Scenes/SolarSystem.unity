@@ -1130,7 +1130,6 @@ GameObject:
   - component: {fileID: 934216639}
   - component: {fileID: 934216637}
   - component: {fileID: 934216641}
-  - component: {fileID: 934216638}
   m_Layer: 0
   m_Name: Planet2
   m_TagString: Untagged
@@ -1166,22 +1165,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   surfaceGravity: 9.5
   initialVelocity: {x: 42, y: 0.1, z: 0}
---- !u!54 &934216638
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 934216635}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 1
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!23 &934216639
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2371,7 +2354,6 @@ GameObject:
   - component: {fileID: 1535390210}
   - component: {fileID: 1535390208}
   - component: {fileID: 1535390212}
-  - component: {fileID: 1535390209}
   m_Layer: 0
   m_Name: Planet1
   m_TagString: Untagged
@@ -2407,22 +2389,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   surfaceGravity: 2.3
   initialVelocity: {x: 40, y: -0.5, z: -40}
---- !u!54 &1535390209
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1535390206}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 1
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!23 &1535390210
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2657,7 +2623,6 @@ GameObject:
   - component: {fileID: 1705390058}
   - component: {fileID: 1705390056}
   - component: {fileID: 1705390060}
-  - component: {fileID: 1705390057}
   m_Layer: 0
   m_Name: Planet3
   m_TagString: Untagged
@@ -2693,22 +2658,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   surfaceGravity: 30
   initialVelocity: {x: -25, y: -0.01, z: 0}
---- !u!54 &1705390057
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1705390054}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 1
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!23 &1705390058
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3018,7 +2967,6 @@ GameObject:
   - component: {fileID: 1873303223}
   - component: {fileID: 1873303221}
   - component: {fileID: 1873303225}
-  - component: {fileID: 1873303222}
   m_Layer: 0
   m_Name: Sun
   m_TagString: Untagged
@@ -3054,22 +3002,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   surfaceGravity: 75
   initialVelocity: {x: 0, y: 0, z: 0}
---- !u!54 &1873303222
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1873303219}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 1
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!23 &1873303223
 MeshRenderer:
   m_ObjectHideFlags: 0
