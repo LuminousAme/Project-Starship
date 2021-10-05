@@ -38,7 +38,7 @@ public class ShipMovement : MonoBehaviour
     void Awake()
     {
         rb = this.GetComponent<Rigidbody>();
-        targetRotation = transform.parent.transform.rotation;
+        targetRotation = transform.rotation;
         currentVelo = new Vector3(0f, 0f, 0f);
         timeSinceDirChange = 0f;
         lastJoystickState = new Vector2Int(0, 0);
@@ -128,6 +128,6 @@ public class ShipMovement : MonoBehaviour
         Quaternion pitch = Quaternion.AngleAxis(vertRot, transform.right);
         targetRotation = yaw * pitch * targetRotation;
 
-        transform.parent.transform.rotation = targetRotation;
+        transform.rotation = targetRotation;
     }
 }
