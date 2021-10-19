@@ -24,12 +24,16 @@ public class Joystick : MonoBehaviour
     [SerializeField] private float vertRotDegrees = 45f;
     private Quaternion targetRotation;
 
+    //the mouse manager
+    private MouseManager mouse;
+
     // Start is called before the first frame update
     void Start()
     {
         isSelected = false;
         isInteractable = false;
         startingRotation = transform.rotation;
+        mouse = GameObject.Find("MouseManager").GetComponent<MouseManager>();
     }
 
     // Update is called once per frame
@@ -42,43 +46,49 @@ public class Joystick : MonoBehaviour
         if (isSelected)
         {
             //if the player lets go of the mouse button unselect it
-            if (Input.GetMouseButtonUp(0)) isSelected = false;
-
-            //get the difference between the mouse position on selected and now
-            Vector2 currentMousePos = new Vector2(Input.mousePosition.x / (float)Screen.width, Input.mousePosition.y / (float)Screen.height);
-            Vector2 diff = currentMousePos - mousePosYOnSelected;
-
-            //if it's gone up enough increase the joystick state and reset the mouse pos tracker
-            if (diff.x > threshold.x && joystickState.x < 1)
+            if (Input.GetMouseButtonUp(0))
             {
-                joystickState.x++;
-                mousePosYOnSelected.x = currentMousePos.x;
+                isSelected = false;
+                if (mouse != null) mouse.SetObjectAlreadySelected(isSelected);
             }
-
-            if (diff.y > threshold.y && joystickState.y < 1)
+            else
             {
-                joystickState.y++;
-                mousePosYOnSelected.y = currentMousePos.y;
-            }
+                //get the difference between the mouse position on selected and now
+                Vector2 currentMousePos = new Vector2(Input.mousePosition.x / (float)Screen.width, Input.mousePosition.y / (float)Screen.height);
+                Vector2 diff = currentMousePos - mousePosYOnSelected;
 
-            //if it's gone down enough, decrease the joystick state and reset the mouse pos tracker
-            if (diff.x < -1f * threshold.x && joystickState.x > -1)
-            {
-                joystickState.x--;
-                mousePosYOnSelected.x = currentMousePos.x;
-            }
+                //if it's gone up enough increase the joystick state and reset the mouse pos tracker
+                if (diff.x > threshold.x && joystickState.x < 1)
+                {
+                    joystickState.x++;
+                    mousePosYOnSelected.x = currentMousePos.x;
+                }
 
-            if (diff.y < -1f * threshold.y && joystickState.y > -1)
-            {
-                joystickState.y--;
-                mousePosYOnSelected.y = currentMousePos.y;
-            }
+                if (diff.y > threshold.y && joystickState.y < 1)
+                {
+                    joystickState.y++;
+                    mousePosYOnSelected.y = currentMousePos.y;
+                }
 
-            float targetXEuler = startingRotation.eulerAngles.x - joystickState.x * sideRotDegrees;
-            float targetYEuler = startingRotation.eulerAngles.y + joystickState.y * vertRotDegrees;
-            targetRotation = Quaternion.Euler(new Vector3(targetYEuler, startingRotation.eulerAngles.y, targetXEuler));
-            //consider slerping in the future
-            transform.rotation = targetRotation;
+                //if it's gone down enough, decrease the joystick state and reset the mouse pos tracker
+                if (diff.x < -1f * threshold.x && joystickState.x > -1)
+                {
+                    joystickState.x--;
+                    mousePosYOnSelected.x = currentMousePos.x;
+                }
+
+                if (diff.y < -1f * threshold.y && joystickState.y > -1)
+                {
+                    joystickState.y--;
+                    mousePosYOnSelected.y = currentMousePos.y;
+                }
+
+                float targetXEuler = startingRotation.eulerAngles.x - joystickState.x * sideRotDegrees;
+                float targetYEuler = startingRotation.eulerAngles.y + joystickState.y * vertRotDegrees;
+                targetRotation = Quaternion.Euler(new Vector3(targetYEuler, startingRotation.eulerAngles.y, targetXEuler));
+                //consider slerping in the future
+                transform.rotation = targetRotation;
+            }
         }
     }
 
@@ -102,6 +112,7 @@ public class Joystick : MonoBehaviour
             if (!isSelected && Input.GetMouseButton(0))
             {
                 isSelected = true;
+                if (mouse != null) mouse.SetObjectAlreadySelected(isSelected);
                 mousePosYOnSelected = new Vector2(Input.mousePosition.x / (float)Screen.width, Input.mousePosition.y / (float)Screen.height);
             }
         }

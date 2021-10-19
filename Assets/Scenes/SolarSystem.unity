@@ -4372,7 +4372,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1367220238}
-  m_Mesh: {fileID: -1550514412580984892, guid: 6128e282630763d48bd4aa1e0bfae5e9, type: 3}
+  m_Mesh: {fileID: -3777948134570251910, guid: 6128e282630763d48bd4aa1e0bfae5e9, type: 3}
 --- !u!1 &1369811907
 GameObject:
   m_ObjectHideFlags: 0
@@ -4861,7 +4861,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.1798108, y: 1}
+    m_SensorSize: {x: 3.2983294, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -6597,7 +6597,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1934358118}
-  m_Mesh: {fileID: -1550514412580984892, guid: 6128e282630763d48bd4aa1e0bfae5e9, type: 3}
+  m_Mesh: {fileID: -3777948134570251910, guid: 6128e282630763d48bd4aa1e0bfae5e9, type: 3}
 --- !u!1 &1956525844
 GameObject:
   m_ObjectHideFlags: 0

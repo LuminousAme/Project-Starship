@@ -23,12 +23,16 @@ public class Lever : MonoBehaviour
     [SerializeField] private float vertRotDegrees = 45f;
     private Quaternion targetRotation;
 
+    //the mouse manager
+    private MouseManager mouse;
+
     // Start is called before the first frame update
     void Start()
     {
         isSelected = false;
         isInteractable = false;
         startingRotation = transform.localRotation;
+        mouse = GameObject.Find("MouseManager").GetComponent<MouseManager>();
     }
 
     // Update is called once per frame
@@ -41,30 +45,36 @@ public class Lever : MonoBehaviour
         if (isSelected)
         {
             //if the player lets go of the mouse button unselect it
-            if (Input.GetMouseButtonUp(0)) isSelected = false;
-
-            //get the difference between the mouse position on selected and now
-            float currentMousePos = Input.mousePosition.y / (float)Screen.height;
-            float diff = currentMousePos - mousePosYOnSelected;
-
-            //if it's gone up enough increase the lever state and reset the mouse pos tracker
-            if (diff > threshold && leverState < 1)
+            if (Input.GetMouseButtonUp(0))
             {
-                leverState++;
-                mousePosYOnSelected = currentMousePos;
+                isSelected = false;
+                if (mouse != null) mouse.SetObjectAlreadySelected(isSelected);
             }
-
-            //if it's gone down enough, decrease the lever state and reset the mouse pos tracker
-            if (diff < -1f * threshold && leverState > -1)
+            else
             {
-                leverState--;
-                mousePosYOnSelected = currentMousePos;
-            }
+                //get the difference between the mouse position on selected and now
+                float currentMousePos = Input.mousePosition.y / (float)Screen.height;
+                float diff = currentMousePos - mousePosYOnSelected;
 
-            float targetYEuler = startingRotation.eulerAngles.y + leverState * vertRotDegrees;
-            targetRotation = Quaternion.Euler(new Vector3(targetYEuler, startingRotation.eulerAngles.y, startingRotation.eulerAngles.z));
-            //consider slerping in the future
-            transform.localRotation = targetRotation;
+                //if it's gone up enough increase the lever state and reset the mouse pos tracker
+                if (diff > threshold && leverState < 1)
+                {
+                    leverState++;
+                    mousePosYOnSelected = currentMousePos;
+                }
+
+                //if it's gone down enough, decrease the lever state and reset the mouse pos tracker
+                if (diff < -1f * threshold && leverState > -1)
+                {
+                    leverState--;
+                    mousePosYOnSelected = currentMousePos;
+                }
+
+                float targetYEuler = startingRotation.eulerAngles.y + leverState * vertRotDegrees;
+                targetRotation = Quaternion.Euler(new Vector3(targetYEuler, startingRotation.eulerAngles.y, startingRotation.eulerAngles.z));
+                //consider slerping in the future
+                transform.localRotation = targetRotation;
+            }
         }
     }
 
@@ -88,6 +98,7 @@ public class Lever : MonoBehaviour
             if (!isSelected && Input.GetMouseButton(0))
             {
                 isSelected = true;
+                if (mouse != null) mouse.SetObjectAlreadySelected(isSelected);
                 mousePosYOnSelected = Input.mousePosition.y / (float)Screen.height;
             }
         }
