@@ -113,8 +113,9 @@ public class ShipMovement : MonoBehaviour
 
         //add the velocities together into the position
         currentVelo += gravityAcel * Time.fixedDeltaTime;
-        //rb.MovePosition(rb.position + (currentVelo + thrustVelo) * Time.fixedDeltaTime);
         rb.velocity = thrustVelo + currentVelo;
+
+        rb.inertiaTensorRotation = Quaternion.identity;
     }
 
     private void HandleRotation()
