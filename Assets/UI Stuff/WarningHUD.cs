@@ -1,30 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class WarningHUD : MonoBehaviour
 {
     public Text warning;
+    public Color og;
     public ReleasePressure pressureTask;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         warning.text = " ";
+        og = warning.color;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (pressureTask.pressure >= 75f)
         {
-            warning.text = "WARNING: PRESSURE LEVELS CRITICAL";
+            warning.text = "\n PRESSURE LEVELS CRITICAL";
+            warning.color = Color.Lerp(og, Color.clear, Mathf.PingPong(Time.time, 1.1f));
         }
-
         else
         {
-            warning.text = " ";
+            //warning.text += "\n     ";
+            warning.text = warning.text.Replace("\n PRESSURE LEVELS CRITICAL", " ");
         }
     }
 }
