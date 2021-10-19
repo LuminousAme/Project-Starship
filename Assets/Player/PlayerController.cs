@@ -10,17 +10,18 @@ public class PlayerController : MonoBehaviour
 
     //controls for how much the player has locally rotated
     private float yaw = 0.0f;
+
     private float pitch = 0.0f;
-    [SerializeField] Vector2 pitchLimits;
+    [SerializeField] private Vector2 pitchLimits;
 
     //quaterion to track the current rotation
-    Quaternion targetRotation;
+    private Quaternion targetRotation;
 
     //input vector
     Vector2 input = Vector2.zero;
 
     //the camera transform, on Y we rotate instead of the player directly so that it handles movement correctly
-    [SerializeField] Transform cam;
+    [SerializeField] private Transform cam;
 
     //enum to control different interaction states
     private enum interactionState
@@ -59,7 +60,7 @@ public class PlayerController : MonoBehaviour
         //update the interaction cooldown
         timeSinceInteraction += Time.deltaTime;
 
-        //use a simple state machine to determine what kinda of input the player is allowed to use 
+        //use a simple state machine to determine what kinda of input the player is allowed to use
         switch (playerState)
         {
             //if the player is in their regular walk mode, allow them to move normally
