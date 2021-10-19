@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(CharacterVelocityManager))]
 public class PlayerController : MonoBehaviour
 {
     //serialized field so they can be changed
@@ -19,8 +20,11 @@ public class PlayerController : MonoBehaviour
     //quaterion to track the current rotation
     Quaternion targetRotation;
 
-    //the rigidbody of the player
-    //private Rigidbody rb;
+    //input vector
+    Vector2 input = Vector2.zero;
+
+    //the velocity manager
+    CharacterVelocityManager veloManager;
 
     //the camera transform, on Y we rotate instead of the player directly so that it handles movement correctly
     [SerializeField] Transform cam;
@@ -55,8 +59,8 @@ public class PlayerController : MonoBehaviour
         //set the rotation at it's starting rotation
         targetRotation = transform.rotation;
 
-        //grab a reference to the rigidbody
-        //rb = this.GetComponent<Rigidbody>();
+        //grab a reference to the velocity manager
+        veloManager = this.GetComponent<CharacterVelocityManager>();
     }
 
     // Update is called once per frame
@@ -81,15 +85,16 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-
+        Vector3 velo = (input.y * transform.forward + input.x * transform.right).normalized * movementSpeed;
+        veloManager.SetPlayerVelo(velo);
     }
 
     //function for the player's regular movememnt
     private void RegularMovement()
     {
         //get rotation input
-        yaw += Input.GetAxis("Mouse X") * lookSpeed;
-        pitch -= Input.GetAxis("Mouse Y") * lookSpeed;
+        yaw += Input.GetAxis("Mouse X") * Time.deltaTime * lookSpeed;
+        pitch -= Input.GetAxis("Mouse Y") * Time.deltaTime * lookSpeed;
 
         //limit how far the player can rotate while looking up and down
         pitch = Mathf.Clamp(pitch, pitchLimits.x, pitchLimits.y);
@@ -100,22 +105,10 @@ public class PlayerController : MonoBehaviour
         //rotate based on mouse input
         cam.transform.localEulerAngles = new Vector3(pitch, 0f, 0f);
         transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, 0f, 0f);
-        transform.RotateAround(transform.position, parentSpace.up, yaw);
-        //Quaternion newUp = Quaternion.FromToRotation(transform.up.normalized, parentSpace.up.normalized) * targetRotation;
-        //Quaternion newUp = Quaternion.LookRotation(transform.forward, parentSpace.up);
-        Quaternion newYaw = Quaternion.AngleAxis(yaw, transform.up);
-        targetRotation = newYaw * targetRotation;
-        //rb.MoveRotation(targetRotation);
-
+        transform.Rotate(Vector3.up, yaw);
+       
         //get input for each direction
-        float dirX = Input.GetAxis("Horizontal");
-        float dirZ = Input.GetAxis("Vertical");
-
-        //use that input to move the player 
-        //note: moving in local space so that the motion appears the same to the player regardless of orientation of the ship
-
-        transform.Translate(new Vector3(dirX, 0.0f, dirZ) * movementSpeed * Time.deltaTime, Space.Self);
-        //rb.MovePosition(rb.position + new Vector3(dirX, 0.0f, dirZ) * movementSpeed * Time.deltaTime);
+        input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
     }
 
     //function for piloting the ship
