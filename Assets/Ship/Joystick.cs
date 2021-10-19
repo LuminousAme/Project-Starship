@@ -29,7 +29,7 @@ public class Joystick : MonoBehaviour
     {
         isSelected = false;
         isInteractable = false;
-        startingRotation = transform.localRotation;
+        startingRotation = transform.rotation;
     }
 
     // Update is called once per frame
@@ -75,10 +75,10 @@ public class Joystick : MonoBehaviour
             }
 
             float targetXEuler = startingRotation.eulerAngles.x - joystickState.x * sideRotDegrees;
-            float targetYEuler = startingRotation.eulerAngles.y - joystickState.y * vertRotDegrees;
-            targetRotation = Quaternion.Euler(new Vector3(targetXEuler, startingRotation.eulerAngles.y, targetYEuler));
+            float targetYEuler = startingRotation.eulerAngles.y + joystickState.y * vertRotDegrees;
+            targetRotation = Quaternion.Euler(new Vector3(targetYEuler, startingRotation.eulerAngles.y, targetXEuler));
             //consider slerping in the future
-            transform.localRotation = targetRotation;
+            transform.rotation = targetRotation;
         }
     }
 

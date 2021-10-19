@@ -61,8 +61,8 @@ public class Lever : MonoBehaviour
                 mousePosYOnSelected = currentMousePos;
             }
 
-            float targetYEuler = startingRotation.eulerAngles.y - leverState * vertRotDegrees;
-            targetRotation = Quaternion.Euler(new Vector3(startingRotation.eulerAngles.x, startingRotation.eulerAngles.y, targetYEuler));
+            float targetYEuler = startingRotation.eulerAngles.y + leverState * vertRotDegrees;
+            targetRotation = Quaternion.Euler(new Vector3(targetYEuler, startingRotation.eulerAngles.y, startingRotation.eulerAngles.z));
             //consider slerping in the future
             transform.localRotation = targetRotation;
         }
