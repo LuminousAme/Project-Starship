@@ -8,7 +8,6 @@ public class DragObjectsAlong : MonoBehaviour
 
     //list of all the rigidbody this object is dragging alone with it
     [SerializeField] private List<GameObject> objects;
-    [SerializeField] private List<GameObject> rigidBodyVeloDragObjects;
 
     //the rigidbody that is acting as the base reference frame
     private Rigidbody rb;
@@ -69,28 +68,8 @@ public class DragObjectsAlong : MonoBehaviour
             gameObject.transform.rotation = adjustedRot;
         }
 
-        //iterate over all of the rigidbody objects that should be dragged along to update their rotation
-        foreach (GameObject gameObject1 in rigidBodyVeloDragObjects)
-        {
-            Transform parent = gameObject1.transform.parent;
-
-            Vector3 diff = rb.position - parent.position;
-            Rigidbody body = gameObject1.gameObject.GetComponent<Rigidbody>();
-            parent.Translate(diff, Space.World);
-            gameObject1.transform.Translate(-diff, Space.World);
-
-            //update the rotation
-            Quaternion adjustedRot = Quaternion.FromToRotation(parent.up, rb.transform.up) *
-                Quaternion.FromToRotation(parent.forward, rb.transform.forward) *
-                Quaternion.FromToRotation(parent.right, rb.transform.right) *
-               parent.rotation;
-
-            parent.rotation = adjustedRot;
-        }
-
         //update the last frame's position
         lastFramePos = rb.position;
-        //update the last frame's rotation
     }
 
     private void MovePivotsOnStart()
@@ -115,16 +94,6 @@ public class DragObjectsAlong : MonoBehaviour
 
             //then move all of their children back to where they should be
             MoveChildrenOnStart(obj, diff);
-        }
-
-        foreach (GameObject obj1 in rigidBodyVeloDragObjects)
-        {
-            Transform parent = obj1.transform.parent;
-
-            Vector3 diff = rb.position - parent.position;
-            Rigidbody body = obj1.gameObject.GetComponent<Rigidbody>();
-            parent.Translate(diff);
-            body.MovePosition(body.position - diff);
         }
     }
 

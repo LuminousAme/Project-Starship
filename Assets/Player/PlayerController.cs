@@ -1,16 +1,12 @@
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterVelocityManager))]
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
     //serialized field so they can be changed
     [SerializeField] private float movementSpeed = 10f;
 
     [SerializeField] private float lookSpeed = 5f;
-
-    //the transform of the parent (right now just the ship, may change if we allow the player to leave the ship in the future)
-    //needed to make sure the controls work regardless of the ship's orientation
-    [SerializeField] private Transform parentSpace;
 
     //controls for how much the player has locally rotated
     private float yaw = 0.0f;
@@ -22,9 +18,6 @@ public class PlayerController : MonoBehaviour
 
     //input vector
     Vector2 input = Vector2.zero;
-
-    //the velocity manager
-    CharacterVelocityManager veloManager;
 
     //the camera transform, on Y we rotate instead of the player directly so that it handles movement correctly
     [SerializeField] Transform cam;
@@ -58,9 +51,6 @@ public class PlayerController : MonoBehaviour
 
         //set the rotation at it's starting rotation
         targetRotation = transform.rotation;
-
-        //grab a reference to the velocity manager
-        veloManager = this.GetComponent<CharacterVelocityManager>();
     }
 
     // Update is called once per frame
@@ -86,7 +76,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         Vector3 velo = (input.y * transform.forward + input.x * transform.right).normalized * movementSpeed;
-        veloManager.SetPlayerVelo(velo);
+        this.GetComponent<Rigidbody>().velocity = velo;
     }
 
     //function for the player's regular movememnt
@@ -98,9 +88,6 @@ public class PlayerController : MonoBehaviour
 
         //limit how far the player can rotate while looking up and down
         pitch = Mathf.Clamp(pitch, pitchLimits.x, pitchLimits.y);
-
-        //align the up with the ship
-        transform.rotation = Quaternion.FromToRotation(transform.up.normalized, parentSpace.up.normalized) * transform.rotation;
 
         //rotate based on mouse input
         cam.transform.localEulerAngles = new Vector3(pitch, 0f, 0f);
