@@ -17,6 +17,7 @@ public class WarningHUD : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+       
         if (pressureTask.pressure >= 75f)
         {
             warning.text = "\n PRESSURE LEVELS CRITICAL";

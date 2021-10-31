@@ -43,6 +43,9 @@ public class MaintainCoolant : MonoBehaviour
 
     public float methodTracker = 0f;
 
+    private bool canTask; // bool to see if player can do tasks rn
+    private Energy playerEnergy;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -59,14 +62,21 @@ public class MaintainCoolant : MonoBehaviour
         coolingMethods.Add(useLiquid);
         coolingMethods.Add(useLiquidNitrogen);
         coolingMethods[0] = true;
-        //useFan = coolingMethods[0];
-        //useLiquid = coolingMethods[1];
-        //useLiquidNitrogen = coolingMethods[2];
+
+        canTask = true;
+        GameObject play = GameObject.FindGameObjectWithTag("Player");
+        playerEnergy = play.GetComponent<Energy>();
     }
 
     // Update is called once per frame
     private void Update()
     {
+        if (playerEnergy.AbleTask == false)
+        {
+            canTask = false;
+        }
+        else { canTask = true; }
+
         inputDelay = inputDelay - Time.deltaTime;
         if (inputDelay < 0f)
         {
@@ -76,41 +86,43 @@ public class MaintainCoolant : MonoBehaviour
         //countdown the change timer
         changeTimer = changeTimer - 1f * Time.deltaTime;
 
-        // playerClose = CheckCloseTo("Player", fanIndicator, 2);
-        //if player is close eneough to the fan to act and they press the interact button "E" then they are using fans
-        if (CheckCloseTo("Player", fanIndicator, 2) && Input.GetKey(KeyCode.E) && inputDelay == 0f)
+        if (canTask)
         {
-            fan = true;
-            liquid = false;
-            liquidNitrogen = false;
-            fanMaterial.color = Color.green;
-            liquidMaterial.color = Color.white;
-            nitrogenMaterial.color = Color.white;
-            inputDelay = 0.25f;
-        }
+            // playerClose = CheckCloseTo("Player", fanIndicator, 2);
+            //if player is close eneough to the fan to act and they press the interact button "E" then they are using fans
+            if (CheckCloseTo("Player", fanIndicator, 2) && Input.GetKey(KeyCode.E) && inputDelay == 0f)
+            {
+                fan = true;
+                liquid = false;
+                liquidNitrogen = false;
+                fanMaterial.color = Color.green;
+                liquidMaterial.color = Color.white;
+                nitrogenMaterial.color = Color.white;
+                inputDelay = 0.25f;
+            }
 
-        if (CheckCloseTo("Player", liquidIndicator, 2) && Input.GetKey(KeyCode.E) && inputDelay == 0f)
-        {
-            fan = false;
-            liquid = true;
-            liquidNitrogen = false;
-            liquidMaterial.color = Color.green;
-            fanMaterial.color = Color.white;
-            nitrogenMaterial.color = Color.white;
-            inputDelay = 0.25f;
-        }
+            if (CheckCloseTo("Player", liquidIndicator, 2) && Input.GetKey(KeyCode.E) && inputDelay == 0f)
+            {
+                fan = false;
+                liquid = true;
+                liquidNitrogen = false;
+                liquidMaterial.color = Color.green;
+                fanMaterial.color = Color.white;
+                nitrogenMaterial.color = Color.white;
+                inputDelay = 0.25f;
+            }
 
-        if (CheckCloseTo("Player", nitrogenIndicator, 2) && Input.GetKey(KeyCode.E) && inputDelay == 0f)
-        {
-            fan = false;
-            liquid = false;
-            liquidNitrogen = true;
-            nitrogenMaterial.color = Color.green;
-            liquidMaterial.color = Color.white;
-            fanMaterial.color = Color.white;
-            inputDelay = 0.25f;
+            if (CheckCloseTo("Player", nitrogenIndicator, 2) && Input.GetKey(KeyCode.E) && inputDelay == 0f)
+            {
+                fan = false;
+                liquid = false;
+                liquidNitrogen = true;
+                nitrogenMaterial.color = Color.green;
+                liquidMaterial.color = Color.white;
+                fanMaterial.color = Color.white;
+                inputDelay = 0.25f;
+            }
         }
-
         //if the change timer is 0 then there will be a new coolant needed
         if (changeTimer <= 0f)
         {
