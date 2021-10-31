@@ -43,15 +43,11 @@ public class MaintainCoolant : MonoBehaviour
 
     public float methodTracker = 0f;
 
-    private bool canTask; // bool to see if player can do tasks rn
-    private Energy playerEnergy;
-
     // Start is called before the first frame update
     private void Start()
     {
         //get the materials for the light indicators
         fanMaterial = fanIndicator.GetComponent<Renderer>().material;
-        //fanMaterial.color = Color.green;
         SetMatEmission(fanMaterial, true, Color.green, 1.45f);
         liquidMaterial = liquidIndicator.GetComponent<Renderer>().material;
         SetMatEmission(liquidMaterial, false, Color.black);
@@ -70,36 +66,23 @@ public class MaintainCoolant : MonoBehaviour
         fan = fanButton.GetButtonState();
         liquid = liquidButton.GetButtonState();
         liquidNitrogen = nitrogrenButton.GetButtonState();
-
-        canTask = true;
-        GameObject play = GameObject.FindGameObjectWithTag("Player");
-        playerEnergy = play.GetComponent<Energy>();
     }
 
     // Update is called once per frame
     private void Update()
     {
-        if (playerEnergy.AbleTask == false)
-        {
-            canTask = false;
-        }
-        else { canTask = true; }
-
         //countdown the change timer
         changeTimer = changeTimer - 1f * Time.deltaTime;
 
-        if (canTask)
+        if (!fan && fanButton.GetButtonState())
         {
             fan = true;
             liquid = false;
             liquidButton.SetButtonState(false);
             liquidNitrogen = false;
             nitrogrenButton.SetButtonState(false);
-            //fanMaterial.color = Color.green;
             SetMatEmission(fanMaterial, true, Color.green, 1.45f);
-            liquidMaterial.color = Color.white;
             SetMatEmission(liquidMaterial, false, Color.black);
-            nitrogenMaterial.color = Color.white;
             SetMatEmission(nitrogenMaterial, false, Color.black);
         }
 
@@ -111,11 +94,8 @@ public class MaintainCoolant : MonoBehaviour
             liquid = true;
             liquidNitrogen = false;
             nitrogrenButton.SetButtonState(false);
-            //liquidMaterial.color = Color.green;
             SetMatEmission(liquidMaterial, true, Color.green, 1.45f);
-            fanMaterial.color = Color.white;
             SetMatEmission(fanMaterial, false, Color.black);
-            nitrogenMaterial.color = Color.white;
             SetMatEmission(nitrogenMaterial, false, Color.black);
         }
 
@@ -127,11 +107,8 @@ public class MaintainCoolant : MonoBehaviour
             liquid = false;
             liquidButton.SetButtonState(false);
             liquidNitrogen = true;
-            //nitrogenMaterial.color = Color.green;
             SetMatEmission(nitrogenMaterial, true, Color.green, 1.45f);
-            liquidMaterial.color = Color.white;
             SetMatEmission(liquidMaterial, false, Color.black);
-            fanMaterial.color = Color.white;
             SetMatEmission(fanMaterial, false, Color.black);
         }
 
@@ -139,19 +116,16 @@ public class MaintainCoolant : MonoBehaviour
         if (fan && !fanButton.GetButtonState())
         {
             fan = false;
-            fanMaterial.color = Color.white;
             SetMatEmission(fanMaterial, false, Color.black);
         }
         if (liquid && !liquidButton.GetButtonState())
         {
             liquid = false;
-            liquidMaterial.color = Color.white;
             SetMatEmission(liquidMaterial, false, Color.black);
         }
         if (liquidNitrogen && !nitrogrenButton.GetButtonState())
         {
             liquidNitrogen = false;
-            nitrogenMaterial.color = Color.white;
             SetMatEmission(nitrogenMaterial, false, Color.black);
         }
 
@@ -192,10 +166,6 @@ public class MaintainCoolant : MonoBehaviour
             //fanMaterial.color = Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)); //Color.red;
             SetMatEmission(fanMaterial, true, Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)),
                 Mathf.Lerp(1.55f, 1.4f, Mathf.PingPong(Time.time, 1f)));
-
-            if (nitrogenMaterial.color == Color.green) { liquidMaterial.color = Color.white; }
-            else
-                nitrogenMaterial.color = Color.white;
         }
         else if (useLiquid && (!liquid))
         {
@@ -203,13 +173,6 @@ public class MaintainCoolant : MonoBehaviour
             //liquidMaterial.color = Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)); //Color.red;
             SetMatEmission(liquidMaterial, true, Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)), 
                 Mathf.Lerp(1.55f, 1.4f, Mathf.PingPong(Time.time, 1f)));
-
-            if (fanMaterial.color == Color.green)
-            {
-                nitrogenMaterial.color = Color.white;
-            }
-            else
-                fanMaterial.color = Color.white;
         }
         else if (useLiquidNitrogen && (!liquidNitrogen))
         {
@@ -217,13 +180,6 @@ public class MaintainCoolant : MonoBehaviour
             //nitrogenMaterial.color = Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)); //Color.red;
             SetMatEmission(nitrogenMaterial, true, Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)),
                 Mathf.Lerp(1.55f, 1.4f, Mathf.PingPong(Time.time, 1f)));
-
-            if (fanMaterial.color == Color.green)
-            {
-                liquidMaterial.color = Color.white;
-            }
-            else
-                fanMaterial.color = Color.white;
         }
         else
         {

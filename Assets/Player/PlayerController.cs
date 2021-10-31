@@ -41,6 +41,8 @@ public class PlayerController : MonoBehaviour
 
     private float timeSinceInteraction = 0.0f;
 
+    private Energy playerEnergy;
+
     //Start runs when the object first enters the scene
     private void Start()
     {
@@ -52,6 +54,9 @@ public class PlayerController : MonoBehaviour
 
         //set the rotation at it's starting rotation
         targetRotation = transform.rotation;
+
+        //get the energy
+        playerEnergy = this.GetComponent<Energy>();
     }
 
     // Update is called once per frame
@@ -104,8 +109,8 @@ public class PlayerController : MonoBehaviour
     {
         pitch = cam.localEulerAngles.x;
 
-        //if the player is piloting, and they hit E, stop piloting
-        if (Input.GetKeyDown(KeyCode.E) && timeSinceInteraction >= interactionCooldown)
+        //if the player is piloting, and they hit E, or if they are just out of energy stop piloting
+        if (!playerEnergy.AbleTask || Input.GetKeyDown(KeyCode.E) && timeSinceInteraction >= interactionCooldown)
         {
             interactionObject.GetComponent<InteractEnter>().SetEntityInteracting(null, null);
             playerState = interactionState.WALKING;
@@ -122,8 +127,8 @@ public class PlayerController : MonoBehaviour
         //if the player is in their walking state and can thus interact with something
         if (playerState == interactionState.WALKING && timeSinceInteraction >= interactionCooldown)
         {
-            //if the player is within the control panel's interaction space and presses E to interact
-            if (other.name == "Control Panel" && Input.GetKey(KeyCode.E))
+            //if the player is within the control panel's interaction space, has enough energy and presses E to interact
+            if (playerEnergy.AbleTask && other.name == "Control Panel" && Input.GetKey(KeyCode.E))
             {
                 //begin piloting
                 interactionObject = other.gameObject;
