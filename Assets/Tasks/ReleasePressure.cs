@@ -98,15 +98,6 @@ public class ReleasePressure : MonoBehaviour
     //code to check if object with tag is close to this. from: https://answers.unity.com/questions/795190/checking-if-player-is-near-any-certain-gameobject.html
     private bool CheckCloseTo(string tag, float minimumDistance)
     {
-        //GameObject[] goWithTag = GameObject.FindGameObjectsWithTag(tag);
-
-        //for (int i = 0; i < goWithTag.Length; ++i)
-        //{
-        //    if (Vector3.Distance(transform.position, goWithTag[i].transform.position) <= minimumDistance)
-        //    {
-        //        return true;
-        //    }
-        //}
         GameObject checker = GameObject.FindGameObjectWithTag(tag);
 
         if (Vector3.Distance(transform.position, checker.transform.position) <= minimumDistance)

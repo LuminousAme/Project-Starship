@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Joystick : Interactables
+public class Handle : Interactables
 {
-    //class for joysticks that can manually controlled by player input
+    //class for handles that can be manually controlled by player input
 
-    //the current state of the joystick, -1 is down/left, 0 is netural, 1 is up/right
-    private Vector2Int joystickState;
+    //current state of the handle, true is up, false is down
+    private bool handleState = false;
 
     //mouse position on selection
     private Vector2 mousePosOnSelected;
@@ -16,17 +16,14 @@ public class Joystick : Interactables
 
     //rotation
     private Quaternion startingRotation;
-    [SerializeField] private float sideRotDegrees = 45f;
-    [SerializeField] private float vertRotDegrees = 45f;
     private Quaternion targetRotation;
 
     // Start is called before the first frame update
     protected override void Init()
     {
-        startingRotation = transform.rotation;
+        startingRotation = transform.localRotation;
     }
 
-    // Update is called once per frame
     protected override void Process()
     {
         //if the lever is currently selected 
@@ -45,37 +42,21 @@ public class Joystick : Interactables
                 Vector2 currentMousePos = new Vector2(Input.mousePosition.x / (float)Screen.width, Input.mousePosition.y / (float)Screen.height);
                 Vector2 diff = currentMousePos - mousePosOnSelected;
 
-                //if it's gone up enough increase the joystick state and reset the mouse pos tracker
-                if (diff.x > threshold.x && joystickState.x < 1)
+                if(!handleState && diff.x < -1f * threshold.x && diff.y > threshold.y)
                 {
-                    joystickState.x++;
-                    mousePosOnSelected.x = currentMousePos.x;
+                    handleState = true;
+                    mousePosOnSelected = currentMousePos;
                 }
 
-                if (diff.y > threshold.y && joystickState.y < 1)
+                if (handleState && diff.x > threshold.x && diff.y < -1f * threshold.y)
                 {
-                    joystickState.y++;
-                    mousePosOnSelected.y = currentMousePos.y;
+                    handleState = false;
+                    mousePosOnSelected = currentMousePos;
                 }
 
-                //if it's gone down enough, decrease the joystick state and reset the mouse pos tracker
-                if (diff.x < -1f * threshold.x && joystickState.x > -1)
-                {
-                    joystickState.x--;
-                    mousePosOnSelected.x = currentMousePos.x;
-                }
-
-                if (diff.y < -1f * threshold.y && joystickState.y > -1)
-                {
-                    joystickState.y--;
-                    mousePosOnSelected.y = currentMousePos.y;
-                }
-
-                float targetXEuler = startingRotation.eulerAngles.x - joystickState.x * sideRotDegrees;
-                float targetYEuler = startingRotation.eulerAngles.y + joystickState.y * vertRotDegrees;
-                targetRotation = Quaternion.Euler(new Vector3(targetYEuler, startingRotation.eulerAngles.y, targetXEuler));
+                targetRotation = (handleState) ? Quaternion.Euler(startingRotation.x, startingRotation.y, -90f) : startingRotation;
                 //consider slerping in the future
-                transform.rotation = targetRotation;
+                transform.localRotation = targetRotation;
             }
         }
 
@@ -83,9 +64,9 @@ public class Joystick : Interactables
         mousedOverThisFrame = false;
     }
 
-    public Vector2Int GetJoystickState()
+    public bool GetHandleState()
     {
-        return joystickState;
+        return handleState;
     }
 
     //when the mouse is overlapping this object

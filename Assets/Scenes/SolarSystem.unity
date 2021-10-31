@@ -1617,7 +1617,7 @@ GameObject:
   - component: {fileID: 553698673}
   - component: {fileID: 553698672}
   m_Layer: 6
-  m_Name: piloting button
+  m_Name: piloting handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1646,12 +1646,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 553698670}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d6faa57e62165346bb6f98f6130f576, type: 3}
+  m_Script: {fileID: 11500000, guid: 6ba6bda084444514ca1165676188b7fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   baseMat: {fileID: 2100000, guid: 067bcbeabb7bad44c8c1975a1e694733, type: 2}
   selectedMat: {fileID: 2100000, guid: b49ea41feb0a4cf4e842eec9382508fa, type: 2}
-  pressMovement: 0.01
+  threshold: {x: 0.03, y: 0.03}
 --- !u!54 &553698673
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1681,7 +1681,7 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: -5447036705194824928, guid: 2ce03cc014682a543ae5d71b64252d48, type: 3}
+  m_Mesh: {fileID: 8393969432434051992, guid: 20d310e1adffc21478c34b40d28c7b15, type: 3}
 --- !u!23 &553698675
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1731,7 +1731,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 553698670}
-  m_Mesh: {fileID: -5447036705194824928, guid: 2ce03cc014682a543ae5d71b64252d48, type: 3}
+  m_Mesh: {fileID: 8393969432434051992, guid: 20d310e1adffc21478c34b40d28c7b15, type: 3}
 --- !u!1 &555896289
 GameObject:
   m_ObjectHideFlags: 0
@@ -7548,7 +7548,7 @@ GameObject:
   - component: {fileID: 1911429966}
   - component: {fileID: 1911429965}
   m_Layer: 9
-  m_Name: Button base
+  m_Name: handle base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7561,14 +7561,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1911429963}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.291, y: 0.446, z: -0.026}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0.291, y: 0.5771, z: -0.026}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 553698671}
   m_Father: {fileID: 1393097206}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!23 &1911429965
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7618,7 +7618,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1911429963}
-  m_Mesh: {fileID: -3766447176097763617, guid: 2ce03cc014682a543ae5d71b64252d48, type: 3}
+  m_Mesh: {fileID: 7423161646702508325, guid: 20d310e1adffc21478c34b40d28c7b15, type: 3}
 --- !u!1 &1913220860
 GameObject:
   m_ObjectHideFlags: 0
