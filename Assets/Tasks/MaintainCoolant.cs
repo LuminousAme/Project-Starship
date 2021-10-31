@@ -16,11 +16,9 @@ public class MaintainCoolant : MonoBehaviour
 
     //coolant options
     public bool fan = true;
-
     public bool liquid = false;
     public bool liquidNitrogen = false;
 
-    // public bool[] cooling = new bool[3]; // = { fan, liquid, liquidNitrogen };
     private List<bool> coolingMethods = new List<bool>();
 
     //bools for game to choose which one to tell player to use
@@ -38,8 +36,9 @@ public class MaintainCoolant : MonoBehaviour
     public GameObject liquidIndicator;
     public GameObject nitrogenIndicator;
 
-    // private bool playerClose; //bool to detemrine if player is in vicinity to actviate the coolants
-    private float inputDelay = 0.25f;
+    [SerializeField] private Button fanButton;
+    [SerializeField] private Button liquidButton;
+    [SerializeField] private Button nitrogrenButton;
 
     public float methodTracker = 0f;
 
@@ -63,66 +62,76 @@ public class MaintainCoolant : MonoBehaviour
         coolingMethods.Add(useLiquidNitrogen);
         coolingMethods[0] = true;
 
-        canTask = true;
-        GameObject play = GameObject.FindGameObjectWithTag("Player");
-        playerEnergy = play.GetComponent<Energy>();
+        fanButton.SetButtonState(true);
+        fan = fanButton.GetButtonState();
+        liquid = liquidButton.GetButtonState();
+        liquidNitrogen = nitrogrenButton.GetButtonState();
     }
 
     // Update is called once per frame
     private void Update()
     {
-        if (playerEnergy.AbleTask == false)
-        {
-            canTask = false;
-        }
-        else { canTask = true; }
-
-        inputDelay = inputDelay - Time.deltaTime;
-        if (inputDelay < 0f)
-        {
-            inputDelay = 0f;
-        }
-
         //countdown the change timer
         changeTimer = changeTimer - 1f * Time.deltaTime;
 
-        if (canTask)
+        //handle the player pressing buttons
+        //if the player has pressed the fan button but it has been not been updated here, update it here
+        if (!fan && fanButton.GetButtonState())
         {
-            // playerClose = CheckCloseTo("Player", fanIndicator, 2);
-            //if player is close eneough to the fan to act and they press the interact button "E" then they are using fans
-            if (CheckCloseTo("Player", fanIndicator, 2) && Input.GetKey(KeyCode.E) && inputDelay == 0f)
-            {
-                fan = true;
-                liquid = false;
-                liquidNitrogen = false;
-                fanMaterial.color = Color.green;
-                liquidMaterial.color = Color.white;
-                nitrogenMaterial.color = Color.white;
-                inputDelay = 0.25f;
-            }
-
-            if (CheckCloseTo("Player", liquidIndicator, 2) && Input.GetKey(KeyCode.E) && inputDelay == 0f)
-            {
-                fan = false;
-                liquid = true;
-                liquidNitrogen = false;
-                liquidMaterial.color = Color.green;
-                fanMaterial.color = Color.white;
-                nitrogenMaterial.color = Color.white;
-                inputDelay = 0.25f;
-            }
-
-            if (CheckCloseTo("Player", nitrogenIndicator, 2) && Input.GetKey(KeyCode.E) && inputDelay == 0f)
-            {
-                fan = false;
-                liquid = false;
-                liquidNitrogen = true;
-                nitrogenMaterial.color = Color.green;
-                liquidMaterial.color = Color.white;
-                fanMaterial.color = Color.white;
-                inputDelay = 0.25f;
-            }
+            fan = true;
+            liquid = false;
+            liquidButton.SetButtonState(false);
+            liquidNitrogen = false;
+            nitrogrenButton.SetButtonState(false);
+            fanMaterial.color = Color.green;
+            liquidMaterial.color = Color.white;
+            nitrogenMaterial.color = Color.white;
         }
+
+        //if the player has pressed the liquid cooling button but it has not been updated here, update it here
+        if (!liquid && liquidButton.GetButtonState())
+        {
+            fan = false;
+            fanButton.SetButtonState(false);
+            liquid = true;
+            liquidNitrogen = false;
+            nitrogrenButton.SetButtonState(false);
+            liquidMaterial.color = Color.green;
+            fanMaterial.color = Color.white;
+            nitrogenMaterial.color = Color.white;
+        }
+
+        //if the player has pressed the liquid nitrogen cooling button but it has not been updated here, update it here
+        if (!liquidNitrogen && nitrogrenButton.GetButtonState())
+        {
+            fan = false;
+            fanButton.SetButtonState(false);
+            liquid = false;
+            liquidButton.SetButtonState(false);
+            liquidNitrogen = true;
+            nitrogenMaterial.color = Color.green;
+            liquidMaterial.color = Color.white;
+            fanMaterial.color = Color.white;
+        }
+
+        //handle the player unpressing buttons
+        if (fan && !fanButton.GetButtonState())
+        {
+            fan = false;
+            fanMaterial.color = Color.white;
+        }
+        if (liquid && !liquidButton.GetButtonState())
+        {
+            liquid = false;
+            liquidMaterial.color = Color.white;
+        }
+        if (liquidNitrogen && !nitrogrenButton.GetButtonState())
+        {
+            liquidNitrogen = false;
+            nitrogenMaterial.color = Color.white;
+        }
+
+
         //if the change timer is 0 then there will be a new coolant needed
         if (changeTimer <= 0f)
         {
@@ -201,18 +210,5 @@ public class MaintainCoolant : MonoBehaviour
         {
             engineExplode = true;
         }
-    }
-
-    //code to check if object with tag is close to a game object. from: https://answers.unity.com/questions/795190/checking-if-player-is-near-any-certain-gameobject.html
-    private bool CheckCloseTo(string tag, GameObject thing, float minimumDistance)
-    {
-        GameObject checker = GameObject.FindGameObjectWithTag(tag);
-
-        if (Vector3.Distance(thing.transform.position, checker.transform.position) <= minimumDistance)
-        {
-            return true;
-        }
-
-        return false;
     }
 }
