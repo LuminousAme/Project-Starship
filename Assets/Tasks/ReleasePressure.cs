@@ -33,17 +33,29 @@ public class ReleasePressure : MonoBehaviour
         //Fetch the Material from the Renderer of the GameObject
         m_Material = thisRend.material;
         engineMaterial = engineIndicator.GetComponent<Renderer>().material;
-        
+
         //last state starts the same as the handle, when they're different is used to detect the release/build up change
         lastHandleState = pressureHandle.GetHandleState();
 
         //timer for not working
         timerForNotWorking = 0.0f;
+
+        //can do task
+        canTask = true;
+        GameObject play = GameObject.FindGameObjectWithTag("Player");
+
+        playerEnergy = play.GetComponent<Energy>();
     }
 
     // Update is called once per frame
     private void Update()
     {
+        if (playerEnergy.AbleTask == false)
+        {
+            canTask = false;
+        }
+        else { canTask = true; }
+
         //increase pressure over time
         pressure = pressure + 1f * Time.deltaTime;
 
@@ -65,12 +77,15 @@ public class ReleasePressure : MonoBehaviour
         //finally clamp it between the max and 0
         timerForNotWorking = Mathf.Clamp(timerForNotWorking, 0f, timeToNotWorking);
 
-        //if the player has moved the handle change if it's releasing or not
-        if (lastHandleState != pressureHandle.GetHandleState())
+        if (canTask)
         {
-            releasing = !releasing;
-            EnginesWorking = true;
-            lastHandleState = pressureHandle.GetHandleState();
+            //if the player has moved the handle change if it's releasing or not
+            if (lastHandleState != pressureHandle.GetHandleState())
+            {
+                releasing = !releasing;
+                EnginesWorking = true;
+                lastHandleState = pressureHandle.GetHandleState();
+            }
         }
         //code that handles releasing
         {

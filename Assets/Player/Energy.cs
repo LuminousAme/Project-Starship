@@ -4,29 +4,38 @@ public class Energy : MonoBehaviour
 {
     public EnergyBar bar;
     public bool AbleTask;
-    public float energy = 10f;
+    public float energy = 15f;
     public float energyMax = 100f;
     private bool charging;
+    private PlayerController playerC;
 
     // Start is called before the first frame update
     private void Start()
     {
         charging = false;
         AbleTask = true;
+        playerC = GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
     private void Update()
     {
+        Debug.Log("Tasking: " + playerC.GetInteracting());
         if (charging)
         {
             //increase energy if charging
-            energy = energy + 4f * Time.deltaTime;
+            energy = energy + 5f * Time.deltaTime;
         }
-        else if (energy > 0f)
+        else if (energy > 0f && !playerC.GetInteracting())
         {
             //decrease energy over time if not charging
             energy = energy - .5f * Time.deltaTime;
+        }
+        else if (energy > 0f && playerC.GetInteracting())
+        {
+            //decrease energy over time if doing tasks
+            energy = energy - 2f * Time.deltaTime;
+            // Debug.Log("Tasking");
         }
 
         if (energy <= 0f)
