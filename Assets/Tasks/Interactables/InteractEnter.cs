@@ -27,6 +27,7 @@ public class InteractEnter : MonoBehaviour
     void Update()
     {
         if (isBeginningInteraction) BeginInteracting();
+        if (!isBeginningInteraction && player != null) player.position = interactTarget.position;
     }
 
     //function that allows the player to take the wheel
