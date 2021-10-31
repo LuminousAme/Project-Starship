@@ -2,19 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Joystick : MonoBehaviour
+public class Joystick : Interactables
 {
     //class for joysticks that can manually controlled by player input
 
     //the current state of the joystick, -1 is down/left, 0 is netural, 1 is up/right
-    [SerializeField] private Vector2Int joystickState;
-    //wheter or not the joystick is even interactable
-    private bool isInteractable;
-    //wheter or not the joystick is currently selected
-    private bool isSelected;
+    private Vector2Int joystickState;
 
     //mouse position on selection
-    private Vector2 mousePosYOnSelected;
+    private Vector2 mousePosOnSelected;
     //threshold for mouse movement before changing level
     [SerializeField] private Vector2 threshold;
 
@@ -24,61 +20,16 @@ public class Joystick : MonoBehaviour
     [SerializeField] private float vertRotDegrees = 45f;
     private Quaternion targetRotation;
 
-    //the mouse manager
-    private MouseManager mouse;
-
-    //materials
-    [SerializeField] private Material baseMat;
-    [SerializeField] private Material selectedMat;
-    private bool ShouldBeSelectedMat;
-    private bool isSelectedMat;
-    private bool mousedOverThisFrame, mousedOverLastFrame;
-
     // Start is called before the first frame update
-    void Start()
+    protected override void Init()
     {
-        isSelected = false;
-        isInteractable = false;
         startingRotation = transform.rotation;
         mouse = GameObject.Find("MouseManager").GetComponent<MouseManager>();
-
-        ShouldBeSelectedMat = false;
-        isSelectedMat = false;
-        mousedOverThisFrame = false;
-        mousedOverLastFrame = false;
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Process()
     {
-        if (!isSelected && mousedOverLastFrame && !mousedOverThisFrame)
-        {
-            ShouldBeSelectedMat = false;
-        }
-
-        if (ShouldBeSelectedMat != isSelectedMat)
-        {
-            if (ShouldBeSelectedMat)
-            {
-                this.GetComponent<Renderer>().material = selectedMat;
-                transform.parent.GetComponent<Renderer>().material = selectedMat;
-            }
-            else
-            {
-                this.GetComponent<Renderer>().material = baseMat;
-                transform.parent.GetComponent<Renderer>().material = baseMat;
-            }
-
-            isSelectedMat = ShouldBeSelectedMat;
-        }
-
-        //if it's selected but the player has left the interaction mode, set to no longer be selected
-        if (isSelected && !isInteractable)
-        {
-            isSelected = false;
-            ShouldBeSelectedMat = false;
-        }
-
         //if the lever is currently selected 
         if (isSelected)
         {
@@ -93,32 +44,32 @@ public class Joystick : MonoBehaviour
             {
                 //get the difference between the mouse position on selected and now
                 Vector2 currentMousePos = new Vector2(Input.mousePosition.x / (float)Screen.width, Input.mousePosition.y / (float)Screen.height);
-                Vector2 diff = currentMousePos - mousePosYOnSelected;
+                Vector2 diff = currentMousePos - mousePosOnSelected;
 
                 //if it's gone up enough increase the joystick state and reset the mouse pos tracker
                 if (diff.x > threshold.x && joystickState.x < 1)
                 {
                     joystickState.x++;
-                    mousePosYOnSelected.x = currentMousePos.x;
+                    mousePosOnSelected.x = currentMousePos.x;
                 }
 
                 if (diff.y > threshold.y && joystickState.y < 1)
                 {
                     joystickState.y++;
-                    mousePosYOnSelected.y = currentMousePos.y;
+                    mousePosOnSelected.y = currentMousePos.y;
                 }
 
                 //if it's gone down enough, decrease the joystick state and reset the mouse pos tracker
                 if (diff.x < -1f * threshold.x && joystickState.x > -1)
                 {
                     joystickState.x--;
-                    mousePosYOnSelected.x = currentMousePos.x;
+                    mousePosOnSelected.x = currentMousePos.x;
                 }
 
                 if (diff.y < -1f * threshold.y && joystickState.y > -1)
                 {
                     joystickState.y--;
-                    mousePosYOnSelected.y = currentMousePos.y;
+                    mousePosOnSelected.y = currentMousePos.y;
                 }
 
                 float targetXEuler = startingRotation.eulerAngles.x - joystickState.x * sideRotDegrees;
@@ -138,16 +89,11 @@ public class Joystick : MonoBehaviour
         return joystickState;
     }
 
-    public void SetInteractable(bool interactable)
-    {
-        isInteractable = interactable;
-    }
-
     //when the mouse is overlapping this object
-    public void mousedOver()
+    public override void mousedOver()
     {
-        ShouldBeSelectedMat = true;
-        mousedOverThisFrame = true;
+        //call the base function
+        base.mousedOver();
 
         //only bother if the lever is currently interactable
         if (isInteractable)
@@ -157,7 +103,7 @@ public class Joystick : MonoBehaviour
             {
                 isSelected = true;
                 if (mouse != null) mouse.SetObjectAlreadySelected(isSelected);
-                mousePosYOnSelected = new Vector2(Input.mousePosition.x / (float)Screen.width, Input.mousePosition.y / (float)Screen.height);
+                mousePosOnSelected = new Vector2(Input.mousePosition.x / (float)Screen.width, Input.mousePosition.y / (float)Screen.height);
             }
         }
     }

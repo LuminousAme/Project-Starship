@@ -29,13 +29,9 @@ public class MouseManager : MonoBehaviour
                 // returns the wrong object, I have no idea why, I wasted several hours on this - Ame)
                 GameObject objectDetected = rayhitdata.collider.gameObject;
 
-                if (objectDetected.GetComponent<Lever>() != null)
+                if (objectDetected.GetComponent<Interactables>() != null)
                 {
-                    objectDetected.GetComponent<Lever>().mousedOver();
-                }
-                else if (objectDetected.GetComponent<Joystick>() != null)
-                {
-                    objectDetected.GetComponent<Joystick>().mousedOver();
+                    objectDetected.GetComponent<Interactables>().mousedOver();
                 }
             }
         }

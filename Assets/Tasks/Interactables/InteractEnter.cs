@@ -21,8 +21,7 @@ public class InteractEnter : MonoBehaviour
     private bool isBeginningInteraction;
 
     //all of the interactable objects that need to be activated
-    [SerializeField] private Lever[] levers;
-    [SerializeField] private Joystick[] joysticks;
+    [SerializeField] private Interactables[] interactableObjects;
 
     // Update is called once per frame
     void Update()
@@ -44,15 +43,13 @@ public class InteractEnter : MonoBehaviour
             transistionProgress = 0.0f;
             isBeginningInteraction = true;
 
-            foreach (var joystick in joysticks) joystick.SetInteractable(true);
-            foreach (var lever in levers) lever.SetInteractable(true);
+            foreach (var obj in interactableObjects) obj.SetInteractable(true);
         }
         //otherwise set the player to null
         else
         {
             player = null;
-            foreach (var joystick in joysticks) joystick.SetInteractable(false);
-            foreach (var lever in levers) lever.SetInteractable(false);
+            foreach (var obj in interactableObjects) obj.SetInteractable(false);
         }
     }
 
