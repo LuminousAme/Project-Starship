@@ -51,9 +51,12 @@ public class MaintainCoolant : MonoBehaviour
     {
         //get the materials for the light indicators
         fanMaterial = fanIndicator.GetComponent<Renderer>().material;
-        fanMaterial.color = Color.green;
+        //fanMaterial.color = Color.green;
+        SetMatEmission(fanMaterial, true, Color.green, 1.45f);
         liquidMaterial = liquidIndicator.GetComponent<Renderer>().material;
+        SetMatEmission(liquidMaterial, false, Color.black);
         nitrogenMaterial = nitrogenIndicator.GetComponent<Renderer>().material;
+        SetMatEmission(nitrogenMaterial, false, Color.black);
 
         heatCountdown = heatCountdownTime;
         changeTimer = changeTime;
@@ -87,62 +90,69 @@ public class MaintainCoolant : MonoBehaviour
 
         if (canTask)
         {
-            //handle the player pressing buttons
-            //if the player has pressed the fan button but it has been not been updated here, update it here
-            if (!fan && fanButton.GetButtonState())
-            {
-                fan = true;
-                liquid = false;
-                liquidButton.SetButtonState(false);
-                liquidNitrogen = false;
-                nitrogrenButton.SetButtonState(false);
-                fanMaterial.color = Color.green;
-                liquidMaterial.color = Color.white;
-                nitrogenMaterial.color = Color.white;
-            }
+            fan = true;
+            liquid = false;
+            liquidButton.SetButtonState(false);
+            liquidNitrogen = false;
+            nitrogrenButton.SetButtonState(false);
+            //fanMaterial.color = Color.green;
+            SetMatEmission(fanMaterial, true, Color.green, 1.45f);
+            liquidMaterial.color = Color.white;
+            SetMatEmission(liquidMaterial, false, Color.black);
+            nitrogenMaterial.color = Color.white;
+            SetMatEmission(nitrogenMaterial, false, Color.black);
+        }
 
-            //if the player has pressed the liquid cooling button but it has not been updated here, update it here
-            if (!liquid && liquidButton.GetButtonState())
-            {
-                fan = false;
-                fanButton.SetButtonState(false);
-                liquid = true;
-                liquidNitrogen = false;
-                nitrogrenButton.SetButtonState(false);
-                liquidMaterial.color = Color.green;
-                fanMaterial.color = Color.white;
-                nitrogenMaterial.color = Color.white;
-            }
+        //if the player has pressed the liquid cooling button but it has not been updated here, update it here
+        if (!liquid && liquidButton.GetButtonState())
+        {
+            fan = false;
+            fanButton.SetButtonState(false);
+            liquid = true;
+            liquidNitrogen = false;
+            nitrogrenButton.SetButtonState(false);
+            //liquidMaterial.color = Color.green;
+            SetMatEmission(liquidMaterial, true, Color.green, 1.45f);
+            fanMaterial.color = Color.white;
+            SetMatEmission(fanMaterial, false, Color.black);
+            nitrogenMaterial.color = Color.white;
+            SetMatEmission(nitrogenMaterial, false, Color.black);
+        }
 
-            //if the player has pressed the liquid nitrogen cooling button but it has not been updated here, update it here
-            if (!liquidNitrogen && nitrogrenButton.GetButtonState())
-            {
-                fan = false;
-                fanButton.SetButtonState(false);
-                liquid = false;
-                liquidButton.SetButtonState(false);
-                liquidNitrogen = true;
-                nitrogenMaterial.color = Color.green;
-                liquidMaterial.color = Color.white;
-                fanMaterial.color = Color.white;
-            }
+        //if the player has pressed the liquid nitrogen cooling button but it has not been updated here, update it here
+        if (!liquidNitrogen && nitrogrenButton.GetButtonState())
+        {
+            fan = false;
+            fanButton.SetButtonState(false);
+            liquid = false;
+            liquidButton.SetButtonState(false);
+            liquidNitrogen = true;
+            //nitrogenMaterial.color = Color.green;
+            SetMatEmission(nitrogenMaterial, true, Color.green, 1.45f);
+            liquidMaterial.color = Color.white;
+            SetMatEmission(liquidMaterial, false, Color.black);
+            fanMaterial.color = Color.white;
+            SetMatEmission(fanMaterial, false, Color.black);
+        }
 
-            //handle the player unpressing buttons
-            if (fan && !fanButton.GetButtonState())
-            {
-                fan = false;
-                fanMaterial.color = Color.white;
-            }
-            if (liquid && !liquidButton.GetButtonState())
-            {
-                liquid = false;
-                liquidMaterial.color = Color.white;
-            }
-            if (liquidNitrogen && !nitrogrenButton.GetButtonState())
-            {
-                liquidNitrogen = false;
-                nitrogenMaterial.color = Color.white;
-            }
+        //handle the player unpressing buttons
+        if (fan && !fanButton.GetButtonState())
+        {
+            fan = false;
+            fanMaterial.color = Color.white;
+            SetMatEmission(fanMaterial, false, Color.black);
+        }
+        if (liquid && !liquidButton.GetButtonState())
+        {
+            liquid = false;
+            liquidMaterial.color = Color.white;
+            SetMatEmission(liquidMaterial, false, Color.black);
+        }
+        if (liquidNitrogen && !nitrogrenButton.GetButtonState())
+        {
+            liquidNitrogen = false;
+            nitrogenMaterial.color = Color.white;
+            SetMatEmission(nitrogenMaterial, false, Color.black);
         }
 
         //if the change timer is 0 then there will be a new coolant needed
@@ -179,7 +189,9 @@ public class MaintainCoolant : MonoBehaviour
         if (useFan && (!fan))
         {
             heatCountdown = heatCountdown - 1f * Time.deltaTime;
-            fanMaterial.color = Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)); //Color.red;
+            //fanMaterial.color = Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)); //Color.red;
+            SetMatEmission(fanMaterial, true, Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)),
+                Mathf.Lerp(1.55f, 1.4f, Mathf.PingPong(Time.time, 1f)));
 
             if (nitrogenMaterial.color == Color.green) { liquidMaterial.color = Color.white; }
             else
@@ -188,7 +200,9 @@ public class MaintainCoolant : MonoBehaviour
         else if (useLiquid && (!liquid))
         {
             heatCountdown = heatCountdown - 1f * Time.deltaTime;
-            liquidMaterial.color = Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)); //Color.red;
+            //liquidMaterial.color = Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)); //Color.red;
+            SetMatEmission(liquidMaterial, true, Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)), 
+                Mathf.Lerp(1.55f, 1.4f, Mathf.PingPong(Time.time, 1f)));
 
             if (fanMaterial.color == Color.green)
             {
@@ -200,7 +214,10 @@ public class MaintainCoolant : MonoBehaviour
         else if (useLiquidNitrogen && (!liquidNitrogen))
         {
             heatCountdown = heatCountdown - 1f * Time.deltaTime;
-            nitrogenMaterial.color = Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)); //Color.red;
+            //nitrogenMaterial.color = Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)); //Color.red;
+            SetMatEmission(nitrogenMaterial, true, Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)),
+                Mathf.Lerp(1.55f, 1.4f, Mathf.PingPong(Time.time, 1f)));
+
             if (fanMaterial.color == Color.green)
             {
                 liquidMaterial.color = Color.white;
@@ -222,6 +239,28 @@ public class MaintainCoolant : MonoBehaviour
         if (heatCountdown <= 0f)
         {
             engineExplode = true;
+        }
+    }
+
+    private void SetMatEmission(Material mat, bool on, Color color, float intensity = 0f)
+    {
+        // for some reason, the desired intensity value (set in the UI slider) needs to be modified slightly for proper internal consumption
+        float adjustedIntensity = intensity - (0.4169f);
+
+        // redefine the color with intensity factored in - this should result in the UI slider matching the desired value
+        color *= Mathf.Pow(2.0F, adjustedIntensity);
+
+        if (on)
+        {
+            mat.EnableKeyword("_EMISSION");
+            mat.globalIlluminationFlags = MaterialGlobalIlluminationFlags.AnyEmissive;
+            mat.SetColor("_EmissionColor", color);
+        }
+        else
+        {
+            mat.DisableKeyword("_EMISSION");
+            mat.globalIlluminationFlags = MaterialGlobalIlluminationFlags.EmissiveIsBlack;
+            mat.SetColor("_EmissionColor", Color.black);
         }
     }
 }

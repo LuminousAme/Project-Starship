@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Interactables : MonoBehaviour
 {
@@ -13,8 +14,8 @@ public class Interactables : MonoBehaviour
     protected MouseManager mouse;
 
     //materials
-    [SerializeField] protected Material baseMat;
-    [SerializeField] protected Material selectedMat;
+    protected Shader baseShader;
+    protected Shader selectedShader;
     protected bool ShouldBeSelectedMat;
     protected bool isSelectedMat;
     protected bool mousedOverThisFrame, mousedOverLastFrame;
@@ -29,6 +30,9 @@ public class Interactables : MonoBehaviour
         isSelectedMat = false;
         mousedOverThisFrame = false;
         mousedOverLastFrame = false;
+
+        baseShader = Shader.Find("Standard");
+        selectedShader = Shader.Find("Custom/OutlineEffect");
 
         Init();
     }
@@ -45,13 +49,31 @@ public class Interactables : MonoBehaviour
         {
             if (ShouldBeSelectedMat)
             {
-                this.GetComponent<Renderer>().material = selectedMat;
-                transform.parent.GetComponent<Renderer>().material = selectedMat;
+                List<Material> objectMats = this.GetComponent<Renderer>().materials.ToList();
+                foreach (var mat in objectMats)
+                {
+                    mat.shader = selectedShader;
+                    mat.SetFloat("_OutlineWidth", 0.006f);
+                }
+                List<Material> parentMats = transform.parent.GetComponent<Renderer>().materials.ToList();
+                foreach (var mat in parentMats)
+                {
+                    mat.shader = selectedShader;
+                    mat.SetFloat("_OutlineWidth", 0.006f);
+                }
             }
             else
             {
-                this.GetComponent<Renderer>().material = baseMat;
-                transform.parent.GetComponent<Renderer>().material = baseMat;
+                List<Material> objectMats = this.GetComponent<Renderer>().materials.ToList();
+                foreach (var mat in objectMats)
+                {
+                    mat.shader = baseShader;
+                }
+                List<Material> parentMats = transform.parent.GetComponent<Renderer>().materials.ToList();
+                foreach (var mat in parentMats)
+                {
+                    mat.shader = baseShader;
+                }
             }
 
             isSelectedMat = ShouldBeSelectedMat;
