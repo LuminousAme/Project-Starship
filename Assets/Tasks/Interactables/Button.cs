@@ -52,6 +52,11 @@ public class Button : Interactables
         return buttonState;
     }
 
+    public void SetButtonState(bool state)
+    {
+        buttonState = state;
+    }
+
     //when the mouse is overlapping this object
     public override void mousedOver()
     {
