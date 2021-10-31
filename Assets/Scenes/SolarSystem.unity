@@ -594,7 +594,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
-  m_Range: 10
+  m_Range: 8.5
   m_SpotAngle: 150
   m_InnerSpotAngle: 1
   m_CookieSize: 10
@@ -603,7 +603,7 @@ Light:
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
-    m_Bias: 0.05
+    m_Bias: 0
     m_NormalBias: 0
     m_NearPlane: 0.2
     m_CullingMatrixOverride:
@@ -1345,8 +1345,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d6faa57e62165346bb6f98f6130f576, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseMat: {fileID: 2100000, guid: 067bcbeabb7bad44c8c1975a1e694733, type: 2}
-  selectedMat: {fileID: 2100000, guid: b49ea41feb0a4cf4e842eec9382508fa, type: 2}
   pressMovement: 0.01
 --- !u!54 &506134437
 Rigidbody:
@@ -1398,7 +1396,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: adb7e1ea5b704054cbf10ec4afad5a9d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1636,14 +1634,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 546578629}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.291, y: 0.4607, z: 0.561}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: 0.7071068, w: 0}
+  m_LocalPosition: {x: 0.291, y: 0.457, z: 0.561}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1479833991}
   m_Father: {fileID: 1393097206}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 180}
 --- !u!23 &546578631
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1664,7 +1662,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: fa254476c152379468527ec22546472a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1693,7 +1691,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 546578629}
-  m_Mesh: {fileID: 489603348919299353, guid: 256f32f294d33704d8e4f5e452a59253, type: 3}
+  m_Mesh: {fileID: 5149742036437029816, guid: 256f32f294d33704d8e4f5e452a59253, type: 3}
 --- !u!1 &555896289
 GameObject:
   m_ObjectHideFlags: 0
@@ -1758,8 +1756,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d6faa57e62165346bb6f98f6130f576, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseMat: {fileID: 2100000, guid: 067bcbeabb7bad44c8c1975a1e694733, type: 2}
-  selectedMat: {fileID: 2100000, guid: b49ea41feb0a4cf4e842eec9382508fa, type: 2}
   pressMovement: 0.01
 --- !u!54 &556931968
 Rigidbody:
@@ -1811,7 +1807,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: adb7e1ea5b704054cbf10ec4afad5a9d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1996,8 +1992,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af82312518a1797418713655861446a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseMat: {fileID: 2100000, guid: 067bcbeabb7bad44c8c1975a1e694733, type: 2}
-  selectedMat: {fileID: 2100000, guid: b49ea41feb0a4cf4e842eec9382508fa, type: 2}
   threshold: {x: 0.025, y: 0.05}
   sideRotDegrees: 30
   vertRotDegrees: 30
@@ -3201,7 +3195,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 8605ee5ce0ac42d48872d7400af6c19d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4581,8 +4575,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ba6bda084444514ca1165676188b7fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseMat: {fileID: 2100000, guid: 067bcbeabb7bad44c8c1975a1e694733, type: 2}
-  selectedMat: {fileID: 2100000, guid: b49ea41feb0a4cf4e842eec9382508fa, type: 2}
   threshold: {x: 0.03, y: 0.03}
 --- !u!54 &1275547754
 Rigidbody:
@@ -4725,8 +4717,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d6faa57e62165346bb6f98f6130f576, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseMat: {fileID: 2100000, guid: 067bcbeabb7bad44c8c1975a1e694733, type: 2}
-  selectedMat: {fileID: 2100000, guid: b49ea41feb0a4cf4e842eec9382508fa, type: 2}
   pressMovement: 0.01
 --- !u!54 &1279791957
 Rigidbody:
@@ -4778,7 +4768,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: adb7e1ea5b704054cbf10ec4afad5a9d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4896,7 +4886,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
-  m_Range: 10
+  m_Range: 8.5
   m_SpotAngle: 150
   m_InnerSpotAngle: 1
   m_CookieSize: 10
@@ -4905,7 +4895,7 @@ Light:
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
-    m_Bias: 0.05
+    m_Bias: 0
     m_NormalBias: 0
     m_NearPlane: 0.2
     m_CullingMatrixOverride:
@@ -5074,7 +5064,7 @@ Light:
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
-    m_Bias: 0.05
+    m_Bias: 0
     m_NormalBias: 0
     m_NearPlane: 0.2
     m_CullingMatrixOverride:
@@ -5255,7 +5245,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 8605ee5ce0ac42d48872d7400af6c19d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5879,7 +5869,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.8391167, y: 1}
+    m_SensorSize: {x: 1.8343848, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -5917,7 +5907,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1479833990}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.0645, z: 0}
+  m_LocalPosition: {x: 0, y: 0.0711, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 546578630}
@@ -5935,8 +5925,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b6e6ba50c97cd844b59fe123d26ce23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseMat: {fileID: 2100000, guid: 067bcbeabb7bad44c8c1975a1e694733, type: 2}
-  selectedMat: {fileID: 2100000, guid: b49ea41feb0a4cf4e842eec9382508fa, type: 2}
   threshold: 0.05
   vertRotDegrees: 45
 --- !u!64 &1479833993
@@ -5973,7 +5961,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: bb402da8fe180d54297b07b1ae217d3f, type: 2}
+  - {fileID: 2100000, guid: bb402da8fe180d54297b07b1ae217d3f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6414,7 +6403,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 8605ee5ce0ac42d48872d7400af6c19d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7199,7 +7188,7 @@ Light:
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
-    m_Bias: 0.05
+    m_Bias: 0
     m_NormalBias: 0
     m_NearPlane: 0.2
     m_CullingMatrixOverride:
