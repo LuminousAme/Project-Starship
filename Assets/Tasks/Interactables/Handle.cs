@@ -42,19 +42,19 @@ public class Handle : Interactables
                 Vector2 currentMousePos = new Vector2(Input.mousePosition.x / (float)Screen.width, Input.mousePosition.y / (float)Screen.height);
                 Vector2 diff = currentMousePos - mousePosOnSelected;
 
-                if(!handleState && diff.x < -1f * threshold.x && diff.y > threshold.y)
+                if(!handleState && diff.x < -1f * threshold.x && diff.y < -1f * threshold.y)
                 {
                     handleState = true;
                     mousePosOnSelected = currentMousePos;
                 }
 
-                if (handleState && diff.x > threshold.x && diff.y < -1f * threshold.y)
+                if (handleState && diff.x > threshold.x && diff.y > threshold.y)
                 {
                     handleState = false;
                     mousePosOnSelected = currentMousePos;
                 }
 
-                targetRotation = (handleState) ? Quaternion.Euler(startingRotation.x, startingRotation.y, -90f) : startingRotation;
+                targetRotation = (handleState) ? Quaternion.Euler(startingRotation.x, startingRotation.y, 90f) : startingRotation;
                 //consider slerping in the future
                 transform.localRotation = targetRotation;
             }
