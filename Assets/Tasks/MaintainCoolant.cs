@@ -16,6 +16,7 @@ public class MaintainCoolant : MonoBehaviour
 
     //coolant options
     public bool fan = true;
+
     public bool liquid = false;
     public bool liquidNitrogen = false;
 
@@ -42,6 +43,9 @@ public class MaintainCoolant : MonoBehaviour
 
     public float methodTracker = 0f;
 
+    private bool canTask; // bool to see if player can do tasks rn
+    private Energy playerEnergy;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -66,17 +70,25 @@ public class MaintainCoolant : MonoBehaviour
         fan = fanButton.GetButtonState();
         liquid = liquidButton.GetButtonState();
         liquidNitrogen = nitrogrenButton.GetButtonState();
+
+        canTask = true;
+        GameObject play = GameObject.FindGameObjectWithTag("Player");
+        playerEnergy = play.GetComponent<Energy>();
     }
 
     // Update is called once per frame
     private void Update()
     {
+        if (playerEnergy.AbleTask == false)
+        {
+            canTask = false;
+        }
+        else { canTask = true; }
+
         //countdown the change timer
         changeTimer = changeTimer - 1f * Time.deltaTime;
 
-        //handle the player pressing buttons
-        //if the player has pressed the fan button but it has been not been updated here, update it here
-        if (!fan && fanButton.GetButtonState())
+        if (canTask)
         {
             fan = true;
             liquid = false;

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -9,10 +7,12 @@ public class ShipMovement : MonoBehaviour
 
     //the lever to know acceleration and the joystick to know how it should be turning
     [SerializeField] private Lever acelLever;
+
     [SerializeField] private Joystick dirJoystick;
 
     //other data to determine the limits of the movement
     [SerializeField] private float maxSpeed;
+
     private float currentSpeed;
     [SerializeField] private float acelRate;
     [SerializeField] private float dcelRate;
@@ -28,14 +28,15 @@ public class ShipMovement : MonoBehaviour
 
     //the various compounds of the ship's acutal velocity
     private Vector3 currentVelo; //acutal final velo
+
     private Vector3 gravityAcel; //acceleration due to gravity
-    private Vector3 thrustVelo; //velocity of the thruster 
+    private Vector3 thrustVelo; //velocity of the thruster
     private float thrustSpeed;
 
     private Quaternion targetRotation;
 
     //awake, runs when the object is first initliazed
-    void Awake()
+    private void Awake()
     {
         rb = this.GetComponent<Rigidbody>();
         targetRotation = transform.rotation;
@@ -88,7 +89,7 @@ public class ShipMovement : MonoBehaviour
             //and add that to the collective aceleration
             gravityAcel += acel;
         }
-        
+
         //movement from the player input
 
         //the ammount the speed will increase
@@ -100,6 +101,7 @@ public class ShipMovement : MonoBehaviour
             case 1:
                 deltaSpeed = acelRate;
                 break;
+
             case -1:
                 deltaSpeed = -dcelRate;
                 break;

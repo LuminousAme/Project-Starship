@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
 
     //controls for how much the player has locally rotated
     private float yaw = 0.0f;
-
+
     private float pitch = 0.0f;
     [SerializeField] private Vector2 pitchLimits;
 
@@ -18,13 +18,13 @@ public class PlayerController : MonoBehaviour
     private Quaternion targetRotation;
 
     //input vector
-    Vector2 input = Vector2.zero;
+    private Vector2 input = Vector2.zero;
 
     //the camera transform, on Y we rotate instead of the player directly so that it handles movement correctly
     [SerializeField] private Transform cam;
 
     //enum to control different interaction states
-    private enum interactionState
+    public enum interactionState
     {
         WALKING,
         PILOTING
@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
         cam.transform.localEulerAngles = new Vector3(pitch, 0f, 0f);
         transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, 0f, 0f);
         transform.Rotate(Vector3.up, yaw);
-       
+
         //get input for each direction
         input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
     }
@@ -135,5 +135,20 @@ public class PlayerController : MonoBehaviour
                 Cursor.visible = true;
             }
         }
+    }
+
+    public interactionState GetState()
+    {
+        return playerState;
+    }
+
+    public bool GetInteracting()
+    {
+        if (playerState == interactionState.WALKING)
+        {
+            return false;
+        }
+        else
+            return true;
     }
 }

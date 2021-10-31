@@ -5,8 +5,9 @@ public class ReleasePressure : MonoBehaviour
     public bool EnginesWorking = true;
     public bool releasing = false;
 
-    public EnergyBar bar;
+    //  public EnergyBar bar;
     private Renderer thisRend; //Renderer of our Cube
+
     private Material m_Material;
     private Material engineMaterial;
     public GameObject indicator;
@@ -20,6 +21,8 @@ public class ReleasePressure : MonoBehaviour
     [SerializeField] private float timeToNotWorking = 10f;
     private float timerForNotWorking;
 
+    private bool canTask; // bool to see if player can do tasks rn
+    private Energy playerEnergy;
     [SerializeField] private Light[] lights;
 
     // Start is called before the first frame update
@@ -30,17 +33,29 @@ public class ReleasePressure : MonoBehaviour
         //Fetch the Material from the Renderer of the GameObject
         m_Material = thisRend.material;
         engineMaterial = engineIndicator.GetComponent<Renderer>().material;
-        
+
         //last state starts the same as the handle, when they're different is used to detect the release/build up change
         lastHandleState = pressureHandle.GetHandleState();
 
         //timer for not working
         timerForNotWorking = 0.0f;
+
+        //can do task
+        canTask = true;
+        GameObject play = GameObject.FindGameObjectWithTag("Player");
+
+        playerEnergy = play.GetComponent<Energy>();
     }
 
     // Update is called once per frame
     private void Update()
     {
+        if (playerEnergy.AbleTask == false)
+        {
+            canTask = false;
+        }
+        else { canTask = true; }
+
         //increase pressure over time
         pressure = pressure + 1f * Time.deltaTime;
 
@@ -62,14 +77,16 @@ public class ReleasePressure : MonoBehaviour
         //finally clamp it between the max and 0
         timerForNotWorking = Mathf.Clamp(timerForNotWorking, 0f, timeToNotWorking);
 
-        //if the player has moved the handle change if it's releasing or not
-        if (lastHandleState != pressureHandle.GetHandleState())
+        if (canTask)
         {
-            releasing = !releasing;
-            EnginesWorking = true;
-            lastHandleState = pressureHandle.GetHandleState();
+            //if the player has moved the handle change if it's releasing or not
+            if (lastHandleState != pressureHandle.GetHandleState())
+            {
+                releasing = !releasing;
+                EnginesWorking = true;
+                lastHandleState = pressureHandle.GetHandleState();
+            }
         }
-
         //code that handles releasing
         {
             //if the player pressed the button and is releasing pressure
@@ -107,6 +124,6 @@ public class ReleasePressure : MonoBehaviour
         }
 
         //set pressure
-        bar.SetPressure(pressure);
+        //  bar.SetValue(pressure);
     }
 }
