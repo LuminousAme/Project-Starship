@@ -26,7 +26,7 @@ public class Energy : MonoBehaviour
         else if (energy > 0f)
         {
             //decrease energy over time if not charging
-            energy = energy - .8f * Time.deltaTime;
+            energy = energy - .5f * Time.deltaTime;
         }
 
         if (energy <= 0f)
