@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Tasks
+  - Planet
   layers:
   - Default
   - TransparentFX
@@ -12,12 +14,12 @@ TagManager:
   - Water
   - UI
   - Interactables
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Ships
+  - Characters
+  - InShipItems
+  - CelestialBodies
+  - Screens
+  - Post-Processing
   - 
   - 
   - 

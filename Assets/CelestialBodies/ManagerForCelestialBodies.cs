@@ -13,8 +13,8 @@ public class ManagerForCelestialBodies : MonoBehaviour
         bodies = FindObjectsOfType<CelestialBody>();
     }
 
-    //Fixed update, runs with the physics system update, used to update all of the bodies
-    private void FixedUpdate()
+    //update, runs once a frame, used to update all of the bodies
+    private void Update()
     {
         //loop through all of the bodies and update their velocities
         for(int i = 0; i < bodies.Length; i++)

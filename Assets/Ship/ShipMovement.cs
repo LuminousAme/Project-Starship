@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -9,10 +7,12 @@ public class ShipMovement : MonoBehaviour
 
     //the lever to know acceleration and the joystick to know how it should be turning
     [SerializeField] private Lever acelLever;
+
     [SerializeField] private Joystick dirJoystick;
 
     //other data to determine the limits of the movement
     [SerializeField] private float maxSpeed;
+
     private float currentSpeed;
     [SerializeField] private float acelRate;
     [SerializeField] private float dcelRate;
@@ -28,16 +28,17 @@ public class ShipMovement : MonoBehaviour
 
     //the various compounds of the ship's acutal velocity
     private Vector3 currentVelo; //acutal final velo
+
     private Vector3 gravityAcel; //acceleration due to gravity
-    private Vector3 thrustVelo; //velocity of the thruster 
+    private Vector3 thrustVelo; //velocity of the thruster
     private float thrustSpeed;
 
     private Quaternion targetRotation;
 
     //awake, runs when the object is first initliazed
-    void Awake()
+    private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        rb = this.GetComponent<Rigidbody>();
         targetRotation = transform.rotation;
         currentVelo = new Vector3(0f, 0f, 0f);
         timeSinceDirChange = 0f;
@@ -60,6 +61,8 @@ public class ShipMovement : MonoBehaviour
         float t = Mathf.Clamp(timeSinceDirChange / timeToMaxRotation, 0.0f, 1.0f);
         rotateRate = Mathf.Lerp(minRotateRate, maxRotateRate, t);
 
+        HandleRotation();
+
         //update the time that has passed
         timeSinceDirChange += Time.deltaTime;
     }
@@ -67,15 +70,7 @@ public class ShipMovement : MonoBehaviour
     //called once per frame in the physics update, used to simulate the solar system gravity effect and handle the ship's other momment
     private void FixedUpdate()
     {
-        //handling the rotation
-        float horiRot = dirJoystick.GetJoystickState().x * rotateRate;
-        float vertRot = dirJoystick.GetJoystickState().y * rotateRate;
-
-        transform.Rotate(0f, horiRot, 0f, Space.Self);
-        transform.Rotate(vertRot, 0f, 0f, Space.Self);
-
         //handling the positional change
-
         //gravity
         gravityAcel = Vector3.zero;
         //grab all of the celestial bodies
@@ -94,7 +89,7 @@ public class ShipMovement : MonoBehaviour
             //and add that to the collective aceleration
             gravityAcel += acel;
         }
-        
+
         //movement from the player input
 
         //the ammount the speed will increase
@@ -106,6 +101,7 @@ public class ShipMovement : MonoBehaviour
             case 1:
                 deltaSpeed = acelRate;
                 break;
+
             case -1:
                 deltaSpeed = -dcelRate;
                 break;
@@ -119,6 +115,22 @@ public class ShipMovement : MonoBehaviour
 
         //add the velocities together into the position
         currentVelo += gravityAcel * Time.fixedDeltaTime;
-        transform.position += (currentVelo + thrustVelo) * Time.fixedDeltaTime;
+        rb.velocity = thrustVelo + currentVelo;
+
+        rb.inertiaTensorRotation = Quaternion.identity;
+    }
+
+    private void HandleRotation()
+    {
+        //handling the rotation
+        float horiRot = dirJoystick.GetJoystickState().x * rotateRate;
+        float vertRot = dirJoystick.GetJoystickState().y * rotateRate;
+
+        //apply the rotation
+        Quaternion yaw = Quaternion.AngleAxis(horiRot, transform.up);
+        Quaternion pitch = Quaternion.AngleAxis(vertRot, transform.right);
+        targetRotation = yaw * pitch * targetRotation;
+
+        transform.rotation = targetRotation;
     }
 }

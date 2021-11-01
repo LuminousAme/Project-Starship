@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
     //serialized field so they can be changed
@@ -7,20 +8,23 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float lookSpeed = 5f;
 
-    //the transform of the parent (right now just the ship, may change if we allow the player to leave the ship in the future)
-    //needed to make sure the controls work regardless of the ship's orientation
-    private Transform parentSpace;
-
     //controls for how much the player has locally rotated
     private float yaw = 0.0f;
+
     private float pitch = 0.0f;
-    [SerializeField] Vector2 pitchLimits;
+    [SerializeField] private Vector2 pitchLimits;
+
+    //quaterion to track the current rotation
+    private Quaternion targetRotation;
+
+    //input vector
+    private Vector2 input = Vector2.zero;
 
     //the camera transform, on Y we rotate instead of the player directly so that it handles movement correctly
-    [SerializeField] Transform cam;
+    [SerializeField] private Transform cam;
 
     //enum to control different interaction states
-    private enum interactionState
+    public enum interactionState
     {
         WALKING,
         PILOTING
@@ -37,6 +41,8 @@ public class PlayerController : MonoBehaviour
 
     private float timeSinceInteraction = 0.0f;
 
+    private Energy playerEnergy;
+
     //Start runs when the object first enters the scene
     private void Start()
     {
@@ -46,7 +52,11 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = false;
 
-        parentSpace = transform.parent.transform;
+        //set the rotation at it's starting rotation
+        targetRotation = transform.rotation;
+
+        //get the energy
+        playerEnergy = this.GetComponent<Energy>();
     }
 
     // Update is called once per frame
@@ -55,7 +65,7 @@ public class PlayerController : MonoBehaviour
         //update the interaction cooldown
         timeSinceInteraction += Time.deltaTime;
 
-        //use a simple state machine to determine what kinda of input the player is allowed to use 
+        //use a simple state machine to determine what kinda of input the player is allowed to use
         switch (playerState)
         {
             //if the player is in their regular walk mode, allow them to move normally
@@ -71,34 +81,27 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-
+        Vector3 velo = (input.y * transform.forward + input.x * transform.right).normalized * movementSpeed;
+        this.GetComponent<Rigidbody>().velocity = velo;
     }
 
     //function for the player's regular movememnt
     private void RegularMovement()
     {
         //get rotation input
-        yaw += Input.GetAxis("Mouse X") * lookSpeed;
-        pitch -= Input.GetAxis("Mouse Y") * lookSpeed;
+        yaw += Input.GetAxis("Mouse X") * Time.deltaTime * lookSpeed;
+        pitch -= Input.GetAxis("Mouse Y") * Time.deltaTime * lookSpeed;
 
         //limit how far the player can rotate while looking up and down
         pitch = Mathf.Clamp(pitch, pitchLimits.x, pitchLimits.y);
 
-        //align the up with the ship
-        transform.rotation = Quaternion.FromToRotation(transform.up.normalized, parentSpace.up.normalized) * transform.rotation;
-
         //rotate based on mouse input
         cam.transform.localEulerAngles = new Vector3(pitch, 0f, 0f);
         transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, 0f, 0f);
-        transform.RotateAround(transform.position, transform.parent.up, yaw);
-       
-        //get input for each direction
-        float dirX = Input.GetAxis("Horizontal");
-        float dirZ = Input.GetAxis("Vertical");
+        transform.Rotate(Vector3.up, yaw);
 
-        //use that input to move the player 
-        //note: moving in local space so that the motion appears the same to the player regardless of orientation of the ship
-        transform.Translate(new Vector3(dirX, 0.0f, dirZ) * movementSpeed * Time.deltaTime, Space.Self);
+        //get input for each direction
+        input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
     }
 
     //function for piloting the ship
@@ -106,8 +109,8 @@ public class PlayerController : MonoBehaviour
     {
         pitch = cam.localEulerAngles.x;
 
-        //if the player is piloting, and they hit E, stop piloting
-        if (Input.GetKeyDown(KeyCode.E) && timeSinceInteraction >= interactionCooldown)
+        //if the player is piloting, and they hit E, or if they are just out of energy stop piloting
+        if (!playerEnergy.AbleTask || Input.GetKeyDown(KeyCode.E) && timeSinceInteraction >= interactionCooldown)
         {
             interactionObject.GetComponent<InteractEnter>().SetEntityInteracting(null, null);
             playerState = interactionState.WALKING;
@@ -124,8 +127,8 @@ public class PlayerController : MonoBehaviour
         //if the player is in their walking state and can thus interact with something
         if (playerState == interactionState.WALKING && timeSinceInteraction >= interactionCooldown)
         {
-            //if the player is within the control panel's interaction space and presses E to interact
-            if (other.name == "Control Panel" && Input.GetKey(KeyCode.E))
+            //if the player is within the control panel's interaction space, has enough energy and presses E to interact
+            if (playerEnergy.AbleTask && other.name == "Control Panel" && Input.GetKey(KeyCode.E))
             {
                 //begin piloting
                 interactionObject = other.gameObject;
@@ -137,5 +140,20 @@ public class PlayerController : MonoBehaviour
                 Cursor.visible = true;
             }
         }
+    }
+
+    public interactionState GetState()
+    {
+        return playerState;
+    }
+
+    public bool GetInteracting()
+    {
+        if (playerState == interactionState.WALKING)
+        {
+            return false;
+        }
+        else
+            return true;
     }
 }
