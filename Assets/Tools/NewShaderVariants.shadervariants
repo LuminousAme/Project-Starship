@@ -1,0 +1,364 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!200 &20000000
+ShaderVariantCollection:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NewShaderVariants
+  m_Shaders:
+  - first: {fileID: 69, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: BILLBOARD_FACE_CAMERA_POS LIGHTPROBE_SH POINT SHADOWS_CUBE UNITY_HDR_ON
+        passType: 0
+      - keywords: BILLBOARD_FACE_CAMERA_POS LIGHTPROBE_SH POINT SHADOWS_SHADOWMASK
+          UNITY_HDR_ON
+        passType: 0
+  - first: {fileID: 74, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: BILLBOARD_FACE_CAMERA_POS LIGHTPROBE_SH UNITY_HDR_ON
+        passType: 0
+  - first: {fileID: 62, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 10770, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: BILLBOARD_FACE_CAMERA_POS
+        passType: 0
+  - first: {fileID: 19, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: BILLBOARD_FACE_CAMERA_POS LIGHTPROBE_SH POINT SHADOWS_CUBE UNITY_HDR_ON
+        passType: 0
+  - first: {fileID: 66, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: DIRECTIONAL LIGHTPROBE_SH
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTPROBE_SH _EMISSION
+        passType: 4
+      - keywords: BILLBOARD_FACE_CAMERA_POS LIGHTPROBE_SH UNITY_HDR_ON
+        passType: 4
+      - keywords: BILLBOARD_FACE_CAMERA_POS DIRECTIONAL LIGHTPROBE_SH UNITY_HDR_ON
+        passType: 4
+      - keywords: BILLBOARD_FACE_CAMERA_POS LIGHTPROBE_SH UNITY_HDR_ON _EMISSION
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTPROBE_SH _NORMALMAP
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTPROBE_SH _EMISSION _NORMALMAP
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTPROBE_SH _METALLICGLOSSMAP
+        passType: 4
+      - keywords: BILLBOARD_FACE_CAMERA_POS LIGHTPROBE_SH UNITY_HDR_ON _METALLICGLOSSMAP
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTPROBE_SH _METALLICGLOSSMAP _NORMALMAP
+        passType: 4
+      - keywords: BILLBOARD_FACE_CAMERA_POS LIGHTPROBE_SH UNITY_HDR_ON _METALLICGLOSSMAP
+          _NORMALMAP
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTPROBE_SH _METALLICGLOSSMAP _NORMALMAP _PARALLAXMAP
+        passType: 4
+      - keywords: BILLBOARD_FACE_CAMERA_POS LIGHTPROBE_SH UNITY_HDR_ON _METALLICGLOSSMAP
+          _NORMALMAP _PARALLAXMAP
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTPROBE_SH _EMISSION _SPECULARHIGHLIGHTS_OFF
+        passType: 4
+      - keywords: BILLBOARD_FACE_CAMERA_POS LIGHTPROBE_SH UNITY_HDR_ON _EMISSION
+          _SPECULARHIGHLIGHTS_OFF
+        passType: 4
+      - keywords: DIRECTIONAL
+        passType: 5
+      - keywords: POINT
+        passType: 5
+      - keywords: POINT SHADOWS_CUBE
+        passType: 5
+      - keywords: BILLBOARD_FACE_CAMERA_POS DIRECTIONAL UNITY_HDR_ON
+        passType: 5
+      - keywords: BILLBOARD_FACE_CAMERA_POS POINT SHADOWS_CUBE UNITY_HDR_ON
+        passType: 5
+      - keywords: DIRECTIONAL _NORMALMAP
+        passType: 5
+      - keywords: POINT _NORMALMAP
+        passType: 5
+      - keywords: POINT SHADOWS_CUBE _NORMALMAP
+        passType: 5
+      - keywords: DIRECTIONAL _METALLICGLOSSMAP
+        passType: 5
+      - keywords: POINT _METALLICGLOSSMAP
+        passType: 5
+      - keywords: POINT SHADOWS_CUBE _METALLICGLOSSMAP
+        passType: 5
+      - keywords: BILLBOARD_FACE_CAMERA_POS POINT SHADOWS_CUBE UNITY_HDR_ON _METALLICGLOSSMAP
+        passType: 5
+      - keywords: DIRECTIONAL _METALLICGLOSSMAP _NORMALMAP
+        passType: 5
+      - keywords: POINT _METALLICGLOSSMAP _NORMALMAP
+        passType: 5
+      - keywords: POINT SHADOWS_CUBE _METALLICGLOSSMAP _NORMALMAP
+        passType: 5
+      - keywords: BILLBOARD_FACE_CAMERA_POS DIRECTIONAL UNITY_HDR_ON _METALLICGLOSSMAP
+          _NORMALMAP
+        passType: 5
+      - keywords: BILLBOARD_FACE_CAMERA_POS POINT UNITY_HDR_ON _METALLICGLOSSMAP
+          _NORMALMAP
+        passType: 5
+      - keywords: DIRECTIONAL _METALLICGLOSSMAP _NORMALMAP _PARALLAXMAP
+        passType: 5
+      - keywords: POINT _METALLICGLOSSMAP _NORMALMAP _PARALLAXMAP
+        passType: 5
+      - keywords: POINT SHADOWS_CUBE _METALLICGLOSSMAP _NORMALMAP _PARALLAXMAP
+        passType: 5
+      - keywords: BILLBOARD_FACE_CAMERA_POS POINT SHADOWS_CUBE UNITY_HDR_ON _METALLICGLOSSMAP
+          _NORMALMAP _PARALLAXMAP
+        passType: 5
+      - keywords: DIRECTIONAL _SPECULARHIGHLIGHTS_OFF
+        passType: 5
+      - keywords: POINT _SPECULARHIGHLIGHTS_OFF
+        passType: 5
+      - keywords: SHADOWS_DEPTH
+        passType: 8
+      - keywords: SHADOWS_CUBE
+        passType: 8
+      - keywords: BILLBOARD_FACE_CAMERA_POS SHADOWS_CUBE UNITY_HDR_ON
+        passType: 8
+      - keywords: _METALLICGLOSSMAP
+        passType: 8
+      - keywords: SHADOWS_DEPTH _METALLICGLOSSMAP
+        passType: 8
+      - keywords: SHADOWS_CUBE _METALLICGLOSSMAP
+        passType: 8
+      - keywords: BILLBOARD_FACE_CAMERA_POS SHADOWS_CUBE UNITY_HDR_ON _METALLICGLOSSMAP
+        passType: 8
+      - keywords: _METALLICGLOSSMAP _NORMALMAP
+        passType: 8
+      - keywords: BILLBOARD_FACE_CAMERA_POS SHADOWS_CUBE UNITY_HDR_ON _METALLICGLOSSMAP
+          _NORMALMAP
+        passType: 8
+      - keywords: SHADOWS_DEPTH _METALLICGLOSSMAP _PARALLAXMAP
+        passType: 8
+      - keywords: _METALLICGLOSSMAP _NORMALMAP _PARALLAXMAP
+        passType: 8
+      - keywords: LIGHTPROBE_SH SHADOWS_SHADOWMASK UNITY_HDR_ON
+        passType: 10
+      - keywords: LIGHTPROBE_SH SHADOWS_SHADOWMASK UNITY_HDR_ON _EMISSION
+        passType: 10
+      - keywords: LIGHTPROBE_SH SHADOWS_SHADOWMASK UNITY_HDR_ON _METALLICGLOSSMAP
+        passType: 10
+      - keywords: LIGHTPROBE_SH SHADOWS_SHADOWMASK UNITY_HDR_ON _METALLICGLOSSMAP
+          _NORMALMAP
+        passType: 10
+      - keywords: LIGHTPROBE_SH SHADOWS_SHADOWMASK UNITY_HDR_ON _METALLICGLOSSMAP
+          _NORMALMAP _PARALLAXMAP
+        passType: 10
+      - keywords: LIGHTPROBE_SH SHADOWS_SHADOWMASK UNITY_HDR_ON _EMISSION _SPECULARHIGHLIGHTS_OFF
+        passType: 10
+  - first: {fileID: 104, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: BILLBOARD_FACE_CAMERA_POS UNITY_HDR_ON
+        passType: 0
+  - first: {fileID: 106, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: BILLBOARD_FACE_CAMERA_POS UNITY_HDR_ON
+        passType: 0
+      - keywords: BILLBOARD_FACE_CAMERA_POS UNITY_HDR_ON _SUNDISK_SIMPLE
+        passType: 0
+  - first: {fileID: 9000, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 9001, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 9002, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 9003, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 9004, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 9007, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 9101, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 9103, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+      - keywords: BILLBOARD_FACE_CAMERA_POS
+        passType: 0
+      - keywords: BILLBOARD_FACE_CAMERA_POS UNITY_HDR_ON
+        passType: 0
+  - first: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: BILLBOARD_FACE_CAMERA_POS UNITY_HDR_ON _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+        passType: 0
+  - first: {fileID: 4800000, guid: 81acc91b5900ad64ca0ba35d750709c4, type: 3}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+      - keywords: BILLBOARD_FACE_CAMERA_POS UNITY_HDR_ON
+        passType: 0
+      - keywords: BILLBOARD_FACE_CAMERA_POS UNITY_HDR_ON _METALLICGLOSSMAP
+        passType: 0
+      - keywords: BILLBOARD_FACE_CAMERA_POS UNITY_HDR_ON _NORMALMAP
+        passType: 0
+      - keywords: BILLBOARD_FACE_CAMERA_POS UNITY_HDR_ON _METALLICGLOSSMAP _NORMALMAP
+          _PARALLAXMAP
+        passType: 0
+      - keywords: 
+        passType: 1
+      - keywords: 
+        passType: 2
+      - keywords: DIRECTIONAL
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTPROBE_SH
+        passType: 4
+      - keywords: BILLBOARD_FACE_CAMERA_POS LIGHTPROBE_SH UNITY_HDR_ON
+        passType: 4
+      - keywords: BILLBOARD_FACE_CAMERA_POS DIRECTIONAL LIGHTPROBE_SH UNITY_HDR_ON
+        passType: 4
+      - keywords: BILLBOARD_FACE_CAMERA_POS LIGHTPROBE_SH UNITY_HDR_ON _METALLICGLOSSMAP
+        passType: 4
+      - keywords: BILLBOARD_FACE_CAMERA_POS LIGHTPROBE_SH UNITY_HDR_ON _METALLICGLOSSMAP
+          _NORMALMAP _PARALLAXMAP
+        passType: 4
+      - keywords: DIRECTIONAL
+        passType: 5
+      - keywords: POINT
+        passType: 5
+      - keywords: BILLBOARD_FACE_CAMERA_POS DIRECTIONAL UNITY_HDR_ON
+        passType: 5
+      - keywords: BILLBOARD_FACE_CAMERA_POS POINT UNITY_HDR_ON
+        passType: 5
+      - keywords: BILLBOARD_FACE_CAMERA_POS POINT UNITY_HDR_ON _METALLICGLOSSMAP
+        passType: 5
+      - keywords: BILLBOARD_FACE_CAMERA_POS POINT UNITY_HDR_ON _NORMALMAP
+        passType: 5
+      - keywords: BILLBOARD_FACE_CAMERA_POS POINT UNITY_HDR_ON _METALLICGLOSSMAP
+          _NORMALMAP _PARALLAXMAP
+        passType: 5
+      - keywords: 
+        passType: 6
+      - keywords: 
+        passType: 7
+      - keywords: 
+        passType: 8
+      - keywords: SHADOWS_DEPTH
+        passType: 8
+      - keywords: SHADOWS_CUBE
+        passType: 8
+      - keywords: BILLBOARD_FACE_CAMERA_POS SHADOWS_CUBE UNITY_HDR_ON
+        passType: 8
+      - keywords: _METALLICGLOSSMAP
+        passType: 8
+      - keywords: BILLBOARD_FACE_CAMERA_POS SHADOWS_CUBE UNITY_HDR_ON _METALLICGLOSSMAP
+        passType: 8
+      - keywords: _NORMALMAP
+        passType: 8
+      - keywords: _METALLICGLOSSMAP _NORMALMAP _PARALLAXMAP
+        passType: 8
+      - keywords: 
+        passType: 10
+      - keywords: 
+        passType: 11
+  - first: {fileID: 4800000, guid: c1e1d3119c6fd4646aea0b4b74cacc1a, type: 3}
+    second:
+      variants:
+      - keywords: BILLBOARD_FACE_CAMERA_POS UNITY_HDR_ON
+        passType: 0
+  - first: {fileID: 4800000, guid: 67f9497810829eb4791ec19e95781e51, type: 3}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 4800000, guid: d7640629310e79646af0f46eb55ae466, type: 3}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 4800000, guid: f75014305794b3948a3c6d5ccd550e05, type: 3}
+    second:
+      variants:
+      - keywords: BILLBOARD_FACE_CAMERA_POS FXAA_LOW FXAA_NO_ALPHA UNITY_HDR_ON
+        passType: 0
+  - first: {fileID: 4800000, guid: 382151503e2a43a4ebb7366d1632731d, type: 3}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+      - keywords: BILLBOARD_FACE_CAMERA_POS BLOOM COLOR_GRADING_HDR_3D UNITY_HDR_ON
+        passType: 0
+      - keywords: BILLBOARD_FACE_CAMERA_POS FINALPASS UNITY_HDR_ON
+        passType: 0
+      - keywords: BLOOM COLOR_GRADING_HDR_3D VIGNETTE
+        passType: 0
+      - keywords: BLOOM CHROMATIC_ABERRATION COLOR_GRADING_HDR_3D VIGNETTE
+        passType: 0
+      - keywords: BLOOM CHROMATIC_ABERRATION_LOW COLOR_GRADING_HDR_3D VIGNETTE
+        passType: 0
+      - keywords: BLOOM COLOR_GRADING_HDR_3D DISTORT VIGNETTE
+        passType: 0
+      - keywords: BLOOM COLOR_GRADING_HDR_3D GRAIN VIGNETTE
+        passType: 0
+  - first: {fileID: 4800000, guid: 4bf4cff0d0bac3d43894e2e8839feb40, type: 3}
+    second:
+      variants:
+      - keywords: BILLBOARD_FACE_CAMERA_POS UNITY_HDR_ON
+        passType: 0
+  - first: {fileID: 4800000, guid: 5bb6ef6f3e1b20348b4fdb01e4c404e2, type: 3}
+    second:
+      variants:
+      - keywords: BILLBOARD_FACE_CAMERA_POS
+        passType: 0
+      - keywords: BILLBOARD_FACE_CAMERA_POS UNITY_HDR_ON
+        passType: 0
+  - first: {fileID: 4800000, guid: 0d8afcb51cc9f0349a6d190da929b838, type: 3}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 4800000, guid: 0ef78d24e85a44f4da9d5b5eaa00e50b, type: 3}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 4800000, guid: de7f3ac52268a194383c7d62c2a343c1, type: 3}
+    second:
+      variants:
+      - keywords: BILLBOARD_FACE_CAMERA_POS
+        passType: 0
+      - keywords: BILLBOARD_FACE_CAMERA_POS UNITY_HDR_ON
+        passType: 0
