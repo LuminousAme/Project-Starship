@@ -5887,8 +5887,10 @@ MonoBehaviour:
   engineIndicator: {fileID: 718423547}
   pressureHandle: {fileID: 1275547753}
   pressureLimit: 100
-  pressure: 70
+  pressure: 50
   timeToNotWorking: 10
+  buildUpRate: 1
+  releaseRate: 1
   lights: []
 --- !u!23 &1431775907
 MeshRenderer:
