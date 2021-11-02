@@ -58,14 +58,8 @@ public class DragObjectsAlong : MonoBehaviour
             Rigidbody body = gameObject.GetComponent<Rigidbody>();
             if (body == null) gameObject.transform.Translate(change, Space.World);
 
-
             //update the rotation
-            Quaternion adjustedRot = Quaternion.FromToRotation(gameObject.transform.up, rb.transform.up) *
-                Quaternion.FromToRotation(gameObject.transform.forward, rb.transform.forward) *
-                Quaternion.FromToRotation(gameObject.transform.right, rb.transform.right) *
-                gameObject.transform.rotation;
-
-            gameObject.transform.rotation = adjustedRot;
+            gameObject.transform.rotation = rb.transform.rotation;
         }
 
         //update the last frame's position
