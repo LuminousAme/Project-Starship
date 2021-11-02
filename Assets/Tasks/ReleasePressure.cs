@@ -21,9 +21,12 @@ public class ReleasePressure : MonoBehaviour
     [SerializeField] private float timeToNotWorking = 10f;
     private float timerForNotWorking;
 
-    private bool canTask; // bool to see if player can do tasks rn
-    private Energy playerEnergy;
+    [SerializeField] private float buildUpRate = 1f;
+    [SerializeField] private float releaseRate = 5f;
+
     [SerializeField] private Light[] lights;
+
+
 
     // Start is called before the first frame update
     private void Start()
@@ -39,25 +42,14 @@ public class ReleasePressure : MonoBehaviour
 
         //timer for not working
         timerForNotWorking = 0.0f;
-
-        //can do task
-        canTask = true;
-        GameObject play = GameObject.FindGameObjectWithTag("Player");
-
-        playerEnergy = play.GetComponent<Energy>();
     }
 
     // Update is called once per frame
     private void Update()
     {
-        if (playerEnergy.AbleTask == false)
-        {
-            canTask = false;
-        }
-        else { canTask = true; }
 
         //increase pressure over time
-        pressure = pressure + 1f * Time.deltaTime;
+        pressure = pressure + buildUpRate * Time.deltaTime;
 
         //if the pressure is too high increase the timer until the engine stops working
         if (pressure > 99f)
@@ -77,16 +69,15 @@ public class ReleasePressure : MonoBehaviour
         //finally clamp it between the max and 0
         timerForNotWorking = Mathf.Clamp(timerForNotWorking, 0f, timeToNotWorking);
 
-        if (canTask)
+
+        //if the player has moved the handle change if it's releasing or not
+        if (lastHandleState != pressureHandle.GetHandleState())
         {
-            //if the player has moved the handle change if it's releasing or not
-            if (lastHandleState != pressureHandle.GetHandleState())
-            {
-                releasing = !releasing;
-                EnginesWorking = true;
-                lastHandleState = pressureHandle.GetHandleState();
-            }
+            releasing = !releasing;
+            EnginesWorking = true;
+            lastHandleState = pressureHandle.GetHandleState();
         }
+
         //code that handles releasing
         {
             //if the player pressed the button and is releasing pressure
@@ -94,7 +85,7 @@ public class ReleasePressure : MonoBehaviour
             {
                 m_Material.color = Color.green;
 
-                pressure = pressure - 5f * Time.deltaTime;
+                pressure = pressure - releaseRate * Time.deltaTime;
                 if (pressure < 0f)
                 {
                     pressure = 0f;
@@ -122,8 +113,5 @@ public class ReleasePressure : MonoBehaviour
         {
             engineMaterial.color = Color.white;
         }
-
-        //set pressure
-        //  bar.SetValue(pressure);
     }
 }
