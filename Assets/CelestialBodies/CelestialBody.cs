@@ -9,6 +9,7 @@ public class CelestialBody : MonoBehaviour
     static public float gravitationalConstant = 0.2f;
     [SerializeField] private float surfaceGravity = 10f;
     [SerializeField] private Vector3 initialVelocity;
+    static private CelestialBody sun;
 
     //private data it needs during execute
     private Vector3 currentVelocity;
@@ -22,26 +23,31 @@ public class CelestialBody : MonoBehaviour
         currentVelocity = initialVelocity;
         radius = 0.5f * transform.localScale.x;
         mass = surfaceGravity * radius * radius / gravitationalConstant;
+        if (this.name == "Sun") sun = this;
     }
 
     //function to update the body's velocity, will be called by a seperate manager script
     public void UpdateVelocity(CelestialBody[] bodies)
     {
-        //loop through all of the celestial bodies in the scene and figure out this body's current velocity based on their gravity
-        foreach (var body in bodies)
+        //do not move the sun because of gravity, keep it in place
+        if(this != sun)
         {
-            if (body != this)
+            //loop through all of the celestial bodies in the scene and figure out this body's current velocity based on their gravity
+            foreach (var body in bodies)
             {
-                //calculate force using newton's F = G(m1 * m2 / r^2) formula
-                Vector3 direction = body.transform.position - transform.position;
-                float distanceSquared = direction.sqrMagnitude;
-                Vector3 force = direction.normalized * gravitationalConstant * mass * body.mass / distanceSquared;
+                if (body != this)
+                {
+                    //calculate force using newton's F = G(m1 * m2 / r^2) formula
+                    Vector3 direction = body.transform.position - transform.position;
+                    float distanceSquared = direction.sqrMagnitude;
+                    Vector3 force = direction.normalized * gravitationalConstant * mass * body.mass / distanceSquared;
 
-                //from the force calculate the accleration from newton's a = F/m formula
-                Vector3 acel = force / mass;
+                    //from the force calculate the accleration from newton's a = F/m formula
+                    Vector3 acel = force / mass;
 
-                //add that acceleration to the current velocity
-                currentVelocity += acel * Time.deltaTime;
+                    //add that acceleration to the current velocity
+                    currentVelocity += acel * Time.deltaTime;
+                }
             }
         }
     }
