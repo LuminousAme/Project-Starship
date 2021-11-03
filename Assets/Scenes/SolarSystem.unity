@@ -539,6 +539,71 @@ Transform:
   m_Father: {fileID: 1626500853}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &155690894
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 280755809}
+    m_Modifications:
+    - target: {fileID: 3348589158952291227, guid: b043fe10707dfd1419ed29ecc5ce3b13, type: 3}
+      propertyPath: rotSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3348589158952291227, guid: b043fe10707dfd1419ed29ecc5ce3b13, type: 3}
+      propertyPath: shipSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3348589159738011056, guid: b043fe10707dfd1419ed29ecc5ce3b13, type: 3}
+      propertyPath: m_Name
+      value: AIShip1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3348589159738011059, guid: b043fe10707dfd1419ed29ecc5ce3b13, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3348589159738011059, guid: b043fe10707dfd1419ed29ecc5ce3b13, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -43.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3348589159738011059, guid: b043fe10707dfd1419ed29ecc5ce3b13, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.11051023
+      objectReference: {fileID: 0}
+    - target: {fileID: 3348589159738011059, guid: b043fe10707dfd1419ed29ecc5ce3b13, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1115
+      objectReference: {fileID: 0}
+    - target: {fileID: 3348589159738011059, guid: b043fe10707dfd1419ed29ecc5ce3b13, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3348589159738011059, guid: b043fe10707dfd1419ed29ecc5ce3b13, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3348589159738011059, guid: b043fe10707dfd1419ed29ecc5ce3b13, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3348589159738011059, guid: b043fe10707dfd1419ed29ecc5ce3b13, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3348589159738011059, guid: b043fe10707dfd1419ed29ecc5ce3b13, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3348589159738011059, guid: b043fe10707dfd1419ed29ecc5ce3b13, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3348589159738011059, guid: b043fe10707dfd1419ed29ecc5ce3b13, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b043fe10707dfd1419ed29ecc5ce3b13, type: 3}
 --- !u!1 &160586799
 GameObject:
   m_ObjectHideFlags: 0
@@ -922,6 +987,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1627409415}
+  - {fileID: 458761085}
   m_Father: {fileID: 1292882403}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1019,6 +1085,11 @@ Transform:
   m_Father: {fileID: 1903620847}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &458761085 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3348589159738011059, guid: b043fe10707dfd1419ed29ecc5ce3b13, type: 3}
+  m_PrefabInstance: {fileID: 155690894}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &463479981
 GameObject:
   m_ObjectHideFlags: 0
@@ -3985,7 +4056,7 @@ GameObject:
   - component: {fileID: 1186545930}
   m_Layer: 7
   m_Name: PlayerShipRigidBody
-  m_TagString: Untagged
+  m_TagString: PlayerShip
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5662,7 +5733,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.8343848, y: 1}
+    m_SensorSize: {x: 2.4255526, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -6269,7 +6340,7 @@ GameObject:
   - component: {fileID: 1627409415}
   m_Layer: 0
   m_Name: PlayerShip
-  m_TagString: Untagged
+  m_TagString: PlayerShip
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
