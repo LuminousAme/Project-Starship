@@ -10,6 +10,7 @@ public class CelestialBody : MonoBehaviour
     [SerializeField] private float surfaceGravity = 10f;
     [SerializeField] private Vector3 initialVelocity;
     static private CelestialBody sun;
+    private bool firstFrame = true;
 
     //private data it needs during execute
     private Vector3 currentVelocity;
@@ -20,10 +21,11 @@ public class CelestialBody : MonoBehaviour
     private void Awake()
     {
         //get the velocity, and calculate the mass and radius
-        currentVelocity = initialVelocity;
+        currentVelocity = Vector3.zero;
         radius = 0.5f * transform.localScale.x;
         mass = surfaceGravity * radius * radius / gravitationalConstant;
         if (this.name == "Sun") sun = this;
+        firstFrame = true;
     }
 
     //function to update the body's velocity, will be called by a seperate manager script
@@ -32,6 +34,9 @@ public class CelestialBody : MonoBehaviour
         //do not move the sun because of gravity, keep it in place
         if(this != sun)
         {
+            //on the first frame, programmatically calculate the actual initial velocity
+            if (firstFrame) FirstFrameFunc();
+
             //loop through all of the celestial bodies in the scene and figure out this body's current velocity based on their gravity
             foreach (var body in bodies)
             {
@@ -61,5 +66,22 @@ public class CelestialBody : MonoBehaviour
     public float GetMass()
     {
         return mass;
+    }
+
+    private void FirstFrameFunc()
+    {
+        firstFrame = false;
+
+        Vector3 direction = sun.transform.position - transform.position;
+        float distanceSquared = direction.sqrMagnitude;
+        Vector3 force = direction.normalized * gravitationalConstant * mass * sun.mass / distanceSquared;
+
+        //get the magnitude
+        float forceMag = force.magnitude;
+        //use that to caclulate the speed
+        float speed = Mathf.Sqrt((forceMag * direction.magnitude) /mass);
+
+        //and set the starting velocity from that
+        currentVelocity = initialVelocity.normalized * speed;
     }
 }
