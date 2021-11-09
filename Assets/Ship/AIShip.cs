@@ -1,13 +1,7 @@
-/*using System;
-using System.Collections;
-
 using System.Collections.Generic;
-*/
-
-using System.Collections.Generic;
-
 using UnityEngine;
 
+//we should probably build an object pool for the AI ships eventually
 public class AIShip : MonoBehaviour
 {
     //https://forum.unity.com/threads/random-flying-objects.30191/
@@ -17,20 +11,17 @@ public class AIShip : MonoBehaviour
     //the ship's rigidbody
     private Rigidbody rb;
 
+    //rotation data
     private Quaternion targetRotation;
     public float rotSpeed = 12f;
     public float shipSpeed = 20f;
 
     private float wanderRange;
     private float timer;
-    private bool flee;
     private bool wander;
     private Vector3 rotPoint;
 
     public List<GameObject> avoiding = new List<GameObject>();
-
-    // public GameObject[] avoid;
-    //public GameObject[] avoid1;
 
     // Start is called before the first frame update
     private void Awake()
@@ -39,27 +30,22 @@ public class AIShip : MonoBehaviour
         wanderRange = 2500f;
         rb.velocity = new Vector3(1, 0, 1);
         targetRotation = transform.rotation;
-        // Vector3 p = rb.transform.position + rb.velocity;
-        //transform.LookAt(p);
-        flee = false;
         wander = true;
         Wander();
     }
 
     private void Start()
     {
+        //when the ship is first spawned 
         GameObject[] avoid = GameObject.FindGameObjectsWithTag("Planet");
         GameObject[] avoid1 = GameObject.FindGameObjectsWithTag("PlayerShip");
         foreach (GameObject aovidance in avoid)
         {
             avoiding.Add(aovidance);
-            //Debug.Log(aovidance.transform.position.magnitude);
-            //Debug.Log("avoid " + aovidance.name);
         }
         foreach (GameObject aovidance in avoid1)
         {
             avoiding.Add(aovidance);
-            //Debug.Log("avoid " + aovidance.name);
         }
     }
 
@@ -106,9 +92,9 @@ public class AIShip : MonoBehaviour
         //transform.rotation = Quaternion.LookRotation(rotPoint);
 
         rotPoint = new Vector3(point.x, 0, point.z);
-        Debug.Log("Rotating: " + rotPoint);
+        //Debug.Log("Rotating: " + rotPoint);
 
-        Debug.Log("Wandering: " + point + " and " + transform.position/* - point).magnitude*/);
+        //Debug.Log("Wandering: " + point + " and " + transform.position/* - point).magnitude*/);
     }
 
     private void Flee(Vector3 target)
@@ -121,7 +107,7 @@ public class AIShip : MonoBehaviour
         targetRotation = Quaternion.LookRotation(steering);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * rotSpeed);
 
-        Debug.Log("Fleeing " + steering);
+        //Debug.Log("Fleeing " + steering);
         //return steering;
     }
 }

@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
     public enum interactionState
     {
         WALKING,
-        PILOTING
+        INTERACTING
     }
 
     //variable with the current enum for this player
@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
                 RegularMovement();
                 break;
             //if the player is piloting the ship, only allow them to use piloting input
-            case interactionState.PILOTING:
+            case interactionState.INTERACTING:
                 Pilot();
                 break;
         }
@@ -109,7 +109,7 @@ public class PlayerController : MonoBehaviour
     {
         pitch = cam.localEulerAngles.x;
 
-        //if the player is piloting, and they hit E, or if they are just out of energy stop piloting
+        //if the player is interacting with something, and they hit E, or if they are just out of energy stop interacting
         if (!playerEnergy.AbleTask || Input.GetKeyDown(KeyCode.E) && timeSinceInteraction >= interactionCooldown)
         {
             interactionObject.GetComponent<InteractEnter>().SetEntityInteracting(null, null);
@@ -133,18 +133,13 @@ public class PlayerController : MonoBehaviour
                 //begin piloting
                 interactionObject = other.gameObject;
                 interactionObject.GetComponent<InteractEnter>().SetEntityInteracting(this.transform, cam);
-                playerState = interactionState.PILOTING;
+                playerState = interactionState.INTERACTING;
                 timeSinceInteraction = 0.0f;
                 //and make the cursor visible
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
             }
         }
-    }
-
-    public interactionState GetState()
-    {
-        return playerState;
     }
 
     public bool GetInteracting()

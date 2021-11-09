@@ -35,7 +35,7 @@ public class CelestialBody : MonoBehaviour
         if(this != sun)
         {
             //on the first frame, programmatically calculate the actual initial velocity
-            if (firstFrame) FirstFrameFunc();
+            if (firstFrame) StartVelocityOnFirstFrame();
 
             //loop through all of the celestial bodies in the scene and figure out this body's current velocity based on their gravity
             foreach (var body in bodies)
@@ -68,7 +68,7 @@ public class CelestialBody : MonoBehaviour
         return mass;
     }
 
-    private void FirstFrameFunc()
+    private void StartVelocityOnFirstFrame()
     {
         firstFrame = false;
 
