@@ -18,12 +18,14 @@ public class AIShip : MonoBehaviour
     private Rigidbody rb;
 
     private Quaternion targetRotation;
-    public float rotSpeed = 5;
+    public float rotSpeed = 12f;
+    public float shipSpeed = 20f;
 
     private float wanderRange;
     private float timer;
     private bool flee;
     private bool wander;
+    private Vector3 rotPoint;
 
     public List<GameObject> avoiding = new List<GameObject>();
 
@@ -42,14 +44,12 @@ public class AIShip : MonoBehaviour
         flee = false;
         wander = true;
         Wander();
-        // avoid.Add(GameObject.FindGameObjectsWithTag("Planet"));
-        //avoid.Add(GameObject.FindGameObjectsWithTag("Player"));
     }
 
     private void Start()
     {
         GameObject[] avoid = GameObject.FindGameObjectsWithTag("Planet");
-        GameObject[] avoid1 = GameObject.FindGameObjectsWithTag("Player");
+        GameObject[] avoid1 = GameObject.FindGameObjectsWithTag("PlayerShip");
         foreach (GameObject aovidance in avoid)
         {
             avoiding.Add(aovidance);
@@ -66,20 +66,26 @@ public class AIShip : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        rb.velocity = transform.TransformDirection(Vector3.forward) * 15f;
+        rb.velocity = transform.TransformDirection(Vector3.forward) * shipSpeed;
         timer += Time.deltaTime;
 
-        if (timer > 6f && wander)
+        if (timer >= 6f && wander)
         {
             Wander();
             timer = 0;
+        }
+        if (wander)
+        {
+            targetRotation = Quaternion.LookRotation(rotPoint);
+            //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotSpeed);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * rotSpeed);
         }
 
         foreach (GameObject aovidance in avoiding)
         {
             //if ai ship is within player ship or planet flee so they won't collide
             float dist = Vector3.Distance(aovidance.transform.position, transform.position);
-            if (/*aovidance.transform.position.magnitude*/ dist < 100)
+            if (/*aovidance.transform.position.magnitude*/ dist < 240)
             {
                 Flee(aovidance.transform.position);
                 wander = false;
@@ -95,18 +101,14 @@ public class AIShip : MonoBehaviour
 
     private void Wander()
     {
-        Vector3 point = rb.transform.position + new Vector3(Random.Range(-wanderRange, wanderRange), 0, Random.Range(-wanderRange, wanderRange));
-        transform.LookAt(point);
-
-        //Vector3 rotPoint = new Vector3(point.x, 0, point.z);
-
+        Vector3 point = rb.transform.position * 2 + new Vector3(Random.Range(-wanderRange, wanderRange), 0, Random.Range(-wanderRange, wanderRange));
+        // transform.LookAt(point);
         //transform.rotation = Quaternion.LookRotation(rotPoint);
 
-        //  targetRotation = Quaternion.LookRotation(rotPoint);
-        // transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotSpeed);
+        rotPoint = new Vector3(point.x, 0, point.z);
+        Debug.Log("Rotating: " + rotPoint);
 
-        Debug.Log("Rotating: " + transform.rotation);
-        Debug.Log("Wandering: " + point + " and " + (transform.position - point).magnitude);
+        Debug.Log("Wandering: " + point + " and " + transform.position/* - point).magnitude*/);
     }
 
     private void Flee(Vector3 target)
@@ -115,8 +117,9 @@ public class AIShip : MonoBehaviour
         Vector3 desiredVelocity = Vector3.Scale((transform.position - target), new Vector3(15, 0, 15)) /* max_velocity*/;
         Vector3 steering = desiredVelocity - rb.velocity;
 
-        transform.LookAt(steering);
-        //targetRotation = Quaternion.LookRotation(steering);
+        //transform.LookAt(steering);
+        targetRotation = Quaternion.LookRotation(steering);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * rotSpeed);
 
         Debug.Log("Fleeing " + steering);
         //return steering;
