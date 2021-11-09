@@ -23,6 +23,7 @@ public class AIShip : MonoBehaviour
 
     public List<GameObject> avoiding = new List<GameObject>();
 
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -110,4 +111,6 @@ public class AIShip : MonoBehaviour
         //Debug.Log("Fleeing " + steering);
         //return steering;
     }
+
+
 }

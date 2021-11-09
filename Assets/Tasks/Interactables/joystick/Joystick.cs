@@ -72,8 +72,8 @@ public class Joystick : Interactables
                 }
 
                 float targetXEuler = startingRotation.eulerAngles.x - joystickState.x * sideRotDegrees;
-                float targetYEuler = startingRotation.eulerAngles.y + joystickState.y * vertRotDegrees;
-                targetRotation = Quaternion.Euler(new Vector3(targetYEuler, startingRotation.eulerAngles.y, targetXEuler));
+                float targetYEuler = startingRotation.eulerAngles.z - joystickState.y * vertRotDegrees;
+                targetRotation = Quaternion.Euler(new Vector3(targetXEuler, startingRotation.eulerAngles.y, targetYEuler));
                 //consider slerping in the future
                 transform.rotation = targetRotation;
             }
