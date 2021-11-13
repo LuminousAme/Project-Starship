@@ -165,21 +165,21 @@ public class MaintainCoolant : MonoBehaviour
             heatCountdown = heatCountdown - 1f * Time.deltaTime;
             //fanMaterial.color = Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)); //Color.red;
             SetMatEmission(fanMaterial, true, Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)),
-                Mathf.Lerp(1.55f, 1.4f, Mathf.PingPong(Time.time, 1f)));
+                Mathf.Lerp(1.45f, 1.45f, Mathf.PingPong(Time.time, 1f)));
         }
         else if (useLiquid && (!liquid))
         {
             heatCountdown = heatCountdown - 1f * Time.deltaTime;
             //liquidMaterial.color = Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)); //Color.red;
             SetMatEmission(liquidMaterial, true, Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)), 
-                Mathf.Lerp(1.55f, 1.4f, Mathf.PingPong(Time.time, 1f)));
+                Mathf.Lerp(1.45f, 1.45f, Mathf.PingPong(Time.time, 1f)));
         }
         else if (useLiquidNitrogen && (!liquidNitrogen))
         {
             heatCountdown = heatCountdown - 1f * Time.deltaTime;
             //nitrogenMaterial.color = Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)); //Color.red;
             SetMatEmission(nitrogenMaterial, true, Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)),
-                Mathf.Lerp(1.55f, 1.4f, Mathf.PingPong(Time.time, 1f)));
+                Mathf.Lerp(1.45f, 1.45f, Mathf.PingPong(Time.time, 1f)));
         }
         else
         {
@@ -198,7 +198,7 @@ public class MaintainCoolant : MonoBehaviour
         }
     }
 
-    private void SetMatEmission(Material mat, bool on, Color color, float intensity = 0f)
+    public static void SetMatEmission(Material mat, bool on, Color color, float intensity = 0f)
     {
         // for some reason, the desired intensity value (set in the UI slider) needs to be modified slightly for proper internal consumption
         float adjustedIntensity = intensity - (0.4169f);

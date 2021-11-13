@@ -2,13 +2,21 @@ using UnityEngine;
 
 public class Energy : MonoBehaviour
 {
+    //the energy bar showing the player what their energy level is
     public EnergyBar bar;
+
+    //boolean for if they have enough energy to do a task
     public bool AbleTask;
-    public float energy = 15f;
+
+    //data for charging
+    public float energy = 80f;
     public float energyMax = 100f;
     private bool charging;
+
+    //the player controller
     private PlayerController playerC;
 
+    //controls for how energy changes over time
     [SerializeField] private float energyGainRate = 5f;
     [SerializeField] private float energyLossRate = 0.5f;
     [SerializeField] private float energyTaskMultiplier = 4f;
@@ -37,7 +45,7 @@ public class Energy : MonoBehaviour
         }
         else if (energy > 0f && playerC.GetInteracting())
         {
-            //decrease energy over time if doing tasks
+            //decrease energy over time by an additional multipler if doing tasks
             energy = energy - (energyLossRate * energyTaskMultiplier) * Time.deltaTime;
         }
 
@@ -53,6 +61,7 @@ public class Energy : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        //if the player enters the charging area begin charging
         Charger charge = other.gameObject.GetComponent<Charger>();
         if (charge)
         {
@@ -62,6 +71,7 @@ public class Energy : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        //if the player exits the charging area begin charging
         Charger charge = other.gameObject.GetComponent<Charger>();
         if (charge)
         {
