@@ -171,6 +171,7 @@ public class ShipMovement : MonoBehaviour
         //grab all of the celestial bodies
         CelestialBody[] bodies = ManagerForCelestialBodies.bodies;
         //loop thorugh them and add the approriate force from each
+        /*
         foreach (var body in bodies)
         {
             //calculate force using newton's gravity formula
@@ -183,8 +184,9 @@ public class ShipMovement : MonoBehaviour
 
             //and add that to the collective aceleration
             gravityAcel += acel;
-        }
+        }*/
 
-        return gravityAcel * rb.mass;
+        //return gravityAcel * rb.mass;
+        return Vector3.zero;
     }
 }

@@ -132,7 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 44010845}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: FloorCols
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -296,7 +296,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 85339444}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -751,7 +751,7 @@ GameObject:
   m_Component:
   - component: {fileID: 160586800}
   - component: {fileID: 160586801}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Wall14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1031,7 +1031,7 @@ GameObject:
   m_Component:
   - component: {fileID: 241694510}
   - component: {fileID: 241694511}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Wall7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6434,7 +6434,7 @@ GameObject:
   m_Component:
   - component: {fileID: 542549818}
   - component: {fileID: 542549819}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: floor3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11665,7 +11665,7 @@ GameObject:
   m_Component:
   - component: {fileID: 647251201}
   - component: {fileID: 647251202}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Wall8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12030,7 +12030,7 @@ GameObject:
   m_Component:
   - component: {fileID: 712126728}
   - component: {fileID: 712126729}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Wall2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12170,7 +12170,7 @@ GameObject:
   m_Component:
   - component: {fileID: 722052376}
   - component: {fileID: 722052377}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Wall6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12258,7 +12258,7 @@ GameObject:
   m_Component:
   - component: {fileID: 757402953}
   - component: {fileID: 757402954}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: floor 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12443,7 +12443,7 @@ GameObject:
   m_Component:
   - component: {fileID: 822443789}
   - component: {fileID: 822443790}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Wall10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12487,7 +12487,7 @@ GameObject:
   m_Component:
   - component: {fileID: 826183505}
   - component: {fileID: 826183506}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Wall13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12618,7 +12618,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 924441243}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: EngineCols
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12652,8 +12652,8 @@ GameObject:
   - component: {fileID: 934216636}
   - component: {fileID: 934216640}
   - component: {fileID: 934216639}
-  - component: {fileID: 934216637}
   - component: {fileID: 934216641}
+  - component: {fileID: 934216637}
   m_Layer: 10
   m_Name: Planet2
   m_TagString: Planet
@@ -12684,11 +12684,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 934216635}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97b92ec3972693e4bb07183bd45f68b5, type: 3}
+  m_Script: {fileID: 11500000, guid: 705e8e0da93b4894d9aa4bb183b6d833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  surfaceGravity: 9.5
-  initialVelocity: {x: 30, y: 0.1, z: 0}
+  semiMajorAxis: 792.18
+  eccentricity: 0.02
+  inclination: 0
+  LoAN: 0.2
+  AoP: 0.1
+  meanLongitude: 0
+  referenceFrame: {fileID: 1873303221}
+  mass: 100
+  radius: 0
+  maxNewtonIntegrations: 0
+  accurarcyTolerance: 0
+  orbitResolution: 50
 --- !u!23 &934216639
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -12806,7 +12816,7 @@ GameObject:
   m_Component:
   - component: {fileID: 943250582}
   - component: {fileID: 943250583}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: roof 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12933,7 +12943,7 @@ GameObject:
   m_Component:
   - component: {fileID: 962806553}
   - component: {fileID: 962806554}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: roof 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13147,7 +13157,7 @@ GameObject:
   m_Component:
   - component: {fileID: 964915228}
   - component: {fileID: 964915229}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: floor4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13326,7 +13336,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1052212199}
   - component: {fileID: 1052212200}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Wall4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13895,7 +13905,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1192901240}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Colliders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13996,7 +14006,7 @@ GameObject:
   - component: {fileID: 1229430999}
   - component: {fileID: 1229431001}
   - component: {fileID: 1229431000}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: EngineCol1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14128,7 +14138,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1260323866}
   - component: {fileID: 1260323867}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: floor2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14794,7 +14804,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1333180684}
   - component: {fileID: 1333180685}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Wall12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15553,7 +15563,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.8343848, y: 1}
+    m_SensorSize: {x: 1.3333334, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -15702,7 +15712,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1488057114}
   - component: {fileID: 1488057115}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Wall15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15747,8 +15757,8 @@ GameObject:
   - component: {fileID: 1535390207}
   - component: {fileID: 1535390211}
   - component: {fileID: 1535390210}
-  - component: {fileID: 1535390208}
   - component: {fileID: 1535390212}
+  - component: {fileID: 1535390208}
   m_Layer: 10
   m_Name: Planet1
   m_TagString: Planet
@@ -15764,7 +15774,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1535390206}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -258, y: 0, z: -275}
+  m_LocalPosition: {x: -361.18, y: 7.67, z: -365.73}
   m_LocalScale: {x: 23, y: 23, z: 23}
   m_Children: []
   m_Father: {fileID: 1880665648}
@@ -15779,11 +15789,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1535390206}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97b92ec3972693e4bb07183bd45f68b5, type: 3}
+  m_Script: {fileID: 11500000, guid: 705e8e0da93b4894d9aa4bb183b6d833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  surfaceGravity: 2.3
-  initialVelocity: {x: 20, y: -0.5, z: -20}
+  semiMajorAxis: 477.92
+  eccentricity: 0.08
+  inclination: 0
+  LoAN: 0.6
+  AoP: 0.4
+  meanLongitude: -0.5
+  referenceFrame: {fileID: 1873303221}
+  mass: 1520.875
+  radius: 0
+  maxNewtonIntegrations: 5
+  accurarcyTolerance: 0.93
+  orbitResolution: 50
 --- !u!23 &1535390210
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15889,7 +15909,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1561413128}
   - component: {fileID: 1561413129}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: roof 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15932,7 +15952,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1566586744}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: RoofCols
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16337,8 +16357,8 @@ GameObject:
   - component: {fileID: 1705390055}
   - component: {fileID: 1705390059}
   - component: {fileID: 1705390058}
-  - component: {fileID: 1705390056}
   - component: {fileID: 1705390060}
+  - component: {fileID: 1705390056}
   m_Layer: 10
   m_Name: Planet3
   m_TagString: Planet
@@ -16369,11 +16389,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1705390054}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97b92ec3972693e4bb07183bd45f68b5, type: 3}
+  m_Script: {fileID: 11500000, guid: 705e8e0da93b4894d9aa4bb183b6d833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  surfaceGravity: 20
-  initialVelocity: {x: -20, y: -0.01, z: 0}
+  semiMajorAxis: 1834.9
+  eccentricity: 0
+  inclination: 0
+  LoAN: 0.2
+  AoP: 0.1
+  meanLongitude: 360
+  referenceFrame: {fileID: 1873303221}
+  mass: 100
+  radius: 0
+  maxNewtonIntegrations: 0
+  accurarcyTolerance: 0
+  orbitResolution: 50
 --- !u!23 &1705390058
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -16573,7 +16603,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1739527194}
   - component: {fileID: 1739527195}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: roof 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16617,7 +16647,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1759048427}
   - component: {fileID: 1759048428}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Wall11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16661,7 +16691,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1764048454}
   - component: {fileID: 1764048455}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Wall1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17021,8 +17051,8 @@ GameObject:
   - component: {fileID: 1873303220}
   - component: {fileID: 1873303224}
   - component: {fileID: 1873303223}
-  - component: {fileID: 1873303221}
   - component: {fileID: 1873303225}
+  - component: {fileID: 1873303221}
   m_Layer: 10
   m_Name: Sun
   m_TagString: Planet
@@ -17054,11 +17084,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1873303219}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97b92ec3972693e4bb07183bd45f68b5, type: 3}
+  m_Script: {fileID: 11500000, guid: 705e8e0da93b4894d9aa4bb183b6d833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  surfaceGravity: 50
-  initialVelocity: {x: 0, y: 0, z: 0}
+  semiMajorAxis: 0
+  eccentricity: 0
+  inclination: 0
+  LoAN: 0
+  AoP: 0
+  meanLongitude: 0
+  referenceFrame: {fileID: 0}
+  mass: 3906250
+  radius: 0
+  maxNewtonIntegrations: 0
+  accurarcyTolerance: 0
+  orbitResolution: 50
 --- !u!23 &1873303223
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17131,7 +17171,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1880665648}
-  - component: {fileID: 1880665647}
   m_Layer: 0
   m_Name: CelestialBodies
   m_TagString: Untagged
@@ -17139,18 +17178,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1880665647
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1880665646}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52a0323b292a2d24faa2b1d304fc7dcd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1880665648
 Transform:
   m_ObjectHideFlags: 0
@@ -17369,7 +17396,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1968357982}
   - component: {fileID: 1968357983}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Wall3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17540,7 +17567,7 @@ GameObject:
   - component: {fileID: 2098496326}
   - component: {fileID: 2098496328}
   - component: {fileID: 2098496327}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: EngineCol2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17597,7 +17624,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2099861003}
   - component: {fileID: 2099861004}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Wall5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17641,7 +17668,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2126314382}
   - component: {fileID: 2126314383}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Wall9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17685,7 +17712,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2126872668}
   - component: {fileID: 2126872669}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Wall16
   m_TagString: Untagged
   m_Icon: {fileID: 0}
