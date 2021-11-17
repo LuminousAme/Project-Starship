@@ -1,7 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
-public class ShipMovement : MonoBehaviour
+public class ShipFreeSpaceMove : MonoBehaviour
 {
     //Class to control the movement of the player ship
 
@@ -34,26 +35,22 @@ public class ShipMovement : MonoBehaviour
     //the current target rotation of the ship
     [HideInInspector] public Quaternion targetRotation;
 
-    //current state of the ship
-    public enum shipStates
-    {
-        FreeInSpace,
-        LockedInSpace,
-        InOrbit,
-        Landing,
-        Landed
-    }
-
-    //shipStates thisShipState;
+    //manager to get data
+    ShipMoveManager manager;
 
     //awake, runs when the object is first initliazed
     private void Awake()
     {
         rb = this.GetComponent<Rigidbody>();
+        manager = this.GetComponent<ShipMoveManager>();
         targetRotation = transform.rotation;
         lastJoystickState = new Vector2Int(0, 0);
         thrustSpeed = 0f;
-        //thisShipState = shipStates.FreeInSpace;
+    }
+
+    private void OnEnable()
+    {
+        rb.isKinematic = false;
     }
 
     //update helps handle giving the ship a smoother rotation
@@ -73,6 +70,36 @@ public class ShipMovement : MonoBehaviour
 
         HandleRotation();
 
+        //check if the ship is trying to land and even can land
+        if (manager.GetButtonState())
+        {
+            //find the closet body
+
+            CelestialBodyDeterministic[] gravityBodies = ShipMoveManager.GetGravityBodies();
+            //loop thorugh them and add the approriate force from each
+            CelestialBodyDeterministic closetBody = null;
+            foreach (var body in gravityBodies)
+            {
+                Vector3 direction = body.transform.position - rb.position;
+                if (body.mass > 0 && direction.magnitude <= body.radius * manager.gravitySOIMultiplier)
+                {
+                    if (closetBody == null) closetBody = body;
+                    else if (direction.magnitude < (closetBody.transform.position - rb.position).magnitude) closetBody = body;
+                }
+            }
+
+            //if we found one we can land on then begin landing on it
+            if (closetBody != null)
+            {
+                //begin landing
+                manager.BeginLanding(closetBody);
+                //reset the thrust speed
+                thrustSpeed = 0f;
+            }
+            //otherwise set the button back to false
+            else manager.SetButtonState(false);
+        }
+
         //update the time that has passed
         timeSinceDirChange += Time.deltaTime;
     }
@@ -81,7 +108,6 @@ public class ShipMovement : MonoBehaviour
     private void FixedUpdate()
     {
         //handling the positional change
-
         //the ammount the speed of the thruster will increase
         float deltaSpeed = 0f;
 
@@ -168,25 +194,26 @@ public class ShipMovement : MonoBehaviour
     {
         //gravity
         Vector3 gravityAcel = Vector3.zero;
-        //grab all of the celestial bodies
-        CelestialBody[] bodies = ManagerForCelestialBodies.bodies;
+
+        CelestialBodyDeterministic[] gravityBodies = ShipMoveManager.GetGravityBodies();
+
         //loop thorugh them and add the approriate force from each
-        /*
-        foreach (var body in bodies)
+        foreach (var body in gravityBodies)
         {
-            //calculate force using newton's gravity formula
             Vector3 direction = body.transform.position - rb.position;
-            float distanceSquared = direction.sqrMagnitude;
-            Vector3 force = direction.normalized * CelestialBody.gravitationalConstant * rb.mass * body.GetMass() / distanceSquared;
+            if (body.mass > 0 && direction.magnitude <= body.radius * manager.gravitySOIMultiplier)
+            {
+                float distanceSquared = direction.sqrMagnitude;
+                Vector3 force = direction.normalized * manager.gravitationalConstant * rb.mass * body.mass / distanceSquared;
 
-            //from the force calculate the accleration from newton's a = F/m formula
-            Vector3 acel = force / rb.mass;
+                //from the force calculate the accleration from newton's a = F/m formula
+                Vector3 acel = force / rb.mass;
 
-            //and add that to the collective aceleration
-            gravityAcel += acel;
-        }*/
+                //and add that to the collective aceleration
+                gravityAcel += acel;
+            }
+        }
 
-        //return gravityAcel * rb.mass;
-        return Vector3.zero;
+        return gravityAcel * rb.mass;
     }
 }

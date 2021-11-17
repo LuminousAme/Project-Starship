@@ -6,7 +6,7 @@ using UnityEditor;
 //using math from this video: https://youtu.be/Ie5L8Nz1Ns0
 public class CelestialBodyDeterministic : MonoBehaviour
 {
-    static public float gravitationStrenght = 1f;
+    static public float gravitationStrenght = 0.02f;
     const float TAU = 6.28318530718f;
     [SerializeField] private float semiMajorAxis = 200; //size of the orbit
     [SerializeField] [Range(0f, 0.99f)] private float eccentricity; //how ellipitical the orbit is
@@ -19,7 +19,7 @@ public class CelestialBodyDeterministic : MonoBehaviour
     [Space]
 
     //other assisstance numbers calculated on awake
-    [SerializeField] private float mass = 100f;
+    [SerializeField] public float mass = 100f;
     [HideInInspector] public float radius;
     private float mu;
     private float n;
