@@ -47,7 +47,6 @@ public class ReleasePressure : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-
         //increase pressure over time
         if (!releasing) pressure = pressure + buildUpRate * Time.deltaTime;
 
@@ -73,7 +72,6 @@ public class ReleasePressure : MonoBehaviour
         }
         //finally clamp it between the max and 0
         timerForNotWorking = Mathf.Clamp(timerForNotWorking, 0f, timeToNotWorking);
-
 
         //if the player has moved the handle change if it's releasing or not
         if (lastHandleState != pressureHandle.GetHandleState())
