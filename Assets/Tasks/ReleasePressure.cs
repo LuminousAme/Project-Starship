@@ -26,7 +26,7 @@ public class ReleasePressure : MonoBehaviour
 
     [SerializeField] private Light[] lights;
 
-
+    private int pressureState = 2, lastPressureState = 2; //0 is empty, 1 is too low, 2 is good, 3 is too much, 4 is full
 
     // Start is called before the first frame update
     private void Start()
@@ -49,21 +49,26 @@ public class ReleasePressure : MonoBehaviour
     {
 
         //increase pressure over time
-        pressure = pressure + buildUpRate * Time.deltaTime;
+        if (!releasing) pressure = pressure + buildUpRate * Time.deltaTime;
 
         //if the pressure is too high increase the timer until the engine stops working
         if (pressure > 99f)
         {
+            pressureState = 4;
             timerForNotWorking += Time.deltaTime;
         }
         //do the same if the pressure is too low
         else if (pressure < 1f)
         {
+            pressureState = 0;
             timerForNotWorking += Time.deltaTime;
         }
         //but otherwise decrease it
         else
         {
+            if (pressure < 20f) pressureState = 1;
+            else if (pressure > 80f) pressureState = 3;
+            else pressureState = 2;
             timerForNotWorking -= Time.deltaTime;
         }
         //finally clamp it between the max and 0
@@ -86,10 +91,6 @@ public class ReleasePressure : MonoBehaviour
                 m_Material.color = Color.green;
 
                 pressure = pressure - releaseRate * Time.deltaTime;
-                if (pressure < 0f)
-                {
-                    pressure = 0f;
-                }
             }
             //changes color back once valve is turned off
             else if (!releasing)
@@ -113,5 +114,25 @@ public class ReleasePressure : MonoBehaviour
         {
             engineMaterial.color = Color.white;
         }
+
+        //clamp the pressure
+        pressure = Mathf.Clamp(pressure, 0.0f, pressureLimit);
+
+        //update the notifications related to pressure
+        if(pressureState != lastPressureState)
+        {
+            //if the pressure is good remove any notifcations
+            if (pressureState == 2) NotificationSystem.instance.RemoveMessagesWithId(0);
+            //if it's empty play that
+            else if (pressureState == 0) NotificationSystem.instance.AddMessage(0, 2, "No Pressure");
+            //if there is some pressure but not enough play that notifcation
+            else if (pressureState == 1) NotificationSystem.instance.AddMessage(0, 1, "Pressure Levels Low");
+            //if there is too much pressure but the tank is not yet full play that notifcation
+            else if (pressureState == 3) NotificationSystem.instance.AddMessage(0, 1, "Pressure Levels High");
+            //if the pressure tank is full play that message
+            else if (pressureState == 4) NotificationSystem.instance.AddMessage(0, 2, "Pressure Levels Critical");
+        }
+
+        lastPressureState = pressureState;
     }
 }
