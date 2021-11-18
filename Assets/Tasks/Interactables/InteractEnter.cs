@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,14 +5,17 @@ public class InteractEnter : MonoBehaviour
 {
     //gameobject for the player who is going to be interacting
     private Transform player;
+
     private Transform playerCamera;
 
     //the transform for where the player should be standing and what way they should be facing to interact
     [SerializeField] private Transform interactTarget;
+
     [SerializeField] private Transform cameraInteractTarget;
 
     //variable to control how fast the player moves and rotates after interacting
     [SerializeField] private float transitionLenght = 0.2f;
+
     private float transistionProgress = 0.0f;
     private Vector3 startPos;
     private Quaternion startRot;
@@ -22,10 +24,11 @@ public class InteractEnter : MonoBehaviour
 
     //all of the interactable objects that need to be activated
     [SerializeField] private Interactables[] interactableObjects;
-    [SerializeField] private List <Interactables> interactableObjects2;
+
+    [SerializeField] private List<Interactables> interactableObjects2;
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (isBeginningInteraction) BeginInteracting();
         if (!isBeginningInteraction && player != null) player.position = interactTarget.position;
@@ -57,7 +60,6 @@ public class InteractEnter : MonoBehaviour
         }
     }
 
-
     public void AddInteract(Interactables item)
     {
         interactableObjects2.Add(item);
@@ -69,7 +71,7 @@ public class InteractEnter : MonoBehaviour
         //update the trasnistion progress
         transistionProgress += Time.deltaTime;
 
-        //find the t value 
+        //find the t value
         float t = Mathf.Clamp(transistionProgress / transitionLenght, 0.0f, 1.0f);
 
         //move player to the control panel

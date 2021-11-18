@@ -33,6 +33,7 @@ public class ClearFilter : MonoBehaviour
             bool validPosition = false;
 
             j.SetJunkState(false);
+
             while (!validPosition)
             {
                 j.RandomizePos(transform.localScale / 3.5f);
@@ -40,6 +41,7 @@ public class ClearFilter : MonoBehaviour
                 validPosition = true;
                 // Collect all colliders within the radius
                 Collider[] colliders = Physics.OverlapSphere(j.transform.position, j.transform.localScale.x + 1);
+                // Collider[] colliders2 = j.
 
                 // Go through each collider collected
                 foreach (Collider col in colliders)
