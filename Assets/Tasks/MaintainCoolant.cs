@@ -43,6 +43,9 @@ public class MaintainCoolant : MonoBehaviour
 
     public float methodTracker = 0f;
 
+    //0 is all good, 1 is should be fan but isn't, 2 is should be liquid but isn't, 3 is should be nitrogen but isn't
+    private int coolantState = 0, lastCoolantState = 0; 
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -166,6 +169,8 @@ public class MaintainCoolant : MonoBehaviour
             //fanMaterial.color = Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)); //Color.red;
             SetMatEmission(fanMaterial, true, Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)),
                 Mathf.Lerp(1.45f, 1.45f, Mathf.PingPong(Time.time, 1f)));
+
+            coolantState = 1;
         }
         else if (useLiquid && (!liquid))
         {
@@ -173,6 +178,8 @@ public class MaintainCoolant : MonoBehaviour
             //liquidMaterial.color = Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)); //Color.red;
             SetMatEmission(liquidMaterial, true, Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)), 
                 Mathf.Lerp(1.45f, 1.45f, Mathf.PingPong(Time.time, 1f)));
+
+            coolantState = 2;
         }
         else if (useLiquidNitrogen && (!liquidNitrogen))
         {
@@ -180,9 +187,14 @@ public class MaintainCoolant : MonoBehaviour
             //nitrogenMaterial.color = Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)); //Color.red;
             SetMatEmission(nitrogenMaterial, true, Color.Lerp(Color.red, Color.white, Mathf.PingPong(Time.time, 1f)),
                 Mathf.Lerp(1.45f, 1.45f, Mathf.PingPong(Time.time, 1f)));
+
+            coolantState = 3;
         }
         else
         {
+            coolantState = 0;
+
+            //I have no idea what the next few things are doing
             if (heatCountdown < heatCountdownTime)
             {
                 heatCountdown = heatCountdown + 3f * Time.deltaTime;
@@ -191,11 +203,24 @@ public class MaintainCoolant : MonoBehaviour
             {
                 heatCountdown = heatCountdownTime;
             }
-        }
+        } //else for wrong buttons ends here
+
         if (heatCountdown <= 0f)
         {
             engineExplode = true;
         }
+        
+        //if the state has changed update the notifcation system
+        if(coolantState != lastCoolantState)
+        {
+            if (coolantState == 0) NotificationSystem.instance.RemoveMessagesWithId(1);
+            else if (coolantState == 1) NotificationSystem.instance.AddMessage(1, 1, "Turn On Fan");
+            else if (coolantState == 2) NotificationSystem.instance.AddMessage(1, 1, "Use Liquid Cooling");
+            else if (coolantState == 3) NotificationSystem.instance.AddMessage(1, 1, "Swap to Liquid Nitrogen");
+        }
+
+        //update last coolantstate
+        lastCoolantState = coolantState;
     }
 
     public static void SetMatEmission(Material mat, bool on, Color color, float intensity = 0f)

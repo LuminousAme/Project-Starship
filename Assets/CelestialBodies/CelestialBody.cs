@@ -14,7 +14,7 @@ public class CelestialBody : MonoBehaviour
 
     //private data it needs during execute
     private Vector3 currentVelocity;
-    private float mass;
+    [SerializeField] private float mass;
     private float radius;
 
     //awake, runs when the object is first initliazed

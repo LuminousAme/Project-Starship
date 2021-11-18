@@ -86,4 +86,7 @@ public class InteractEnter : MonoBehaviour
             isBeginningInteraction = false;
         }
     }
+
+    //get if the player is interacting with this system
+    public bool GetIsInteracting() => player != null;
 }

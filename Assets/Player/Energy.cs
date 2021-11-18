@@ -20,6 +20,10 @@ public class Energy : MonoBehaviour
     [SerializeField] private float energyGainRate = 5f;
     [SerializeField] private float energyLossRate = 0.5f;
     [SerializeField] private float energyTaskMultiplier = 4f;
+
+    [Space]
+
+    [SerializeField] private bool energySystemOff = false;
     
 
     // Start is called before the first frame update
@@ -49,6 +53,8 @@ public class Energy : MonoBehaviour
             energy = energy - (energyLossRate * energyTaskMultiplier) * Time.deltaTime;
         }
 
+        if (energySystemOff) energy = 100f;
+
         //set if it's possible to do tasks
         AbleTask = (energy <= 0f) ? false : true;
 
@@ -77,11 +83,6 @@ public class Energy : MonoBehaviour
         {
             charging = false;
         }
-    }
-
-    public bool GetAble()
-    {
-        return AbleTask;
     }
 
     public float GetEnergy()
