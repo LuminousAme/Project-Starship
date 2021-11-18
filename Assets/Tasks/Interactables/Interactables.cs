@@ -53,7 +53,7 @@ public class Interactables : MonoBehaviour
                 foreach (var mat in objectMats)
                 {
                     mat.shader = selectedShader;
-                    mat.SetFloat("_OutlineWidth", 0.006f);
+                    mat.SetFloat("_OutlineWidth", 0.008f);
                 }
                 List<Material> parentMats = transform.parent.GetComponent<Renderer>().materials.ToList();
                 foreach (var mat in parentMats)

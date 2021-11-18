@@ -22,6 +22,7 @@ public class InteractEnter : MonoBehaviour
 
     //all of the interactable objects that need to be activated
     [SerializeField] private Interactables[] interactableObjects;
+    [SerializeField] private List <Interactables> interactableObjects2;
 
     // Update is called once per frame
     void Update()
@@ -45,13 +46,21 @@ public class InteractEnter : MonoBehaviour
             isBeginningInteraction = true;
 
             foreach (var obj in interactableObjects) obj.SetInteractable(true);
+            foreach (var obj in interactableObjects2) obj.SetInteractable(true);
         }
         //otherwise set the player to null
         else
         {
             player = null;
             foreach (var obj in interactableObjects) obj.SetInteractable(false);
+            foreach (var obj in interactableObjects2) obj.SetInteractable(false);
         }
+    }
+
+
+    public void AddInteract(Interactables item)
+    {
+        interactableObjects2.Add(item);
     }
 
     //function to move the player to the correct position and rotation for interacting

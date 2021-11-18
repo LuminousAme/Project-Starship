@@ -26,8 +26,6 @@ public class ReleasePressure : MonoBehaviour
 
     [SerializeField] private Light[] lights;
 
-
-
     // Start is called before the first frame update
     private void Start()
     {
@@ -47,7 +45,6 @@ public class ReleasePressure : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-
         //increase pressure over time
         pressure = pressure + buildUpRate * Time.deltaTime;
 
@@ -68,7 +65,6 @@ public class ReleasePressure : MonoBehaviour
         }
         //finally clamp it between the max and 0
         timerForNotWorking = Mathf.Clamp(timerForNotWorking, 0f, timeToNotWorking);
-
 
         //if the player has moved the handle change if it's releasing or not
         if (lastHandleState != pressureHandle.GetHandleState())
