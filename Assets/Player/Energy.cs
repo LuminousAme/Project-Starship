@@ -10,6 +10,7 @@ public class Energy : MonoBehaviour
 
     //data for charging
     public float energy = 80f;
+
     public float energyMax = 100f;
     private bool charging;
 
@@ -18,13 +19,12 @@ public class Energy : MonoBehaviour
 
     //controls for how energy changes over time
     [SerializeField] private float energyGainRate = 5f;
+
     [SerializeField] private float energyLossRate = 0.5f;
     [SerializeField] private float energyTaskMultiplier = 4f;
 
     [Space]
-
     [SerializeField] private bool energySystemOff = false;
-    
 
     // Start is called before the first frame update
     private void Start()

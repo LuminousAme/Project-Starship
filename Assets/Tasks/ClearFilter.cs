@@ -20,6 +20,7 @@ public class ClearFilter : MonoBehaviour
     //the player controller
     [SerializeField] private PlayerController playerC;
 
+    //https://answers.unity.com/questions/1506835/how-to-prevent-3d-object-spawn-overlapping.html
     // Start is called before the first frame update
     private void Start()
     {
@@ -156,7 +157,8 @@ public class ClearFilter : MonoBehaviour
         return true;
     }
 
-    public void RespawnJunk()
+    public bool shouldShipBlow()
     {
+        return shipBlowUp;
     }
 }
