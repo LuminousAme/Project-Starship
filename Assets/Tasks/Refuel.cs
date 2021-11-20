@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Refuel : MonoBehaviour
 {
@@ -30,6 +31,7 @@ public class Refuel : MonoBehaviour
         //max out fuel on ship start
         fuel = fuelWarning;
         refueling = false;
+        shipBlowUp = false;
     }
 
     // Update is called once per frame
@@ -78,6 +80,11 @@ public class Refuel : MonoBehaviour
         {
             refueling = !refueling;
             lastHandleState = fuelHandle.GetHandleState();
+        }
+
+        if (shipBlowUp)
+        {
+            SceneManager.LoadScene("End Menu");
         }
     }
 
