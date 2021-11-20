@@ -10122,7 +10122,6 @@ GameObject:
   - component: {fileID: 3348589158952291225}
   - component: {fileID: 3348589158952291224}
   - component: {fileID: 3348589158952291227}
-  - component: {fileID: 3348589158952291226}
   m_Layer: 7
   m_Name: ShipRigidBody
   m_TagString: Untagged
@@ -10142,6 +10141,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8639782745385877677}
+  - {fileID: 3348589159622091094}
   m_Father: {fileID: 3348589159738011059}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10176,20 +10176,8 @@ MonoBehaviour:
   rotSpeed: 1
   shipSpeed: 20
   avoiding: []
---- !u!114 &3348589158952291226
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3348589158952291230}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6e42ef96433b3b48af31bd53606a583, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objects:
-  - {fileID: 3348589159622091095}
+  rightThruster: {fileID: 3609562636034893786}
+  leftThruster: {fileID: 7379402620084927570}
 --- !u!1 &3348589159622091095
 GameObject:
   m_ObjectHideFlags: 0
@@ -10218,7 +10206,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3348589158173890113}
-  m_Father: {fileID: 3348589159738011059}
+  m_Father: {fileID: 3348589158952291225}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3348589159738011056
@@ -10249,7 +10237,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3348589158952291225}
-  - {fileID: 3348589159622091094}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -8,7 +8,7 @@ public class ShipFreeSpaceMove : MonoBehaviour
 
     //the lever to know acceleration and the joystick to know how it should be turning
     [SerializeField] private Lever acelLever;
-    [SerializeField] private Joystick dirJoystick;
+    [SerializeField] private I_Joystick dirJoystick;
 
     //other data to determine the limits of the movement
     [SerializeField] private float maxSpeed;

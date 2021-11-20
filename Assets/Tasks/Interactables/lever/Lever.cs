@@ -31,17 +31,20 @@ public class Lever : Interactables
         //if the lever is currently selected 
         if (isSelected)
         {
+            bool released = (PlatformManager.GetIsMobileStatic()) ? (numTouches < numTouchesLastFrame)
+            : Input.GetMouseButtonUp(0);
+
             //if the player lets go of the mouse button unselect it
-            if (Input.GetMouseButtonUp(0))
+            if (released)
             {
                 isSelected = false;
                 if (mouse != null) mouse.SetObjectAlreadySelected(isSelected);
                 ShouldBeSelectedMat = false;
             }
-            else
+            else if (!PlatformManager.GetIsMobileStatic() || Input.touchCount > 0)
             {
                 //get the difference between the mouse position on selected and now
-                float currentMousePos = Input.mousePosition.y / (float)Screen.height;
+                float currentMousePos = (PlatformManager.GetIsMobileStatic()) ? Input.GetTouch(0).position.y / (float)Screen.height : Input.mousePosition.y / (float)Screen.height;
                 float diff = currentMousePos - mousePosYOnSelected;
 
                 //if it's gone up enough increase the lever state and reset the mouse pos tracker
@@ -89,6 +92,23 @@ public class Lever : Interactables
                 isSelected = true;
                 if (mouse != null) mouse.SetObjectAlreadySelected(isSelected);
                 mousePosYOnSelected = Input.mousePosition.y / (float)Screen.height;
+            }
+        }
+    }
+
+    public override void touched()
+    {
+        base.touched();
+
+        //only bother if the lever is currently interactable
+        if (isInteractable)
+        {
+            //if the player clicks on the lever, set to selected and save the mouse position in normalized space
+            if (!isSelected && Input.GetMouseButton(0))
+            {
+                isSelected = true;
+                if (mouse != null) mouse.SetObjectAlreadySelected(isSelected);
+                mousePosYOnSelected = Input.GetTouch(0).position.y / (float)Screen.height;
             }
         }
     }

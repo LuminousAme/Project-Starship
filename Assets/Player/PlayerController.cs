@@ -4,10 +4,12 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     //serialized field so they can be changed
+    [Header("Basic Movement")]
     [SerializeField] private float movementSpeed = 10f;
 
     [SerializeField] private float lookSpeed = 5f;
 
+    [Header("Camera Movement")]
     //controls for how much the player has locally rotated
     private float yaw = 0.0f;
 
@@ -23,6 +25,19 @@ public class PlayerController : MonoBehaviour
     //the camera transform, on Y we rotate instead of the player directly so that it handles movement correctly
     [SerializeField] private Transform cam;
 
+    [Header("Mobile Controls")]
+    //the joysticks that allow for moving the camera and player on mobile
+    [SerializeField] private Joystick moveJoystick;
+    [SerializeField] private Joystick lookJoystick;
+    [SerializeField] private GameObject interactButton;
+    [SerializeField] private PlatformManager platform;
+
+    [SerializeField] private float mobileLookSpeed = 1f;
+    [SerializeField] private float mobileMoveSpeed = 5f;
+
+    private bool interactClicked = false;
+    private float timeSinceInteractClicked;
+
     //enum to control different interaction states
     public enum interactionState
     {
@@ -36,6 +51,7 @@ public class PlayerController : MonoBehaviour
     //gameobject the player is currently interacting with
     private GameObject interactionObject;
 
+    [Header("Misc")]
     //interaction cooldown
     [SerializeField] private float interactionCooldown = 0.2f;
 
@@ -48,15 +64,19 @@ public class PlayerController : MonoBehaviour
     {
         //start the player in their default walking state
         playerState = interactionState.WALKING;
-        //and confine the cursor and make it invisible
-        Cursor.lockState = CursorLockMode.Confined;
-        Cursor.visible = false;
+        //and confine the cursor and make it invisible if it is not in mobile mode
+        Cursor.lockState = (platform.GetIsMobile()) ? CursorLockMode.None : CursorLockMode.Confined;
+        Cursor.visible = platform.GetIsMobile();
 
         //set the rotation at it's starting rotation
         targetRotation = transform.rotation;
 
         //get the energy
         playerEnergy = this.GetComponent<Energy>();
+
+        interactClicked = false;
+        interactButton.SetActive(false);
+        timeSinceInteractClicked = interactionCooldown;
     }
 
     // Update is called once per frame
@@ -77,11 +97,22 @@ public class PlayerController : MonoBehaviour
                 Pilot();
                 break;
         }
+
+        if(timeSinceInteractClicked >= interactionCooldown / 2f)
+        {
+            interactClicked = false;
+        }
+        else
+        {
+            timeSinceInteractClicked += Time.deltaTime;
+        }
+
     }
 
     private void FixedUpdate()
     {
-        Vector3 velo = (input.y * transform.forward + input.x * transform.right).normalized * movementSpeed;
+        Vector3 velo = (input.y * transform.forward + input.x * transform.right).normalized;
+        velo *= (platform.GetIsMobile()) ? mobileMoveSpeed : movementSpeed; 
         this.GetComponent<Rigidbody>().velocity = velo;
     }
 
@@ -89,8 +120,10 @@ public class PlayerController : MonoBehaviour
     private void RegularMovement()
     {
         //get rotation input
-        yaw += Input.GetAxis("Mouse X") * Time.deltaTime * lookSpeed;
-        pitch -= Input.GetAxis("Mouse Y") * Time.deltaTime * lookSpeed;
+        yaw += (platform.GetIsMobile()) ? lookJoystick.Horizontal * Time.deltaTime * mobileLookSpeed 
+                : Input.GetAxis("Mouse X") * Time.deltaTime * lookSpeed;
+        pitch -= (platform.GetIsMobile()) ? lookJoystick.Vertical  * Time.deltaTime * mobileLookSpeed
+                : Input.GetAxis("Mouse Y") * Time.deltaTime * lookSpeed;
 
         //limit how far the player can rotate while looking up and down
         pitch = Mathf.Clamp(pitch, pitchLimits.x, pitchLimits.y);
@@ -101,7 +134,8 @@ public class PlayerController : MonoBehaviour
         transform.Rotate(Vector3.up, yaw);
 
         //get input for each direction
-        input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        input = (platform.GetIsMobile()) ? new Vector2(moveJoystick.Horizontal, moveJoystick.Vertical)
+                : new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
     }
 
     //function for piloting the ship
@@ -110,14 +144,20 @@ public class PlayerController : MonoBehaviour
         pitch = cam.localEulerAngles.x;
 
         //if the player is interacting with something, and they hit E, or if they are just out of energy stop interacting
-        if (!playerEnergy.AbleTask || Input.GetKeyDown(KeyCode.E) && timeSinceInteraction >= interactionCooldown)
+        if (!playerEnergy.AbleTask || (Input.GetKey(KeyCode.E) || interactClicked) && timeSinceInteraction >= interactionCooldown)
         {
             interactionObject.GetComponent<InteractEnter>().SetEntityInteracting(null, null);
             playerState = interactionState.WALKING;
             timeSinceInteraction = 0.0f;
             //and hide the cursor
-            Cursor.lockState = CursorLockMode.Confined;
-            Cursor.visible = false;
+            Cursor.lockState = (platform.GetIsMobile()) ? CursorLockMode.None : CursorLockMode.Confined;
+            Cursor.visible = platform.GetIsMobile();
+
+            if(platform.GetIsMobile())
+            {
+                lookJoystick.gameObject.SetActive(true);
+                moveJoystick.gameObject.SetActive(true);
+            }
         }
     }
 
@@ -128,7 +168,7 @@ public class PlayerController : MonoBehaviour
         if (playerState == interactionState.WALKING && timeSinceInteraction >= interactionCooldown)
         {
             //if the player is within the control panel's interaction space, has enough energy and presses E to interact
-            if (playerEnergy.AbleTask && other.name == "Control Panel" && Input.GetKey(KeyCode.E))
+            if (playerEnergy.AbleTask && other.name == "Control Panel" && (Input.GetKey(KeyCode.E) || interactClicked))
             {
                 //begin piloting
                 interactionObject = other.gameObject;
@@ -138,7 +178,29 @@ public class PlayerController : MonoBehaviour
                 //and make the cursor visible
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
+
+                if (platform.GetIsMobile())
+                {
+                    lookJoystick.gameObject.SetActive(false);
+                    moveJoystick.gameObject.SetActive(false);
+                }
             }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(platform.GetIsMobile() && other.name == "Control Panel")
+        {
+            interactButton.SetActive(true);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (platform.GetIsMobile() && other.name == "Control Panel")
+        {
+            interactButton.SetActive(false);
         }
     }
 
@@ -150,5 +212,11 @@ public class PlayerController : MonoBehaviour
         }
         else
             return true;
+    }
+
+    public void OnInteractButtonClicked()
+    {
+        interactClicked = true;
+        timeSinceInteractClicked = 0f;
     }
 }
