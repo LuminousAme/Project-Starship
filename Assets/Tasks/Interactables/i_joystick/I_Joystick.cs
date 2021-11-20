@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Joystick : Interactables
+public class I_Joystick : Interactables
 {
     //class for joysticks that can manually controlled by player input
 

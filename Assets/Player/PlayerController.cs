@@ -4,10 +4,12 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     //serialized field so they can be changed
+    [Header("Basic Movement")]
     [SerializeField] private float movementSpeed = 10f;
 
     [SerializeField] private float lookSpeed = 5f;
 
+    [Header("Camera Movement")]
     //controls for how much the player has locally rotated
     private float yaw = 0.0f;
 
@@ -23,6 +25,12 @@ public class PlayerController : MonoBehaviour
     //the camera transform, on Y we rotate instead of the player directly so that it handles movement correctly
     [SerializeField] private Transform cam;
 
+    [Header("Mobile Controls")]
+    //the joysticks that allow for moving the camera and player on mobile
+    [SerializeField] private Joystick moveJoystick;
+    [SerializeField] private Joystick lookJoystick;
+    [SerializeField] private PlatformManager platform;
+
     //enum to control different interaction states
     public enum interactionState
     {
@@ -36,6 +44,7 @@ public class PlayerController : MonoBehaviour
     //gameobject the player is currently interacting with
     private GameObject interactionObject;
 
+    [Header("Misc")]
     //interaction cooldown
     [SerializeField] private float interactionCooldown = 0.2f;
 
@@ -48,9 +57,9 @@ public class PlayerController : MonoBehaviour
     {
         //start the player in their default walking state
         playerState = interactionState.WALKING;
-        //and confine the cursor and make it invisible
-        Cursor.lockState = CursorLockMode.Confined;
-        Cursor.visible = false;
+        //and confine the cursor and make it invisible if it is not in mobile mode
+        Cursor.lockState = (platform.GetIsMobile()) ? CursorLockMode.None : CursorLockMode.Confined;
+        Cursor.visible = platform.GetIsMobile();
 
         //set the rotation at it's starting rotation
         targetRotation = transform.rotation;
@@ -89,8 +98,8 @@ public class PlayerController : MonoBehaviour
     private void RegularMovement()
     {
         //get rotation input
-        yaw += Input.GetAxis("Mouse X") * Time.deltaTime * lookSpeed;
-        pitch -= Input.GetAxis("Mouse Y") * Time.deltaTime * lookSpeed;
+        yaw += (platform.GetIsMobile()) ? lookJoystick.Horizontal : Input.GetAxis("Mouse X") * Time.deltaTime * lookSpeed;
+        pitch -= (platform.GetIsMobile()) ? lookJoystick.Vertical : Input.GetAxis("Mouse Y") * Time.deltaTime * lookSpeed;
 
         //limit how far the player can rotate while looking up and down
         pitch = Mathf.Clamp(pitch, pitchLimits.x, pitchLimits.y);
@@ -101,7 +110,8 @@ public class PlayerController : MonoBehaviour
         transform.Rotate(Vector3.up, yaw);
 
         //get input for each direction
-        input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        input = (platform.GetIsMobile()) ? new Vector2(moveJoystick.Horizontal, moveJoystick.Vertical)
+                : new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
     }
 
     //function for piloting the ship
@@ -116,8 +126,8 @@ public class PlayerController : MonoBehaviour
             playerState = interactionState.WALKING;
             timeSinceInteraction = 0.0f;
             //and hide the cursor
-            Cursor.lockState = CursorLockMode.Confined;
-            Cursor.visible = false;
+            Cursor.lockState = (platform.GetIsMobile()) ? CursorLockMode.None : CursorLockMode.Confined;
+            Cursor.visible = platform.GetIsMobile();
         }
     }
 

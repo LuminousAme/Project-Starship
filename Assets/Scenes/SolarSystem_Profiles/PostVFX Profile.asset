@@ -1375,12 +1375,12 @@ MonoBehaviour:
   active: 1
   enabled:
     overrideState: 1
-    value: 1
+    value: 0
   intensity:
-    overrideState: 1
+    overrideState: 0
     value: 1
   threshold:
-    overrideState: 1
+    overrideState: 0
     value: 1.5
   softKnee:
     overrideState: 0
