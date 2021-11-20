@@ -23,6 +23,8 @@ public class AIShip : MonoBehaviour
 
     public List<GameObject> avoiding = new List<GameObject>();
 
+    //the particle systems
+    [SerializeField] private ParticleSystem rightThruster, leftThruster;
 
     // Start is called before the first frame update
     private void Awake()
@@ -48,6 +50,16 @@ public class AIShip : MonoBehaviour
         {
             avoiding.Add(aovidance);
         }
+
+        Transform psSimSpace = GameObject.Find("CelestialBodies").transform;
+
+        var leftMain = leftThruster.main;
+        leftMain.simulationSpace = ParticleSystemSimulationSpace.Custom;
+        leftMain.customSimulationSpace = psSimSpace;
+
+        var rightmain = rightThruster.main;
+        rightmain.simulationSpace = ParticleSystemSimulationSpace.Custom;
+        rightmain.customSimulationSpace = psSimSpace;
     }
 
     // Update is called once per frame
