@@ -117,7 +117,7 @@ public class ReleasePressure : MonoBehaviour
         pressure = Mathf.Clamp(pressure, 0.0f, pressureLimit);
 
         //update the notifications related to pressure
-        if(pressureState != lastPressureState)
+        if (pressureState != lastPressureState)
         {
             //if the pressure is good remove any notifcations
             if (pressureState == 2) NotificationSystem.instance.RemoveMessagesWithId(0);

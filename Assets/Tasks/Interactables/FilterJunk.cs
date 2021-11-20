@@ -30,7 +30,6 @@ public class FilterJunk : Interactables
     // Update is called once per frame
     protected override void Process()
     {
-        //OnDrawGizmos();
         //if the junk is currently selected and the player lets go of it, unselect it
         if (isSelected && Input.GetMouseButtonUp(0))
         {
@@ -86,11 +85,11 @@ public class FilterJunk : Interactables
     public void RandomizePos(Vector3 range)
     {
         //Vector3 position = new Vector3(Random.Range(0.1f, 0.5f), Random.Range(-0.1f, -0.5f), 0);
-        Vector3 position2 = new Vector3(Random.Range(-0.05f, 0.05f), Random.Range(-0.05f, 0.05f), 0);
+        //Vector3 position2 = new Vector3(Random.Range(-0.05f, 0.05f), Random.Range(-0.05f, 0.05f), 0);
         Vector3 ranges = new Vector3(Random.Range(-range.x, range.x), Random.Range(-range.y, range.y), 0);
-        //var randpos = (Random.Range(-10.1f, 10.1f));
+
         //transform.position = transform.position + (startPos);
-        // startPosSpawn = startPos + ranges;
+
         startPosSpawn = startPos + ranges;
         transform.parent.position = transform.position;
     }
