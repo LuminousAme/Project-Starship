@@ -13,8 +13,11 @@ public class PlatformManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        isMobile = (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer
+           || (Application.platform == RuntimePlatform.WindowsEditor && runMobileInEditor));
+
         //if it should be using mobile controls
-        if(GetIsMobile())
+        if (isMobile)
         {
             //set the controls to active
             if(mobilePanel != null) mobilePanel.SetActive(true);
@@ -29,9 +32,11 @@ public class PlatformManager : MonoBehaviour
 
     public bool GetIsMobile()
     {
-        isMobile = (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer
-            || (Application.platform == RuntimePlatform.WindowsEditor && runMobileInEditor));
-
         return isMobile;
+    }
+
+    static public bool GetIsMobileStatic()
+    {
+        return GameObject.Find("PlatformManager").GetComponent<PlatformManager>().GetIsMobile();
     }
 }

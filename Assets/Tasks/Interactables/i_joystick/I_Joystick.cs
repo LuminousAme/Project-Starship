@@ -32,17 +32,23 @@ public class I_Joystick : Interactables
         //if the lever is currently selected 
         if (isSelected)
         {
+            bool released = (PlatformManager.GetIsMobileStatic()) ? (numTouches < numTouchesLastFrame)
+            : Input.GetMouseButtonUp(0);
+
             //if the player lets go of the mouse button unselect it
-            if (Input.GetMouseButtonUp(0))
+            if (released)
             {
                 isSelected = false;
                 if (mouse != null) mouse.SetObjectAlreadySelected(isSelected);
                 ShouldBeSelectedMat = false;
             }
-            else
+            else if (!PlatformManager.GetIsMobileStatic() || Input.touchCount > 0)
             {
                 //get the difference between the mouse position on selected and now
-                Vector2 currentMousePos = new Vector2(Input.mousePosition.x / (float)Screen.width, Input.mousePosition.y / (float)Screen.height);
+                Vector2 currentMousePos = (PlatformManager.GetIsMobileStatic()) ?
+                    new Vector2(Input.GetTouch(0).position.x / (float)Screen.width, Input.GetTouch(0).position.y / (float)Screen.height) :
+                    new Vector2(Input.mousePosition.x / (float)Screen.width, Input.mousePosition.y / (float)Screen.height);
+
                 Vector2 diff = currentMousePos - mousePosOnSelected;
 
                 //if it's gone up enough increase the joystick state and reset the mouse pos tracker
@@ -103,6 +109,24 @@ public class I_Joystick : Interactables
                 isSelected = true;
                 if (mouse != null) mouse.SetObjectAlreadySelected(isSelected);
                 mousePosOnSelected = new Vector2(Input.mousePosition.x / (float)Screen.width, Input.mousePosition.y / (float)Screen.height);
+            }
+        }
+    }
+
+    public override void touched()
+    {
+        //call the base function
+        base.touched();
+
+        //only bother if the lever is currently interactable
+        if (isInteractable)
+        {
+            //if the player clicks on the lever, set to selected and save the mouse position in normalized space
+            if (!isSelected)
+            {
+                isSelected = true;
+                if (mouse != null) mouse.SetObjectAlreadySelected(isSelected);
+                mousePosOnSelected = new Vector2(Input.GetTouch(0).position.x / (float)Screen.width, Input.GetTouch(0).position.y / (float)Screen.height);
             }
         }
     }

@@ -20,6 +20,9 @@ public class Interactables : MonoBehaviour
     protected bool isSelectedMat;
     protected bool mousedOverThisFrame, mousedOverLastFrame;
 
+    //number of mobile touches
+    protected static int numTouches = 0, numTouchesLastFrame = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,6 +43,8 @@ public class Interactables : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        numTouches = Input.touchCount;
+
         if (!isSelected && mousedOverLastFrame && !mousedOverThisFrame)
         {
             ShouldBeSelectedMat = false;
@@ -86,7 +91,12 @@ public class Interactables : MonoBehaviour
             ShouldBeSelectedMat = false;
         }
 
-        Process();
+        Process();   
+    }
+
+    private void LateUpdate()
+    {
+        numTouchesLastFrame = numTouches;
     }
 
     //inits the interactable object
@@ -102,6 +112,13 @@ public class Interactables : MonoBehaviour
 
     //when the mouse is overlapping this object
     public virtual void mousedOver()
+    {
+        ShouldBeSelectedMat = true;
+        mousedOverThisFrame = true;
+    }
+
+    //when this object is being touched from a mobile device
+    public virtual void touched()
     {
         ShouldBeSelectedMat = true;
         mousedOverThisFrame = true;

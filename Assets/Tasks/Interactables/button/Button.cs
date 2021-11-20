@@ -14,6 +14,8 @@ public class Button : Interactables
     [SerializeField] private float pressMovement = 0.01f;
     private Vector3 targetPos;
 
+
+
     // Start is called before the first frame update
     protected override void Init()
     {
@@ -26,8 +28,11 @@ public class Button : Interactables
     // Update is called once per frame
     protected override void Process()
     {
+        bool released = (PlatformManager.GetIsMobileStatic()) ? (numTouches < numTouchesLastFrame)
+            : Input.GetMouseButtonUp(0);
+
         //if the lever is currently selected and the player lets go of it, unselect it
-        if (isSelected && Input.GetMouseButtonUp(0))
+        if (isSelected && released)
         {
             isSelected = false;
             if (mouse != null) mouse.SetObjectAlreadySelected(isSelected);
@@ -71,6 +76,21 @@ public class Button : Interactables
             {
                 isSelected = true;
                 if (mouse != null) mouse.SetObjectAlreadySelected(isSelected);
+                buttonState = !buttonState;
+            }
+        }
+    }
+
+    public override void touched()
+    {
+        //call the base function
+        base.touched();
+
+        //only bother if the button is currently interactable
+        if (isInteractable)
+        {
+            {
+                isSelected = true;
                 buttonState = !buttonState;
             }
         }

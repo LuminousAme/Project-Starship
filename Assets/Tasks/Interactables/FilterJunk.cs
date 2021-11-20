@@ -30,8 +30,11 @@ public class FilterJunk : Interactables
     // Update is called once per frame
     protected override void Process()
     {
+        bool released = (PlatformManager.GetIsMobileStatic()) ? (numTouches < numTouchesLastFrame)
+            : Input.GetMouseButtonUp(0);
+
         //if the junk is currently selected and the player lets go of it, unselect it
-        if (isSelected && Input.GetMouseButtonUp(0))
+        if (isSelected && released)
         {
             isSelected = false;
             if (mouse != null) mouse.SetObjectAlreadySelected(isSelected);
@@ -109,6 +112,24 @@ public class FilterJunk : Interactables
         {
             //if the player clicks on the button, set to selected and change the value
             if (!isSelected && Input.GetMouseButton(0))
+            {
+                isSelected = true;
+                if (mouse != null) mouse.SetObjectAlreadySelected(isSelected);
+                junkState = true;
+            }
+        }
+    }
+
+    public override void touched()
+    {
+        //call the base function
+        base.touched();
+
+        //only bother if the junk is currently interactable
+        if (isInteractable)
+        {
+            //if the player clicks on the button, set to selected and change the value
+            if (!isSelected)
             {
                 isSelected = true;
                 if (mouse != null) mouse.SetObjectAlreadySelected(isSelected);
