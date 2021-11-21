@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ShipFreeSpaceMove : MonoBehaviour
 {
@@ -215,5 +216,14 @@ public class ShipFreeSpaceMove : MonoBehaviour
         }
 
         return gravityAcel * rb.mass;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        //if we collide with the sun we get a game over
+        if(collision.collider.gameObject.name == "Sun")
+        {
+            SceneManager.LoadScene("End Menu");
+        }
     }
 }
