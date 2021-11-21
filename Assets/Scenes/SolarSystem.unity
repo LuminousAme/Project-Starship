@@ -15279,6 +15279,7 @@ MonoBehaviour:
   energyGainRate: 20
   energyLossRate: 0.5
   energyTaskMultiplier: 2
+  mobileInteractButton: {fileID: 2140995799}
   energySystemOff: 0
 --- !u!54 &1070076243
 Rigidbody:
