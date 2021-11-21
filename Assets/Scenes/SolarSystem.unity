@@ -14745,7 +14745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1948983e370d75f41b8627e4976fd01a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  junkRespawn: 5
+  junkRespawn: 60
   filterClogTimeLimit: 30
   shipBlowUpTime: 0
   shipBlowUp: 0
@@ -15055,8 +15055,8 @@ MonoBehaviour:
   energyMax: 100
   energyGainRate: 20
   energyLossRate: 0.5
-  energyTaskMultiplier: 4
-  energySystemOff: 1
+  energyTaskMultiplier: 2
+  energySystemOff: 0
 --- !u!54 &1070076243
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -15525,7 +15525,7 @@ MonoBehaviour:
   dirJoystick: {fileID: 672773821}
   maxSpeed: 250
   acelRate: 10
-  dcelRate: 10
+  dcelRate: 20
   maxAcelForce: 50
   minRotateRate: 0.02
   maxRotateRate: 0.05
@@ -15575,7 +15575,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10946937a3adf4d4892633bb14f58212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravitySOIMultiplier: 2.5
+  gravitySOIMultiplier: 1.5
   gravitationalConstant: 0.2
   landingButton: {fileID: 701464626}
 --- !u!54 &1186545935
@@ -16429,7 +16429,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mobilePanel: {fileID: 775367342}
-  runMobileInEditor: 1
+  runMobileInEditor: 0
 --- !u!4 &1293003819
 Transform:
   m_ObjectHideFlags: 0
@@ -17066,7 +17066,7 @@ MonoBehaviour:
   engineIndicator: {fileID: 718423547}
   pressureHandle: {fileID: 1275547753}
   pressureLimit: 100
-  pressure: 79
+  pressure: 0
   timeToNotWorking: 10
   buildUpRate: 1
   releaseRate: 1
@@ -17356,7 +17356,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.1111112, y: 1}
+    m_SensorSize: {x: 2.1782334, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
