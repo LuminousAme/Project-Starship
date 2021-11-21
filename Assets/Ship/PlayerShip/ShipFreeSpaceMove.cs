@@ -147,8 +147,8 @@ public class ShipFreeSpaceMove : MonoBehaviour
     private void HandleRotation()
     {
         //handling the rotation
-        float horiRot = dirJoystick.GetJoystickState().x * rotateRate;
-        float vertRot = dirJoystick.GetJoystickState().y * rotateRate;
+        float horiRot = dirJoystick.GetJoystickState().x * rotateRate * Time.deltaTime;
+        float vertRot = dirJoystick.GetJoystickState().y * rotateRate * Time.deltaTime;
 
         //apply the rotation
         Quaternion yaw = Quaternion.AngleAxis(horiRot, transform.up);
