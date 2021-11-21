@@ -15752,8 +15752,8 @@ MonoBehaviour:
   acelRate: 10
   dcelRate: 20
   maxAcelForce: 50
-  minRotateRate: 1.2
-  maxRotateRate: 3
+  minRotateRate: 5
+  maxRotateRate: 10
   timeToMaxRotation: 0.2
   springDampning: 4
   targetRotation: {x: -3.179893e-10, y: -0.96947795, z: -2.208332e-10, w: -0.24458721}
