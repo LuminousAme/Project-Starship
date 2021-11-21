@@ -16654,7 +16654,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mobilePanel: {fileID: 775367342}
-  runMobileInEditor: 0
+  runMobileInEditor: 1
 --- !u!4 &1293003819
 Transform:
   m_ObjectHideFlags: 0
@@ -17515,7 +17515,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.9968203, y: 1}
+    m_SensorSize: {x: 2.1111112, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -17792,8 +17792,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.431735, y: 1.9268128, z: 1.0240915}
-  m_Center: {x: 0.07333422, y: 0.12342888, z: 0.012045741}
+  m_Size: {x: 1.431735, y: 1.9268128, z: 1.5088861}
+  m_Center: {x: 0.07333422, y: 0.12342888, z: 0.25444305}
 --- !u!1 &1514244346
 GameObject:
   m_ObjectHideFlags: 0
@@ -17838,8 +17838,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.7463245, y: 1.9268128, z: 1.0586193}
-  m_Center: {x: 0.114162445, y: 0.12342888, z: 0.02930963}
+  m_Size: {x: 1.7463245, y: 1.9268128, z: 1.3561896}
+  m_Center: {x: 0.114162445, y: 0.12342888, z: -0.11947554}
 --- !u!114 &1514244349
 MonoBehaviour:
   m_ObjectHideFlags: 0

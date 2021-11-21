@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Energy : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class Energy : MonoBehaviour
     [SerializeField] private float energyLossRate = 0.5f;
     [SerializeField] private float energyTaskMultiplier = 4f;
 
+    [SerializeField] private UnityEngine.UI.Button mobileInteractButton;
+
     [Space]
     [SerializeField] private bool energySystemOff = false;
 
@@ -32,6 +35,7 @@ public class Energy : MonoBehaviour
         charging = false;
         AbleTask = true;
         playerC = GetComponent<PlayerController>();
+        mobileInteractButton.interactable = true;
     }
 
     // Update is called once per frame
@@ -57,6 +61,7 @@ public class Energy : MonoBehaviour
 
         //set if it's possible to do tasks
         AbleTask = (energy <= 0f) ? false : true;
+        mobileInteractButton.interactable = AbleTask;
 
         //clamp the energy
         energy = Mathf.Clamp(energy, 0, energyMax);
