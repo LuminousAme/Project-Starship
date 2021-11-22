@@ -53,12 +53,14 @@ public class Handle : Interactables
                 {
                     handleState = true;
                     mousePosOnSelected = currentMousePos;
+                    if (this.GetComponent<AudioSource>() != null) this.GetComponent<AudioSource>().Play();
                 }
 
                 if (handleState && diff.x > threshold.x && diff.y > threshold.y)
                 {
                     handleState = false;
                     mousePosOnSelected = currentMousePos;
+                    if (this.GetComponent<AudioSource>() != null) this.GetComponent<AudioSource>().Play();
                 }
 
                 targetRotation = (handleState) ? Quaternion.Euler(startingRotation.x, startingRotation.y, 90f) : startingRotation;

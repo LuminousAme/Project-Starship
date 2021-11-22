@@ -77,6 +77,7 @@ public class Button : Interactables
                 isSelected = true;
                 if (mouse != null) mouse.SetObjectAlreadySelected(isSelected);
                 buttonState = !buttonState;
+                if (this.GetComponent<AudioSource>() != null) this.GetComponent<AudioSource>().Play();
             }
         }
     }
@@ -94,6 +95,7 @@ public class Button : Interactables
             {
                 isSelected = true;
                 buttonState = !buttonState;
+                if (this.GetComponent<AudioSource>() != null) this.GetComponent<AudioSource>().Play();
             }
         }
     }

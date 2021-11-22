@@ -28,6 +28,8 @@ public class ReleasePressure : MonoBehaviour
 
     private int pressureState = 2, lastPressureState = 2; //0 is empty, 1 is too low, 2 is good, 3 is too much, 4 is full
 
+    private AudioSource buildUpSound;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -42,13 +44,26 @@ public class ReleasePressure : MonoBehaviour
 
         //timer for not working
         timerForNotWorking = 0.0f;
+
+        buildUpSound = this.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     private void Update()
     {
         //increase pressure over time
-        if (!releasing) pressure = pressure + buildUpRate * Time.deltaTime;
+        if (!releasing)
+        {
+            pressure = pressure + buildUpRate * Time.deltaTime;
+            if (!buildUpSound.isPlaying)
+                buildUpSound.Play();
+        }
+        else
+        {
+            if (buildUpSound.isPlaying)
+                buildUpSound.Stop();
+        }
+
 
         //if the pressure is too high increase the timer until the engine stops working
         if (pressure > 99f)

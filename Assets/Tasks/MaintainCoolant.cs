@@ -87,6 +87,8 @@ public class MaintainCoolant : MonoBehaviour
             SetMatEmission(fanMaterial, true, Color.green, 1.45f);
             SetMatEmission(liquidMaterial, false, Color.black);
             SetMatEmission(nitrogenMaterial, false, Color.black);
+
+            fanIndicator.GetComponent<AudioSource>().Play();
         }
 
         //if the player has pressed the liquid cooling button but it has not been updated here, update it here
@@ -100,6 +102,8 @@ public class MaintainCoolant : MonoBehaviour
             SetMatEmission(liquidMaterial, true, Color.green, 1.45f);
             SetMatEmission(fanMaterial, false, Color.black);
             SetMatEmission(nitrogenMaterial, false, Color.black);
+
+            liquidIndicator.GetComponent<AudioSource>().Play();
         }
 
         //if the player has pressed the liquid nitrogen cooling button but it has not been updated here, update it here
@@ -113,6 +117,8 @@ public class MaintainCoolant : MonoBehaviour
             SetMatEmission(nitrogenMaterial, true, Color.green, 1.45f);
             SetMatEmission(liquidMaterial, false, Color.black);
             SetMatEmission(fanMaterial, false, Color.black);
+
+            nitrogenIndicator.GetComponent<AudioSource>().Play();
         }
 
         //handle the player unpressing buttons
