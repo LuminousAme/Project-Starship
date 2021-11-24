@@ -46,7 +46,7 @@ public class ClearFilter : MonoBehaviour
         shipBlowUpTime = 0f;
         controlPanelInteractables = controlPanel.GetComponent<InteractEnter>();
 
-        Vector3 temppos = new Vector3(0.5f, 0f, -0.135f);
+        Vector3 temppos = new Vector3(0.45f, 0f, -0.135f);
 
         foreach (var j in junk)
         {
