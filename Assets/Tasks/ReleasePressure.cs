@@ -64,7 +64,6 @@ public class ReleasePressure : MonoBehaviour
                 buildUpSound.Stop();
         }
 
-
         //if the pressure is too high increase the timer until the engine stops working
         if (pressure > 99f)
         {
