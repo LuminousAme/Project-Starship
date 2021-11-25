@@ -1,35 +1,48 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
     //serialized field so they can be changed
+    [Header("Basic Movement")]
     [SerializeField] private float movementSpeed = 10f;
 
     [SerializeField] private float lookSpeed = 5f;
 
-    //the transform of the parent (right now just the ship, may change if we allow the player to leave the ship in the future)
-    //needed to make sure the controls work regardless of the ship's orientation
-    [SerializeField] private Transform parentSpace;
-
+    [Header("Camera Movement")]
     //controls for how much the player has locally rotated
     private float yaw = 0.0f;
+
     private float pitch = 0.0f;
-    [SerializeField] Vector2 pitchLimits;
+    [SerializeField] private Vector2 pitchLimits;
 
     //quaterion to track the current rotation
-    Quaternion targetRotation;
+    private Quaternion targetRotation;
 
-    //the rigidbody of the player
-    //private Rigidbody rb;
+    //input vector
+    private Vector2 input = Vector2.zero;
 
     //the camera transform, on Y we rotate instead of the player directly so that it handles movement correctly
-    [SerializeField] Transform cam;
+    [SerializeField] private Transform cam;
+
+    [Header("Mobile Controls")]
+    //the joysticks that allow for moving the camera and player on mobile
+    [SerializeField] private Joystick moveJoystick;
+    [SerializeField] private Joystick lookJoystick;
+    [SerializeField] private GameObject interactButton;
+    [SerializeField] private PlatformManager platform;
+
+    [SerializeField] private float mobileLookSpeed = 1f;
+    [SerializeField] private float mobileMoveSpeed = 5f;
+
+    private bool interactClicked = false;
+    private float timeSinceInteractClicked;
 
     //enum to control different interaction states
-    private enum interactionState
+    public enum interactionState
     {
         WALKING,
-        PILOTING
+        INTERACTING
     }
 
     //variable with the current enum for this player
@@ -38,25 +51,32 @@ public class PlayerController : MonoBehaviour
     //gameobject the player is currently interacting with
     private GameObject interactionObject;
 
+    [Header("Misc")]
     //interaction cooldown
     [SerializeField] private float interactionCooldown = 0.2f;
 
     private float timeSinceInteraction = 0.0f;
+
+    private Energy playerEnergy;
 
     //Start runs when the object first enters the scene
     private void Start()
     {
         //start the player in their default walking state
         playerState = interactionState.WALKING;
-        //and confine the cursor and make it invisible
-        Cursor.lockState = CursorLockMode.Confined;
-        Cursor.visible = false;
+        //and confine the cursor and make it invisible if it is not in mobile mode
+        Cursor.lockState = (platform.GetIsMobile()) ? CursorLockMode.None : CursorLockMode.Confined;
+        Cursor.visible = platform.GetIsMobile();
 
         //set the rotation at it's starting rotation
         targetRotation = transform.rotation;
 
-        //grab a reference to the rigidbody
-        //rb = this.GetComponent<Rigidbody>();
+        //get the energy
+        playerEnergy = this.GetComponent<Energy>();
+
+        interactClicked = false;
+        interactButton.SetActive(false);
+        timeSinceInteractClicked = interactionCooldown;
     }
 
     // Update is called once per frame
@@ -65,7 +85,7 @@ public class PlayerController : MonoBehaviour
         //update the interaction cooldown
         timeSinceInteraction += Time.deltaTime;
 
-        //use a simple state machine to determine what kinda of input the player is allowed to use 
+        //use a simple state machine to determine what kinda of input the player is allowed to use
         switch (playerState)
         {
             //if the player is in their regular walk mode, allow them to move normally
@@ -73,49 +93,49 @@ public class PlayerController : MonoBehaviour
                 RegularMovement();
                 break;
             //if the player is piloting the ship, only allow them to use piloting input
-            case interactionState.PILOTING:
+            case interactionState.INTERACTING:
                 Pilot();
                 break;
         }
+
+        if(timeSinceInteractClicked >= interactionCooldown / 2f)
+        {
+            interactClicked = false;
+        }
+        else
+        {
+            timeSinceInteractClicked += Time.deltaTime;
+        }
+
     }
 
     private void FixedUpdate()
     {
-
+        Vector3 velo = (input.y * transform.forward + input.x * transform.right).normalized;
+        velo *= (platform.GetIsMobile()) ? mobileMoveSpeed : movementSpeed; 
+        this.GetComponent<Rigidbody>().velocity = velo;
     }
 
     //function for the player's regular movememnt
     private void RegularMovement()
     {
         //get rotation input
-        yaw += Input.GetAxis("Mouse X") * lookSpeed;
-        pitch -= Input.GetAxis("Mouse Y") * lookSpeed;
+        yaw += (platform.GetIsMobile()) ? lookJoystick.Horizontal * Time.deltaTime * mobileLookSpeed 
+                : Input.GetAxis("Mouse X") * Time.deltaTime * lookSpeed;
+        pitch -= (platform.GetIsMobile()) ? lookJoystick.Vertical  * Time.deltaTime * mobileLookSpeed
+                : Input.GetAxis("Mouse Y") * Time.deltaTime * lookSpeed;
 
         //limit how far the player can rotate while looking up and down
         pitch = Mathf.Clamp(pitch, pitchLimits.x, pitchLimits.y);
 
-        //align the up with the ship
-        transform.rotation = Quaternion.FromToRotation(transform.up.normalized, parentSpace.up.normalized) * transform.rotation;
-
         //rotate based on mouse input
         cam.transform.localEulerAngles = new Vector3(pitch, 0f, 0f);
         transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, 0f, 0f);
-        transform.RotateAround(transform.position, parentSpace.up, yaw);
-        //Quaternion newUp = Quaternion.FromToRotation(transform.up.normalized, parentSpace.up.normalized) * targetRotation;
-        //Quaternion newUp = Quaternion.LookRotation(transform.forward, parentSpace.up);
-        Quaternion newYaw = Quaternion.AngleAxis(yaw, transform.up);
-        targetRotation = newYaw * targetRotation;
-        //rb.MoveRotation(targetRotation);
+        transform.Rotate(Vector3.up, yaw);
 
         //get input for each direction
-        float dirX = Input.GetAxis("Horizontal");
-        float dirZ = Input.GetAxis("Vertical");
-
-        //use that input to move the player 
-        //note: moving in local space so that the motion appears the same to the player regardless of orientation of the ship
-
-        transform.Translate(new Vector3(dirX, 0.0f, dirZ) * movementSpeed * Time.deltaTime, Space.Self);
-        //rb.MovePosition(rb.position + new Vector3(dirX, 0.0f, dirZ) * movementSpeed * Time.deltaTime);
+        input = (platform.GetIsMobile()) ? new Vector2(moveJoystick.Horizontal, moveJoystick.Vertical)
+                : new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
     }
 
     //function for piloting the ship
@@ -123,15 +143,21 @@ public class PlayerController : MonoBehaviour
     {
         pitch = cam.localEulerAngles.x;
 
-        //if the player is piloting, and they hit E, stop piloting
-        if (Input.GetKeyDown(KeyCode.E) && timeSinceInteraction >= interactionCooldown)
+        //if the player is interacting with something, and they hit E, or if they are just out of energy stop interacting
+        if (!playerEnergy.AbleTask || (Input.GetKey(KeyCode.E) || interactClicked) && timeSinceInteraction >= interactionCooldown)
         {
             interactionObject.GetComponent<InteractEnter>().SetEntityInteracting(null, null);
             playerState = interactionState.WALKING;
             timeSinceInteraction = 0.0f;
             //and hide the cursor
-            Cursor.lockState = CursorLockMode.Confined;
-            Cursor.visible = false;
+            Cursor.lockState = (platform.GetIsMobile()) ? CursorLockMode.None : CursorLockMode.Confined;
+            Cursor.visible = platform.GetIsMobile();
+
+            if(platform.GetIsMobile())
+            {
+                lookJoystick.gameObject.SetActive(true);
+                moveJoystick.gameObject.SetActive(true);
+            }
         }
     }
 
@@ -141,18 +167,56 @@ public class PlayerController : MonoBehaviour
         //if the player is in their walking state and can thus interact with something
         if (playerState == interactionState.WALKING && timeSinceInteraction >= interactionCooldown)
         {
-            //if the player is within the control panel's interaction space and presses E to interact
-            if (other.name == "Control Panel" && Input.GetKey(KeyCode.E))
+            //if the player is within the control panel's interaction space, has enough energy and presses E to interact
+            if (playerEnergy.AbleTask && other.name == "Control Panel" && (Input.GetKey(KeyCode.E) || interactClicked))
             {
                 //begin piloting
                 interactionObject = other.gameObject;
                 interactionObject.GetComponent<InteractEnter>().SetEntityInteracting(this.transform, cam);
-                playerState = interactionState.PILOTING;
+                playerState = interactionState.INTERACTING;
                 timeSinceInteraction = 0.0f;
                 //and make the cursor visible
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
+
+                if (platform.GetIsMobile())
+                {
+                    lookJoystick.gameObject.SetActive(false);
+                    moveJoystick.gameObject.SetActive(false);
+                }
             }
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(platform.GetIsMobile() && other.name == "Control Panel")
+        {
+            interactButton.SetActive(true);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (platform.GetIsMobile() && other.name == "Control Panel")
+        {
+            interactButton.SetActive(false);
+        }
+    }
+
+    public bool GetInteracting()
+    {
+        if (playerState == interactionState.WALKING)
+        {
+            return false;
+        }
+        else
+            return true;
+    }
+
+    public void OnInteractButtonClicked()
+    {
+        interactClicked = true;
+        timeSinceInteractClicked = 0f;
     }
 }

@@ -29,7 +29,7 @@ public class DragObjectsAlong : MonoBehaviour
         MovePivotsOnStart();
     }
 
-    //Update on the physics frame
+    //Update on the physics step
     private void FixedUpdate()
     {
         Vector3 change = rb.position - lastPhysFramePos;
@@ -46,6 +46,7 @@ public class DragObjectsAlong : MonoBehaviour
         lastPhysFramePos = rb.position;
     }
 
+    //Update runs once per frame
     private void Update()
     {
         Vector3 change = rb.position - lastFramePos;
@@ -57,14 +58,8 @@ public class DragObjectsAlong : MonoBehaviour
             Rigidbody body = gameObject.GetComponent<Rigidbody>();
             if (body == null) gameObject.transform.Translate(change, Space.World);
 
-            
             //update the rotation
-            Quaternion adjustedRot = Quaternion.FromToRotation(gameObject.transform.up, rb.transform.up) *
-                Quaternion.FromToRotation(gameObject.transform.forward, rb.transform.forward) * 
-                Quaternion.FromToRotation(gameObject.transform.right, rb.transform.right) *
-                gameObject.transform.rotation;
-
-            gameObject.transform.rotation = adjustedRot;
+            gameObject.transform.rotation = rb.transform.rotation;
         }
 
         //update the last frame's position
@@ -73,8 +68,10 @@ public class DragObjectsAlong : MonoBehaviour
 
     private void MovePivotsOnStart()
     {
+        //loop through all of the gameobjects
         foreach (GameObject obj in objects)
         {
+            //get the difference between their pivot's acutal position and where it should be
             Vector3 diff = Vector3.zero;
 
             Rigidbody body = obj.gameObject.GetComponent<Rigidbody>();
@@ -89,18 +86,23 @@ public class DragObjectsAlong : MonoBehaviour
                 obj.transform.Translate(diff);
             }
 
+            //then move all of their children back to where they should be
             MoveChildrenOnStart(obj, diff);
         }
     }
 
     private void MoveChildrenOnStart(GameObject parent, Vector3 diff)
     {
+        //get the children that need to be moved
         Transform[] children = parent.GetComponentsInChildren<Transform>();
 
+        //loop through them
         foreach (Transform child in children)
         {
+            //if it is not a direct child just ignore it
             if (child.parent != parent.transform) continue;
 
+            //move the child to the correct location
             Rigidbody body = child.gameObject.GetComponent<Rigidbody>();
             if (body != null)
             {

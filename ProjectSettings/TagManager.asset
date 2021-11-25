@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Tasks
+  - Planet
+  - PlayerShip
+  - Junk
   layers:
   - Default
   - TransparentFX
@@ -15,9 +19,9 @@ TagManager:
   - Ships
   - Characters
   - InShipItems
-  - 
-  - 
-  - 
+  - CelestialBodies
+  - Screens
+  - Post-Processing
   - 
   - 
   - 
