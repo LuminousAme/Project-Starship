@@ -5,7 +5,7 @@ public class ClearFilter : MonoBehaviour
 {
     //  [SerializeField] private float junkRespawn = 5f; //time for filter to clog up again
 
-    public float junkRespawn = 5f; //time for filter to clog up again
+    public float junkRespawn = 10f; //time for filter to clog up again
 
     //time that the palyer has before ship blowup
     [SerializeField] private float filterClogTimeLimit = 30f;
@@ -20,13 +20,39 @@ public class ClearFilter : MonoBehaviour
     //the player controller
     [SerializeField] private PlayerController playerC;
 
+    //control panel stuff
+    [SerializeField] private GameObject controlPanel;
+
+    private InteractEnter controlPanelInteractables;
+
+    [SerializeField] private GameObject interactableList;
+
+    private void Awake()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            var tempJ = BasicPool.Instance.GetFromPool();
+            tempJ.transform.parent = interactableList.transform;
+
+            AddJunk(tempJ.GetComponentInChildren<FilterJunk>());
+        }
+    }
+
     //https://answers.unity.com/questions/1506835/how-to-prevent-3d-object-spawn-overlapping.html
     // Start is called before the first frame update
     private void Start()
     {
         //var position = new Vector3(Random.Range(-0.0010f, 0.0010f), Random.Range(-0.0010f, 0.0010f), 0);
-
         shipBlowUpTime = 0f;
+        controlPanelInteractables = controlPanel.GetComponent<InteractEnter>();
+
+        Vector3 temppos = new Vector3(0.45f, 0f, -0.135f);
+
+        foreach (var j in junk)
+        {
+            controlPanelInteractables.AddInteract(j);
+            j.SetStartPos(interactableList.transform.position + temppos);
+        }
 
         foreach (var j in junk)
         {
@@ -160,5 +186,10 @@ public class ClearFilter : MonoBehaviour
     public bool shouldShipBlow()
     {
         return shipBlowUp;
+    }
+
+    public void AddJunk(FilterJunk item)
+    {
+        junk.Add(item);
     }
 }

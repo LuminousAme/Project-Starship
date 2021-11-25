@@ -14,9 +14,14 @@ public class FilterJunk : Interactables
 
     private Vector3 targetPos;
 
+    //  [SerializeField] private GameObject interactableList;
+
     // Start is called before the first frame update
     protected override void Init()
     {
+        //GameObject parentt = transform.parent.gameObject;
+        // transform.parent = interactableList.transform;
+
         //starting pos of junk
         startPos = transform.position;
 
@@ -78,6 +83,11 @@ public class FilterJunk : Interactables
     {
         transform.position = pos;
         transform.parent.position = transform.position;
+    }
+
+    public void SetStartPos(Vector3 pos)
+    {
+        startPos = pos;
     }
 
     public void SetPosSpawn(Vector3 pos)
