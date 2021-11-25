@@ -14436,6 +14436,7 @@ GameObject:
   - component: {fileID: 934216639}
   - component: {fileID: 934216641}
   - component: {fileID: 934216637}
+  - component: {fileID: 934216638}
   m_Layer: 10
   m_Name: Planet2
   m_TagString: Planet
@@ -14481,6 +14482,18 @@ MonoBehaviour:
   maxNewtonIntegrations: 5
   accurarcyTolerance: 0.93
   orbitResolution: 50
+--- !u!114 &934216638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 934216635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93b73200304dae54c9d4e0c7327e23ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!23 &934216639
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -18417,7 +18430,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.3333334, y: 1}
+    m_SensorSize: {x: 1.836248, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -18795,6 +18808,7 @@ GameObject:
   - component: {fileID: 1535390210}
   - component: {fileID: 1535390212}
   - component: {fileID: 1535390208}
+  - component: {fileID: 1535390209}
   m_Layer: 10
   m_Name: Planet1
   m_TagString: Planet
@@ -18840,6 +18854,18 @@ MonoBehaviour:
   maxNewtonIntegrations: 5
   accurarcyTolerance: 0.93
   orbitResolution: 50
+--- !u!114 &1535390209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535390206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93b73200304dae54c9d4e0c7327e23ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!23 &1535390210
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -19680,6 +19706,7 @@ GameObject:
   - component: {fileID: 1705390058}
   - component: {fileID: 1705390060}
   - component: {fileID: 1705390056}
+  - component: {fileID: 1705390057}
   m_Layer: 10
   m_Name: Planet3
   m_TagString: Planet
@@ -19725,6 +19752,18 @@ MonoBehaviour:
   maxNewtonIntegrations: 5
   accurarcyTolerance: 0.93
   orbitResolution: 50
+--- !u!114 &1705390057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1705390054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93b73200304dae54c9d4e0c7327e23ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!23 &1705390058
 MeshRenderer:
   m_ObjectHideFlags: 0
