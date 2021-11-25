@@ -10,6 +10,7 @@ public class MaintainCoolant : MonoBehaviour
 
     public float heatCountdown; //timer to switch coolants before soemtihng bad happens
     public float changeTimer; //the timer for a new cooling method to be needed
+    private float changeTimerMod; //a difficultly multiplier taken from the dll
 
     public bool engineExplode = false;
     public bool engineStall = false;
@@ -59,6 +60,8 @@ public class MaintainCoolant : MonoBehaviour
 
         heatCountdown = heatCountdownTime;
         changeTimer = changeTime;
+        changeTimerMod = DifficultyMod.GetMultiplier("CoolantChangeRate");
+
         //fill the bool array
         coolingMethods.Add(useFan);
         coolingMethods.Add(useLiquid);
@@ -75,7 +78,7 @@ public class MaintainCoolant : MonoBehaviour
     private void Update()
     {
         //countdown the change timer
-        changeTimer = changeTimer - 1f * Time.deltaTime;
+        changeTimer = changeTimer - (1f * changeTimerMod) * Time.deltaTime;
 
         if (!fan && fanButton.GetButtonState())
         {

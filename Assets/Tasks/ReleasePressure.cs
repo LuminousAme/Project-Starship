@@ -22,7 +22,9 @@ public class ReleasePressure : MonoBehaviour
     private float timerForNotWorking;
 
     [SerializeField] private float buildUpRate = 1f;
+    private float buildUpTimerMod; //a difficultly multiplier taken from the dll
     [SerializeField] private float releaseRate = 5f;
+    private float releaseTimerMod; //a difficultly multiplier taken from the dll
 
     [SerializeField] private Light[] lights;
 
@@ -45,6 +47,10 @@ public class ReleasePressure : MonoBehaviour
         //timer for not working
         timerForNotWorking = 0.0f;
 
+        //mods for how fast the pressure builds up or releases
+        buildUpTimerMod = DifficultyMod.GetMultiplier("PressureBuildUpRate");
+        releaseTimerMod = DifficultyMod.GetMultiplier("PressureReleaseRate");
+
         buildUpSound = this.GetComponent<AudioSource>();
     }
 
@@ -54,7 +60,7 @@ public class ReleasePressure : MonoBehaviour
         //increase pressure over time
         if (!releasing)
         {
-            pressure = pressure + buildUpRate * Time.deltaTime;
+            pressure = pressure + (buildUpRate * buildUpTimerMod) * Time.deltaTime;
             if (!buildUpSound.isPlaying)
                 buildUpSound.Play();
         }
@@ -102,7 +108,7 @@ public class ReleasePressure : MonoBehaviour
             {
                 m_Material.color = Color.green;
 
-                pressure = pressure - releaseRate * Time.deltaTime;
+                pressure = pressure - (releaseRate * releaseTimerMod) * Time.deltaTime;
             }
             //changes color back once valve is turned off
             else if (!releasing)

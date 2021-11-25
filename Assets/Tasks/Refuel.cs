@@ -8,7 +8,9 @@ public class Refuel : MonoBehaviour
     [SerializeField] private bool refueling;
 
     [SerializeField] private float fuelUseRate = 1f;
+    private float fuelUseMod;
     [SerializeField] private float refuelRate = 3f;
+    private float refuelMod;
 
     public GameObject fuelIndicator;
     private Material indicatorMaterial;
@@ -32,6 +34,9 @@ public class Refuel : MonoBehaviour
         fuel = fuelWarning;
         refueling = false;
         shipBlowUp = false;
+
+        fuelUseMod = DifficultyMod.GetMultiplier("FuelUseRate");
+        refuelMod = DifficultyMod.GetMultiplier("RefuelRate");
     }
 
     // Update is called once per frame
@@ -41,12 +46,12 @@ public class Refuel : MonoBehaviour
         if (!refueling)
         {
             //decrease fuel when not refueling
-            fuel = fuel - Time.deltaTime * fuelUseRate;
+            fuel = fuel - Time.deltaTime * (fuelUseMod * fuelUseRate);
         }
         else if (refueling)
         {
             //increase fuel when refueling
-            fuel = fuel + Time.deltaTime * refuelRate;
+            fuel = fuel + Time.deltaTime * (refuelMod * refuelRate);
         }
 
         //check if the enignes have fuel or not

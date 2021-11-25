@@ -22,7 +22,9 @@ public class Energy : MonoBehaviour
     [SerializeField] private float energyGainRate = 5f;
 
     [SerializeField] private float energyLossRate = 0.5f;
+    private float energyLossMod; //difficulty Mod from the DLL
     [SerializeField] private float energyTaskMultiplier = 4f;
+    private float energyTaskLossMod; //difficulty Mod from the DLL
 
     [SerializeField] private UnityEngine.UI.Button mobileInteractButton;
 
@@ -36,6 +38,8 @@ public class Energy : MonoBehaviour
         AbleTask = true;
         playerC = GetComponent<PlayerController>();
         mobileInteractButton.interactable = true;
+        energyLossMod = DifficultyMod.GetMultiplier("EnergyLossRate");
+        energyTaskLossMod = DifficultyMod.GetMultiplier("EnergyTaskLossRate");
     }
 
     // Update is called once per frame
@@ -49,7 +53,7 @@ public class Energy : MonoBehaviour
         else if (energy > 0f && !playerC.GetInteracting())
         {
             //decrease energy over time if not charging
-            energy = energy - energyLossRate * Time.deltaTime;
+            energy = energy - (energyLossRate * energyLossMod) * Time.deltaTime;
         }
         else if (energy > 0f && playerC.GetInteracting())
         {

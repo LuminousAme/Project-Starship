@@ -15,6 +15,7 @@ public class ClearFilter : MonoBehaviour
     [SerializeField] private bool shipBlowUp;
 
     [SerializeField] private float junkTimer; //time for filter to clog up again
+    private float junkTimerMod; //difficutly mod taken from the DLL
     public List<FilterJunk> junk;
 
     //the player controller
@@ -84,6 +85,8 @@ public class ClearFilter : MonoBehaviour
             //   j.SetPos(j.GetStartPos());
             //   j.RandomizePos();
         }
+
+        junkTimerMod = DifficultyMod.GetMultiplier("JunkRespawnRate");
     }
 
     // Update is called once per frame
@@ -92,7 +95,7 @@ public class ClearFilter : MonoBehaviour
         if (playerC.GetInteracting() == false)
         {
             //increment timer
-            junkTimer = junkTimer + Time.deltaTime;
+            junkTimer = junkTimer + (1.0f * junkTimerMod) * Time.deltaTime;
         }
 
         //if junk timer reaches respawn time and the player is not interacting with the filter
