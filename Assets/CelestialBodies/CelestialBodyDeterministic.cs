@@ -8,7 +8,7 @@ public class CelestialBodyDeterministic : MonoBehaviour
 {
     static public float gravitationStrenght = 0.02f;
     const float TAU = 6.28318530718f;
-    [SerializeField] private float semiMajorAxis = 200; //size of the orbit
+    [SerializeField] public float semiMajorAxis = 200; //size of the orbit
     [SerializeField] [Range(0f, 0.99f)] private float eccentricity; //how ellipitical the orbit is
     [SerializeField] [Range(0f, TAU)]  private float inclination; //how much the orbit is titled
     [SerializeField] [Range(0f, TAU)] private float LoAN; //the orbit's swivel 
