@@ -17,8 +17,7 @@ travel to each planet, they will uncover the mysteries of the solar system.
 
 ### Demo Video
 
-//CHANGE
-[Youtube Link](LINK HERE "Youtube")
+[https://youtu.be/IlP1LtCRLY0](https://youtu.be/IlP1LtCRLY0 "Youtube")
 
 ### Developement Team
 
