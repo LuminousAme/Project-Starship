@@ -6,6 +6,8 @@ public class FilterJunk : Interactables
 
     //state of the junk, false is not smacked away, true is smacked away
     public bool junkState = false;
+    private float timeSinceJunkSmacked = 0f;
+    private float timeToDisappear = 0.1f;
 
     //positional change
     private Vector3 startPos;
@@ -29,7 +31,7 @@ public class FilterJunk : Interactables
         startPosSpawn = startPos;
 
         //target is behind the junk
-        targetPos = new Vector3(0, 0, 1);
+        targetPos = transform.rotation * new Vector3(0, 0, 1);
     }
 
     // Update is called once per frame
@@ -51,12 +53,20 @@ public class FilterJunk : Interactables
         {
             transform.position -= targetPos * Time.deltaTime;
             transform.parent.position = transform.position;
+            timeSinceJunkSmacked += Time.deltaTime;
         }
         //if not smacked away yet or respwaned
         else
         {
+            timeSinceJunkSmacked = 0f;
             transform.position = startPosSpawn;
             transform.parent.position = transform.position;
+        }
+        //if the junk has been smacked away and already faded set it to inactive
+        if (timeSinceJunkSmacked > timeToDisappear)
+        {
+            gameObject.SetActive(false);
+            transform.parent.gameObject.SetActive(false);
         }
 
         mousedOverLastFrame = mousedOverThisFrame;
@@ -99,7 +109,7 @@ public class FilterJunk : Interactables
     {
         //Vector3 position = new Vector3(Random.Range(0.1f, 0.5f), Random.Range(-0.1f, -0.5f), 0);
         //Vector3 position2 = new Vector3(Random.Range(-0.05f, 0.05f), Random.Range(-0.05f, 0.05f), 0);
-        Vector3 ranges = new Vector3(Random.Range(-range.x, range.x), Random.Range(-range.y, range.y), 0);
+        Vector3 ranges = transform.rotation * new Vector3(Random.Range(-range.x, range.x), Random.Range(-range.y, range.y), 0);
 
         //transform.position = transform.position + (startPos);
 

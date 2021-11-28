@@ -47,7 +47,7 @@ public class ClearFilter : MonoBehaviour
         shipBlowUpTime = 0f;
         controlPanelInteractables = controlPanel.GetComponent<InteractEnter>();
 
-        Vector3 temppos = new Vector3(0.45f, 0f, -0.135f);
+        Vector3 temppos = transform.rotation * new Vector3(0.45f, 0f, -0.135f);
 
         foreach (var j in junk)
         {
@@ -111,6 +111,8 @@ public class ClearFilter : MonoBehaviour
                     bool validPosition = false;
                     //set to unsmacked state
                     j.SetJunkState(false);
+                    j.gameObject.SetActive(true);
+                    j.transform.parent.gameObject.SetActive(true);
                     while (!validPosition)
                     {
                         j.RandomizePos(transform.localScale / 3.5f);

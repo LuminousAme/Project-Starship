@@ -33,8 +33,8 @@ public class BasicPool : MonoBehaviour
     {
         for (int i = 0; i < size; i++)
         {
-            var instanceToAdd = Instantiate(prefab);//create object
-            instanceToAdd.transform.SetParent(transform); // set it's transform to the pool's transform
+            var instanceToAdd = Instantiate(prefab, transform);//create object
+            //instanceToAdd.transform.SetParent(transform); // set it's transform to the pool's transform
             instanceToAdd.SetActive(false); //make it inactive until it's called on for use
             availableObjects.Enqueue(instanceToAdd); //add it to the end of the queue
         }
