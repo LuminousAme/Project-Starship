@@ -67,6 +67,7 @@ public class FilterJunk : Interactables
         {
             gameObject.SetActive(false);
             transform.parent.gameObject.SetActive(false);
+            mouse.SetObjectAlreadySelected(false);
         }
 
         mousedOverLastFrame = mousedOverThisFrame;
