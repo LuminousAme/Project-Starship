@@ -12996,8 +12996,8 @@ Transform:
   m_Father: {fileID: 1175518193}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &672773818
-MeshCollider:
+--- !u!136 &672773818
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -13006,10 +13006,10 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -6177378950161749060, guid: b8553add35c5629498291d903638c502, type: 3}
+  m_Radius: 0.1
+  m_Height: 0.5
+  m_Direction: 1
+  m_Center: {x: 0.000000005587937, y: 0.1298553, z: 0.0015759844}
 --- !u!23 &672773819
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17447,7 +17447,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mobilePanel: {fileID: 775367342}
-  runMobileInEditor: 0
+  runMobileInEditor: 1
 --- !u!4 &1293003819
 Transform:
   m_ObjectHideFlags: 0
@@ -18433,7 +18433,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.836248, y: 1}
+    m_SensorSize: {x: 1.7786666, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -18490,9 +18490,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   threshold: 0.05
-  vertRotDegrees: 45
---- !u!64 &1479833993
-MeshCollider:
+  vertRotDegrees: 40
+--- !u!65 &1479833993
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -18501,10 +18501,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -4188492731819274950, guid: 256f32f294d33704d8e4f5e452a59253, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.3, y: 0.3, z: 0.3}
+  m_Center: {x: -0.00000011920929, y: -0.10514147, z: -0.0000004833564}
 --- !u!23 &1479833994
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -19537,7 +19536,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1656860907}
   m_LocalRotation: {x: -0, y: 0.7071068, z: 0.7071068, w: 0}
-  m_LocalPosition: {x: 0.136, y: 0.44599998, z: 0.35}
+  m_LocalPosition: {x: 0.136, y: 0.44599998, z: 0.312}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 701464625}

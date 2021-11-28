@@ -28,7 +28,7 @@ public class Button : Interactables
     // Update is called once per frame
     protected override void Process()
     {
-        bool released = (PlatformManager.GetIsMobileStatic()) ? (numTouches < numTouchesLastFrame)
+        bool released = (PlatformManager.GetIsMobileStatic()) ? HasTouchReleased()
             : Input.GetMouseButtonUp(0);
 
         //if the lever is currently selected and the player lets go of it, unselect it
@@ -82,10 +82,10 @@ public class Button : Interactables
         }
     }
 
-    public override void touched()
+    public override void touched(int fingerID)
     {
         //call the base function
-        base.touched();
+        base.touched(fingerID);
 
         //only bother if the button is currently interactable
         if (isInteractable)
@@ -95,6 +95,7 @@ public class Button : Interactables
             {
                 isSelected = true;
                 buttonState = !buttonState;
+                if (mouse != null) mouse.SetTouchInteracting(fingerID);
                 if (this.GetComponent<AudioSource>() != null) this.GetComponent<AudioSource>().Play();
             }
         }

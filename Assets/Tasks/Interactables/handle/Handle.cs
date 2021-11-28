@@ -30,7 +30,7 @@ public class Handle : Interactables
         if (isSelected)
         {
             //if the player lets go of the mouse button unselect it
-            bool released = (PlatformManager.GetIsMobileStatic()) ? (numTouches < numTouchesLastFrame)
+            bool released = (PlatformManager.GetIsMobileStatic()) ? HasTouchReleased()
             : Input.GetMouseButtonUp(0);
 
             if (released)
@@ -42,9 +42,11 @@ public class Handle : Interactables
             else if (!PlatformManager.GetIsMobileStatic() || Input.touchCount > 0)
             {
 
+
+
                 //get the difference between the mouse position on selected and now
                 Vector2 currentMousePos = (PlatformManager.GetIsMobileStatic()) ?
-                    new Vector2(Input.GetTouch(0).position.x / (float)Screen.width, Input.GetTouch(0).position.y / (float)Screen.height) :
+                    new Vector2(Input.GetTouch(thisTouchIndex).position.x / (float)Screen.width, Input.GetTouch(thisTouchIndex).position.y / (float)Screen.height) :
                     new Vector2(Input.mousePosition.x / (float)Screen.width, Input.mousePosition.y / (float)Screen.height);
 
                 Vector2 diff = currentMousePos - mousePosOnSelected;
@@ -97,10 +99,10 @@ public class Handle : Interactables
         }
     }
 
-    public override void touched()
+    public override void touched(int fingerID)
     {
         //call the base function
-        base.touched();
+        base.touched(fingerID);
 
         //only bother if the lever is currently interactable
         if (isInteractable)
@@ -109,8 +111,10 @@ public class Handle : Interactables
             if (!isSelected)
             {
                 isSelected = true;
-                if (mouse != null) mouse.SetObjectAlreadySelected(isSelected);
-                mousePosOnSelected = new Vector2(Input.GetTouch(0).position.x / (float)Screen.width, Input.GetTouch(0).position.y / (float)Screen.height);
+                if (mouse != null) mouse.SetTouchInteracting(fingerID);
+                persistantTouchId = fingerID;
+                FindTouchIndex();
+                mousePosOnSelected = new Vector2(Input.GetTouch(thisTouchIndex).position.x / (float)Screen.width, Input.GetTouch(thisTouchIndex).position.y / (float)Screen.height);
             }
         }
     }

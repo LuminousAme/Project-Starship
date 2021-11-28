@@ -31,7 +31,7 @@ public class Lever : Interactables
         //if the lever is currently selected 
         if (isSelected)
         {
-            bool released = (PlatformManager.GetIsMobileStatic()) ? (numTouches < numTouchesLastFrame)
+            bool released = (PlatformManager.GetIsMobileStatic()) ? HasTouchReleased()
             : Input.GetMouseButtonUp(0);
 
             //if the player lets go of the mouse button unselect it
@@ -44,7 +44,7 @@ public class Lever : Interactables
             else if (!PlatformManager.GetIsMobileStatic() || Input.touchCount > 0)
             {
                 //get the difference between the mouse position on selected and now
-                float currentMousePos = (PlatformManager.GetIsMobileStatic()) ? Input.GetTouch(0).position.y / (float)Screen.height : Input.mousePosition.y / (float)Screen.height;
+                float currentMousePos = (PlatformManager.GetIsMobileStatic()) ? Input.GetTouch(thisTouchIndex).position.y / (float)Screen.height : Input.mousePosition.y / (float)Screen.height;
                 float diff = currentMousePos - mousePosYOnSelected;
 
                 //if it's gone up enough increase the lever state and reset the mouse pos tracker
@@ -96,9 +96,9 @@ public class Lever : Interactables
         }
     }
 
-    public override void touched()
+    public override void touched(int fingerID)
     {
-        base.touched();
+        base.touched(fingerID);
 
         //only bother if the lever is currently interactable
         if (isInteractable)
@@ -107,8 +107,10 @@ public class Lever : Interactables
             if (!isSelected && Input.GetMouseButton(0))
             {
                 isSelected = true;
-                if (mouse != null) mouse.SetObjectAlreadySelected(isSelected);
-                mousePosYOnSelected = Input.GetTouch(0).position.y / (float)Screen.height;
+                if (mouse != null) mouse.SetTouchInteracting(fingerID);
+                persistantTouchId = fingerID;
+                FindTouchIndex();
+                mousePosYOnSelected = Input.GetTouch(thisTouchIndex).position.y / (float)Screen.height;
             }
         }
     }

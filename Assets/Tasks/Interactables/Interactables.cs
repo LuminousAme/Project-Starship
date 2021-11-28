@@ -22,6 +22,9 @@ public class Interactables : MonoBehaviour
 
     //number of mobile touches
     protected static int numTouches = 0, numTouchesLastFrame = 0;
+    //most recent touch id on mobile
+    protected int persistantTouchId = -1;
+    protected int thisTouchIndex = -1;
 
     // Start is called before the first frame update
     void Start()
@@ -91,7 +94,53 @@ public class Interactables : MonoBehaviour
             ShouldBeSelectedMat = false;
         }
 
+        FindTouchIndex();
+
         Process();   
+    }
+
+    protected void FindTouchIndex()
+    {
+        //if the touch id isn't -1, find the associated touch in the array and save it's index
+        for (int i = 0; i < Input.touchCount; i++)
+        {
+            Touch touch = Input.GetTouch(i);
+            if (persistantTouchId == -1) break;
+            else if (touch.fingerId == persistantTouchId)
+            {
+                thisTouchIndex = i;
+                break;
+            }
+        }
+    }
+
+    protected bool HasTouchReleased()
+    {
+        //if the persistent id is -1 don't both
+        if (persistantTouchId == -1) return false;
+
+        //if a touch has been released we need to check if it was this one
+        if (numTouches < numTouchesLastFrame)
+        {
+            //iterate through all of the touches, if it finds this touch id then it must have been released
+            bool idNotInList = true;
+            for (int i = 0; i < Input.touchCount; i++)
+            {
+                Touch touch = Input.GetTouch(i);
+                if(touch.fingerId == persistantTouchId)
+                {
+                    idNotInList = false;
+                    break;
+                }
+            }
+
+            //if it has, set the persistent id back to -1 until it has acutally be released
+            if (idNotInList) persistantTouchId = -1;
+
+            return idNotInList;
+        }
+        //if none of the touches have been released, this one definitely hasn't
+        else return false;
     }
 
     private void LateUpdate()
@@ -118,9 +167,10 @@ public class Interactables : MonoBehaviour
     }
 
     //when this object is being touched from a mobile device
-    public virtual void touched()
+    public virtual void touched(int fingerID)
     {
         ShouldBeSelectedMat = true;
         mousedOverThisFrame = true;
+        persistantTouchId = fingerID;
     }
 }

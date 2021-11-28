@@ -6,6 +6,7 @@ public class MouseManager : MonoBehaviour
 {
     [SerializeField] private Camera cam;
     private bool ObjectAlreadySelected;
+    private List<TouchHolder> touches = new List<TouchHolder>();
 
     [SerializeField] private PlatformManager platform;
 
@@ -55,9 +56,28 @@ public class MouseManager : MonoBehaviour
 
     private void MobileUpdate()
     {
-        if (!ObjectAlreadySelected && Input.touchCount > 0)
+        //iterate over each touch
+        for (int i = 0; i < Input.touchCount; i++)
         {
-            Touch touch = Input.GetTouch(0);
+            Touch touch = Input.GetTouch(i);
+
+            //if the touch has only began add it to the list
+            if (touch.phase == TouchPhase.Began)
+            {
+                touches.Add(new TouchHolder(touch.fingerId));
+            }
+
+            TouchHolder touchRef = touches.Find(targetTouch => targetTouch.touchId == touch.fingerId);
+
+            //if the touch is ending remove it from the list
+            if (touch.phase == TouchPhase.Ended)
+            {
+                touches.RemoveAt(touches.IndexOf(touchRef));
+                continue;
+            }
+
+            //if the touch has already been interacted with something we can just skip the rest of the function, but we want to keep it around to remove it from the list later
+            if (touchRef.isInteracting) continue;
 
             //fire a raycast out from the camera to the mouse position
             Ray ray = cam.ScreenPointToRay(touch.position);
@@ -78,9 +98,16 @@ public class MouseManager : MonoBehaviour
 
                 if (objectDetected.GetComponent<Interactables>() != null)
                 {
-                    objectDetected.GetComponent<Interactables>().touched();
+                    objectDetected.GetComponent<Interactables>().touched(touch.fingerId);
                 }
             }
         }
+    }
+
+    //tells a touch that is being used to interact with something
+    public void SetTouchInteracting(int fingerId)
+    {
+        TouchHolder targetTouch = touches.Find(touch => touch.touchId == fingerId);
+        targetTouch.isInteracting = true;
     }
 }
