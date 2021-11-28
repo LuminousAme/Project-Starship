@@ -22,6 +22,8 @@ public class Refuel : MonoBehaviour
     [SerializeField] private bool shipBlowUp;
     [SerializeField] private bool fuelEmpty;
 
+    private int fuelState = 2, lastFuelState = 2; //0 is empty, 1 is too low, 2 is good, 3 is too high
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -59,6 +61,8 @@ public class Refuel : MonoBehaviour
         {
             fuelEmpty = true;
             indicatorMaterial.color = Color.red;
+            fuel = 0f;
+            fuelState = 0;
         }
         else fuelEmpty = false;
 
@@ -67,11 +71,13 @@ public class Refuel : MonoBehaviour
         {
             //warning color
             indicatorMaterial.color = Color.yellow;
+            fuelState = (fuel <= 20f) ? 1 : 3;
         }
         else if ((fuel > 20f || fuel < fuelWarning) && fuelEmpty == false)
         {
             //all good
             indicatorMaterial.color = Color.green;
+            fuelState = 2;
         }
 
         if (fuel > blowUpThreshold)
@@ -79,6 +85,8 @@ public class Refuel : MonoBehaviour
             indicatorMaterial.color = Color.red;
             shipBlowUp = true;
         }
+
+        fuel = Mathf.Clamp(fuel, 0, blowUpThreshold + 1.0f);
 
         //if the player has moved the handle change if it's releasing or not
         if (lastHandleState != fuelHandle.GetHandleState())
@@ -91,6 +99,21 @@ public class Refuel : MonoBehaviour
         {
             SceneManager.LoadScene("End Menu");
         }
+
+        //update the notifications related to fuel
+        if (fuelState != lastFuelState)
+        {
+            //if the fuel is good remove any notifcations
+            if (fuelState == 2) NotificationSystem.instance.RemoveMessagesWithId(5);
+            //if it's empty play that
+            else if (fuelState == 0) NotificationSystem.instance.AddMessage(5, 2, "Fuel Tank Empty");
+            //if the fuel is running low play that
+            else if (fuelState == 1) NotificationSystem.instance.AddMessage(5, 1, "Low Fuel");
+            //if there is too much fuel play that
+            else if (fuelState == 3) NotificationSystem.instance.AddMessage(5, 2, "Fuel Levels Critical");
+        }
+
+        lastFuelState = fuelState;
     }
 
     public bool shouldShipBlow()

@@ -28,6 +28,9 @@ public class ClearFilter : MonoBehaviour
 
     [SerializeField] private GameObject interactableList;
 
+    //variables to help with the notification system
+    private bool AllJunkState = false, AllJunkStateLastFrame = false;
+
     private void Awake()
     {
         for (int i = 0; i < 4; i++)
@@ -45,6 +48,7 @@ public class ClearFilter : MonoBehaviour
     {
         //var position = new Vector3(Random.Range(-0.0010f, 0.0010f), Random.Range(-0.0010f, 0.0010f), 0);
         shipBlowUpTime = 0f;
+        junkTimer = 0f;
         controlPanelInteractables = controlPanel.GetComponent<InteractEnter>();
 
         Vector3 temppos = transform.rotation * new Vector3(0.45f, 0f, -0.135f);
@@ -52,38 +56,9 @@ public class ClearFilter : MonoBehaviour
         foreach (var j in junk)
         {
             controlPanelInteractables.AddInteract(j);
-            j.SetStartPos(interactableList.transform.position + temppos);
-        }
-
-        foreach (var j in junk)
-        {
-            // whether or not we can spawn in this position
-            bool validPosition = false;
-
-            j.SetJunkState(false);
-
-            while (!validPosition)
-            {
-                j.RandomizePos(transform.localScale / 3.5f);
-
-                validPosition = true;
-                // Collect all colliders within the radius
-                Collider[] colliders = Physics.OverlapSphere(j.transform.position, j.transform.localScale.x + 1);
-                // Collider[] colliders2 = j.
-
-                // Go through each collider collected
-                foreach (Collider col in colliders)
-                {
-                    // If this collider is tagged as junk
-                    if (col.tag == "Junk")
-                    {
-                        // Then this position is not a valid spawn position
-                        validPosition = false;
-                    }
-                }
-            }
-            //   j.SetPos(j.GetStartPos());
-            //   j.RandomizePos();
+            j.SetJunkState(true);
+            j.gameObject.SetActive(false);
+            j.transform.parent.gameObject.SetActive(false);
         }
 
         junkTimerMod = DifficultyMod.GetMultiplier("JunkRespawnRate");
@@ -102,6 +77,7 @@ public class ClearFilter : MonoBehaviour
         if (junkTimer >= junkRespawn && playerC.GetInteracting() == false)
         {
             junkTimer = 0;
+            //NotificationSystem.instance.AddMessage(4, 1, "Clear Junk");
             foreach (var j in junk)
             {
                 //only respawn junk that has been smacked away
@@ -152,11 +128,13 @@ public class ClearFilter : MonoBehaviour
         }
 
         //check if the filter is clogged
+        AllJunkState = false;
         foreach (var j in junk)
         {
-            //if a junk has not been smacked away increment timer for ship blow up
+            //if a junk has not been smacked away increment timer for ship blow up, and set the all junk state to true
             if (j.GetJunkState() == false)
             {
+                AllJunkState = true;
                 shipBlowUpTime = shipBlowUpTime + Time.deltaTime / 4;
             }
         }
@@ -171,6 +149,17 @@ public class ClearFilter : MonoBehaviour
             //ship should blowup
             shipBlowUp = true;
         }
+
+        //update the notifications related to the filer
+        if (AllJunkState != AllJunkStateLastFrame)
+        {
+            //if there is no more junk remove the message
+            if (AllJunkState == false) NotificationSystem.instance.RemoveMessagesWithId(4);
+            //if junk has respawned play that message
+            else NotificationSystem.instance.AddMessage(4, 1, "Clear Filter");
+        }
+
+        AllJunkStateLastFrame = AllJunkState;
     }
 
     //function to check if all the junk has been smack away
