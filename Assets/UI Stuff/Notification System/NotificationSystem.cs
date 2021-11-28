@@ -70,12 +70,22 @@ public class NotificationSystem : MonoBehaviour
         //if the function hasn't exited then this must be the only instance so set it to the instance
         instance = this;
 
-        //make sure the attached persists on load
-        DontDestroyOnLoad(gameObject);
+        //we can't call don't destory on load because if we do when playing again from a game over it may try to delete notification that no longer exist
+        //so instead we just destroy the whole thing with a check in OnDestroy to make sure the instance is only nulled when the instance itself is acutally the one
+        //being destoryed - Ame
 
         notifcationsInWait = new Queue<Notifcation>();
         activeNotifications = new List<NotifReferenceHolder>();
         AllExistingNotifs = new List<NotifReferenceHolder>();
+    }
+
+    //when an object of this type is destroyed, check if it's the instance, if it is make the instance null
+    private void OnDestroy()
+    {
+        if (instance == this)
+        {
+            instance = null;
+        }
     }
 
     private void Update()
