@@ -13,6 +13,8 @@ public class Handle : Interactables
     private Vector2 mousePosOnSelected;
     //threshold for mouse movement before changing level
     [SerializeField] private Vector2 threshold;
+    [SerializeField] private float mobileThresholdMultipler = 2f;
+    private Vector2 acutalThreshold;
 
     //rotation
     private Quaternion startingRotation;
@@ -22,6 +24,7 @@ public class Handle : Interactables
     protected override void Init()
     {
         startingRotation = transform.localRotation;
+        acutalThreshold = (PlatformManager.GetIsMobileStatic()) ? mobileThresholdMultipler * threshold : threshold;
     }
 
     protected override void Process()
@@ -41,9 +44,6 @@ public class Handle : Interactables
             }
             else if (!PlatformManager.GetIsMobileStatic() || Input.touchCount > 0)
             {
-
-
-
                 //get the difference between the mouse position on selected and now
                 Vector2 currentMousePos = (PlatformManager.GetIsMobileStatic()) ?
                     new Vector2(Input.GetTouch(thisTouchIndex).position.x / (float)Screen.width, Input.GetTouch(thisTouchIndex).position.y / (float)Screen.height) :
@@ -51,14 +51,14 @@ public class Handle : Interactables
 
                 Vector2 diff = currentMousePos - mousePosOnSelected;
 
-                if (!handleState && diff.x < -1f * threshold.x && diff.y < -1f * threshold.y)
+                if (!handleState && diff.x < -1f * acutalThreshold.x && diff.y < -1f * acutalThreshold.y)
                 {
                     handleState = true;
                     mousePosOnSelected = currentMousePos;
                     if (this.GetComponent<AudioSource>() != null) this.GetComponent<AudioSource>().Play();
                 }
 
-                if (handleState && diff.x > threshold.x && diff.y > threshold.y)
+                if (handleState && diff.x > acutalThreshold.x && diff.y > acutalThreshold.y)
                 {
                     handleState = false;
                     mousePosOnSelected = currentMousePos;

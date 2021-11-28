@@ -13,6 +13,8 @@ public class Lever : Interactables
     private float mousePosYOnSelected;
     //threshold for mouse movement before changing level
     [SerializeField] private float threshold;
+    [SerializeField] private float mobileThresholdMultipler = 2f;
+    private float acutalThreshold;
 
     //rotation
     private Quaternion startingRotation;
@@ -23,6 +25,7 @@ public class Lever : Interactables
     protected override void Init()
     {
         startingRotation = transform.localRotation;
+        acutalThreshold = (PlatformManager.GetIsMobileStatic()) ? mobileThresholdMultipler * threshold : threshold;
     }
 
     // Update is called once per frame
@@ -48,14 +51,14 @@ public class Lever : Interactables
                 float diff = currentMousePos - mousePosYOnSelected;
 
                 //if it's gone up enough increase the lever state and reset the mouse pos tracker
-                if (diff > threshold && leverState < 1)
+                if (diff > acutalThreshold && leverState < 1)
                 {
                     leverState++;
                     mousePosYOnSelected = currentMousePos;
                 }
 
                 //if it's gone down enough, decrease the lever state and reset the mouse pos tracker
-                if (diff < -1f * threshold && leverState > -1)
+                if (diff < -1f * acutalThreshold && leverState > -1)
                 {
                     leverState--;
                     mousePosYOnSelected = currentMousePos;

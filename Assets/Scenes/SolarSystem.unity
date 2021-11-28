@@ -6906,7 +6906,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 546578629}
   m_LocalRotation: {x: -0.7071068, y: -0, z: 0.7071068, w: 0}
-  m_LocalPosition: {x: 0.291, y: 0.457, z: 0.561}
+  m_LocalPosition: {x: 0.291, y: 0.467, z: 0.561}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1479833991}
@@ -12125,6 +12125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   threshold: {x: 0.03, y: 0.03}
+  mobileThresholdMultipler: 1
 --- !u!54 &608396807
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -12698,6 +12699,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   threshold: {x: 0.05, y: 0.05}
+  mobileThresholdMultipler: 1.5
   sideRotDegrees: 25
   vertRotDegrees: 25
 --- !u!54 &672773822
@@ -16124,6 +16126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   threshold: {x: 0.03, y: 0.03}
+  mobileThresholdMultipler: 1
 --- !u!54 &1275547754
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -17853,6 +17856,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   threshold: 0.05
+  mobileThresholdMultipler: 1.5
   vertRotDegrees: 40
 --- !u!65 &1479833993
 BoxCollider:

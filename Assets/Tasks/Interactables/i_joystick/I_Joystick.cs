@@ -13,6 +13,8 @@ public class I_Joystick : Interactables
     private Vector2 mousePosOnSelected;
     //threshold for mouse movement before changing level
     [SerializeField] private Vector2 threshold;
+    [SerializeField] private float mobileThresholdMultipler = 2f;
+    private Vector2 acutalThreshold;
 
     //rotation
     private Quaternion startingRotation;
@@ -24,6 +26,7 @@ public class I_Joystick : Interactables
     protected override void Init()
     {
         startingRotation = transform.rotation;
+        acutalThreshold = (PlatformManager.GetIsMobileStatic()) ? mobileThresholdMultipler * threshold : threshold;
     }
 
     // Update is called once per frame
@@ -52,26 +55,26 @@ public class I_Joystick : Interactables
                 Vector2 diff = currentMousePos - mousePosOnSelected;
 
                 //if it's gone up enough increase the joystick state and reset the mouse pos tracker
-                if (diff.x > threshold.x && joystickState.x < 1)
+                if (diff.x > acutalThreshold.x && joystickState.x < 1)
                 {
                     joystickState.x++;
                     mousePosOnSelected.x = currentMousePos.x;
                 }
 
-                if (diff.y > threshold.y && joystickState.y < 1)
+                if (diff.y > acutalThreshold.y && joystickState.y < 1)
                 {
                     joystickState.y++;
                     mousePosOnSelected.y = currentMousePos.y;
                 }
 
                 //if it's gone down enough, decrease the joystick state and reset the mouse pos tracker
-                if (diff.x < -1f * threshold.x && joystickState.x > -1)
+                if (diff.x < -1f * acutalThreshold.x && joystickState.x > -1)
                 {
                     joystickState.x--;
                     mousePosOnSelected.x = currentMousePos.x;
                 }
 
-                if (diff.y < -1f * threshold.y && joystickState.y > -1)
+                if (diff.y < -1f * acutalThreshold.y && joystickState.y > -1)
                 {
                     joystickState.y--;
                     mousePosOnSelected.y = currentMousePos.y;
