@@ -91,7 +91,7 @@ public class Button : Interactables
         if (isInteractable)
         {
             //only change it on the first touch
-            if (numTouches > numTouchesLastFrame) 
+            if (!isSelected) 
             {
                 isSelected = true;
                 buttonState = !buttonState;
