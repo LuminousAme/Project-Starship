@@ -17,7 +17,7 @@ public class InteractEnter : MonoBehaviour
     [SerializeField] private float transitionLenght = 0.2f;
 
     private float transistionProgress = 0.0f;
-    private Vector3 startPos;
+    private Vector3 startPos, targetPos;
     private Quaternion startRot;
     private Quaternion camStartRot;
     private bool isBeginningInteraction;
@@ -26,6 +26,12 @@ public class InteractEnter : MonoBehaviour
     [SerializeField] private Interactables[] interactableObjects;
 
     [SerializeField] private List<Interactables> interactableObjects2;
+
+    private void Start()
+    {
+        //adjust for the camera
+        interactTarget.position -= 0.3f * interactTarget.forward; 
+    }
 
     // Update is called once per frame
     private void Update()
@@ -43,6 +49,8 @@ public class InteractEnter : MonoBehaviour
             player = entity;
             playerCamera = cam;
             startPos = entity.transform.position;
+            targetPos = new Vector3(interactTarget.position.x, startPos.y, interactTarget.position.z);
+            interactTarget.position = targetPos;
             startRot = entity.transform.rotation;
             camStartRot = cam.transform.rotation;
             transistionProgress = 0.0f;
@@ -75,7 +83,7 @@ public class InteractEnter : MonoBehaviour
         float t = Mathf.Clamp(transistionProgress / transitionLenght, 0.0f, 1.0f);
 
         //move player to the control panel
-        player.position = Vector3.Lerp(startPos, interactTarget.position, t);
+        player.position = Vector3.Lerp(startPos, targetPos, t);
         //rotate the player towards the control panel
         player.rotation = Quaternion.Slerp(startRot, interactTarget.rotation, t);
         //rotate the camera towards the control panel

@@ -206,12 +206,7 @@ public class PlayerController : MonoBehaviour
 
     public bool GetInteracting()
     {
-        if (playerState == interactionState.WALKING)
-        {
-            return false;
-        }
-        else
-            return true;
+        return !(playerState == interactionState.WALKING);
     }
 
     public void OnInteractButtonClicked()
