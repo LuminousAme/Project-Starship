@@ -1,0 +1,9 @@
+# The Difficultly Settings File, format is "SettingName Multiplier" 1.0 is normal, lower (min 0) is easier, higher is harder
+EnergyLossRate 10.0
+EnergyTaskLossRate 10.0
+CoolantChangeRate 1.5
+PressureBuildUpRate 2.2
+PressureReleaseRate 1.25
+JunkRespawnRate 3.0
+FuelUseRate 0.8
+RefuelRate 1.0
